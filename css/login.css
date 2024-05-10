@@ -1,0 +1,113 @@
+body{
+    background-image: url(../imagenes/login.png);
+    background-size: 100vw 100vh;
+    background-repeat: no-repeat;
+}
+
+h1{
+    text-align: center;
+    font-size: 80px;
+    padding-top: 50px;
+    color: white;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.formulario{
+    text-align: center;
+}
+
+h2{
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 40px;
+    margin-bottom: 0px;
+}
+
+input[type="number"]{
+    padding: 8px;
+    margin-bottom: 40px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    font-size: 25px;
+    width: 400px;
+}
+
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+input[type="number"]::-moz-focus-inner {
+    border: 0;
+}
+
+input[type="password"] {
+padding: 8px;
+margin-bottom: 0px;
+border: 1px solid #ccc;
+border-radius: 15px;
+font-size: 25px;
+width: 400px;
+}
+
+.olvide a{
+    text-decoration: underline white;
+}
+
+.olvide h4{
+    color: white;
+    font-size: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.olvide h4:hover{
+    color: rgb(9, 101, 18);
+    text-decoration: underline ;
+}
+input[type="submit"] {
+    padding: 15px 45px 15px 45px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    font-size: 40px;
+    font-weight: 730;
+    background-color: rgb(17, 81, 8);
+    color: #fff;
+    cursor: pointer;
+    
+}
+
+input[type="submit"]:hover, .boton-registrese:hover {
+    background-color: rgb(39, 172, 24);
+}
+
+.cuenta{
+    margin-top: 72px;
+    margin-bottom: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 20px;
+}
+
+.boton-registrese{
+    padding: 8px;
+    margin-bottom: 0;
+    border: 1px solid rgb(6, 73, 13);
+    background-color:rgb(6, 73, 13) ;
+    border-radius: 30px;
+    font-size: 30px;
+    font-weight: 730;
+    color: white;
+    text-decoration: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding-left: 35px;
+    padding-right: 35px;
+    
+
+}
+
+.registro{
+    margin-bottom: 5px;
+}
