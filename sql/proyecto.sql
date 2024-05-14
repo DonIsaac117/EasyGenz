@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-05-2024 a las 22:07:58
+-- Tiempo de generación: 14-05-2024 a las 21:43:41
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -258,7 +258,8 @@ CREATE TABLE `auditoria` (
 --
 
 INSERT INTO `auditoria` (`id`, `usuario`, `fecha`, `evento`, `nombre_nuevo`, `nombre_viejo`, `apellido_nuevo`, `apellido_viejo`, `tipo_documento_nuevo`, `tipo_documento_viejo`, `numero_documento_nuevo`, `numero_documento_viejo`, `telefono_nuevo`, `telefono_viejo`, `email_nuevo`, `email_viejo`, `contrasena_nuevo`, `contrasena_viejo`, `huella_nuevo`, `huella_viejo`, `codigo_nuevo`, `codigo_viejo`, `eps_nuevo`, `eps_viejo`, `rh_nuevo`, `rh_viejo`, `contacto_emergencia_nuevo`, `contacto_emergencia_viejo`, `enfermedades_nuevo`, `enfermedades_viejo`, `alergias_nuevo`, `alergias_viejo`, `observaciones`) VALUES
-(1, 'root@localhost', '2024-04-24 16:49:32', 'INSERT', 'CHAMO', NULL, 'MOISES', NULL, 'CC', NULL, '1077889910', NULL, 3133143151, NULL, 'CHAMOLOCO@VENECO.COM', NULL, 'JETSHO', NULL, 0x3939393939393939, NULL, 1100220, NULL, 'CEMENTERIO', NULL, 'AB+', NULL, 987654321, NULL, 'exceso de amvre', NULL, 'a la comida', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost');
+(1, 'root@localhost', '2024-04-24 16:49:32', 'INSERT', 'CHAMO', NULL, 'MOISES', NULL, 'CC', NULL, '1077889910', NULL, 3133143151, NULL, 'CHAMOLOCO@VENECO.COM', NULL, 'JETSHO', NULL, 0x3939393939393939, NULL, 1100220, NULL, 'CEMENTERIO', NULL, 'AB+', NULL, 987654321, NULL, 'exceso de amvre', NULL, 'a la comida', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(2, 'root@localhost', '2024-05-14 14:41:30', 'DELETE', '', 'Ana', '', 'López', 'TI', 'CC', '', '56789012', 0, 5678901234, '', 'ana@example.com', '', 'passpass', '', NULL, 0, 0, '', 'famisanar', 'A+', 'A-', 0, 2147483647, '', 'Ninguna', '', 'Gluten', 'Se ha Eliminado un usuario por parte de :root@localhost');
 
 -- --------------------------------------------------------
 
@@ -324,10 +325,7 @@ CREATE TABLE `funcionario` (
 
 INSERT INTO `funcionario` (`id_usuario`, `id_funcion`) VALUES
 (9, 1),
-(9, 2),
-(10, 3),
-(10, 4),
-(10, 5);
+(9, 2);
 
 -- --------------------------------------------------------
 
@@ -500,7 +498,6 @@ INSERT INTO `usuarios` (`id`, `nombres`, `apellidos`, `tipo_documento`, `numero_
 (7, 'Juan', 'Pérez', 'CC', '23456789', 2345678901, ' juan@example.com', 'securepass321', NULL, 0, 'famisanar', 'O+', 2147483647, 'Hipertensión', 'Penicilina'),
 (8, 'Laura', 'Gómez', 'CC', '34567890', 3456789012, 'laura@example.com', 'mypass123', NULL, 0, 'famisanar', 'B-', 2147483647, 'Asma', 'Nueces'),
 (9, 'Carlos', 'Martínez', 'CC', '45678901', 4567890123, 'carlos@example.com', '123456abc', NULL, 0, 'sanitas', 'A-', 2147483647, 'Artritis', 'Mariscos'),
-(10, 'Ana', 'López', 'CC', '56789012', 5678901234, 'ana@example.com', 'passpass', NULL, 0, 'famisanar', 'A-', 2147483647, 'Ninguna', 'Gluten'),
 (13, 'CHAMO', 'MOISES', 'CC', '1077889910', 3133143151, 'CHAMOLOCO@VENECO.COM', 'JETSHO', 0x3939393939393939, 1100220, 'CEMENTERIO', 'AB+', 987654321, 'exceso de amvre', 'a la comida');
 
 --
@@ -649,6 +646,30 @@ END
 $$
 DELIMITER ;
 DELIMITER $$
+CREATE TRIGGER `eliminar_usuario_total` BEFORE DELETE ON `usuarios` FOR EACH ROW BEGIN
+    -- Eliminar registros relacionados en la tabla 'aprendiz'
+    DELETE FROM aprendiz WHERE id_usuario = OLD.id;
+    
+    -- Eliminar registros relacionados en la tabla 'instructor'
+    DELETE FROM instructor WHERE id_usuario = OLD.id;
+    
+    -- Eliminar registros relacionados en la tabla 'usuario_perfil'
+    DELETE FROM usuario_perfil WHERE id_usuario = OLD.id;
+    
+    -- Eliminar registros relacionados en la tabla 'controlfuncionarios'
+    DELETE FROM controlfuncionarios WHERE id_usuario = OLD.id;
+    
+    -- Eliminar registros relacionados en la tabla 'funcionario'
+     
+     DELETE FROM funcionario WHERE id_usuario = OLD.id;
+    
+    
+    -- Eliminar registros relacionados en la tabla 'ingresosalida_ficha'
+    DELETE FROM ingresosalida_ficha WHERE id_usuario = OLD.id;
+ END
+$$
+DELIMITER ;
+DELIMITER $$
 CREATE TRIGGER `ingreso_nuevo_usuario` AFTER INSERT ON `usuarios` FOR EACH ROW begin
 INSERT into auditoria (
     usuario,
@@ -716,8 +737,7 @@ INSERT INTO `usuario_perfil` (`id_usuario`, `id_perfil`) VALUES
 (6, 2),
 (7, 2),
 (8, 2),
-(9, 3),
-(10, 3);
+(9, 3);
 
 --
 -- Índices para tablas volcadas
@@ -816,7 +836,7 @@ ALTER TABLE `usuario_perfil`
 -- AUTO_INCREMENT de la tabla `auditoria`
 --
 ALTER TABLE `auditoria`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `funcion`
