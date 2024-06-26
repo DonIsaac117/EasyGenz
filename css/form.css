@@ -1,0 +1,139 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    background-image: url(../imagenes/olvidarContra.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1{
+    justify-content: center;
+    text-align: center;
+    font-size: 80px;
+    padding-top: 50px;
+    color: white;
+    text-shadow: 0 0 10px black;
+    margin: 30px 0 80px 0;
+    letter-spacing: 4px;
+}
+
+.columna{
+    display: flex; 
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.columna :nth-child(2){
+    align-self: center;
+}
+
+.col{
+    display: flex;
+    flex-basis: 33%;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    order: 4;
+}
+
+button{
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid rgb(6, 73, 13);
+    background-color:rgb(6, 73, 13) ;
+    margin: -50px 0 0 0;
+    border-radius: 30px;
+    font-size: 45px;
+    font-weight: 730;
+    color: white;
+    text-decoration: none;
+    padding: 10px 35px 10px 35px;
+}
+
+label{
+    letter-spacing: 1.5px;
+    color: white;
+    font-size: 20px;
+    text-shadow: 0 0 10px black;
+}
+
+input{
+    padding: 9px;
+    margin: 12px 0 40px 0;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    font-size: 20px;
+    width: 400px;
+    }
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+select{
+    padding: 9px;
+    margin: 5px 0 30px 0;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    font-size: 20px;
+    width: 400px;
+}
+
+textarea{
+    padding: 9px;
+    margin: 5px 0 30px 0;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    font-size: 20px;
+    width: 400px;
+    height: 130px;
+}
+
+button:hover{
+    background: rgb(1, 184, 20);
+}
+
+/* Celular */
+@media (max-width: 600px){
+    body{
+        background-image: url(../imagenes/olvidarcontra2.jpg);
+    }
+
+    .columna{
+        margin: 0;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn{
+        margin: 0;
+    }
+
+    button{
+        margin: 0;
+    }
+
+    .col{
+        height: 700px;
+        align-items: center;
+        justify-content: center;
+    }
+
+}
+
+/* tableta */
+@media (min-width: 601px) and (max-width: 900px){
+    
+}
