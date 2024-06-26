@@ -1,7 +1,6 @@
 body{
     background-image: url(../imagenes/login.png);
-    background-size: 100vw 100vh;
-    background-repeat: no-repeat;
+    background-size: 100% 107%;
 }
 
 h1{
