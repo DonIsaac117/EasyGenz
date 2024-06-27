@@ -25,7 +25,7 @@
         </form>
             <div class="registro"> 
                 <h4 class="cuenta">¿No tienes una cuenta?👇</h4>
-                <a href="views/form.php" class="boton-registrese">Registrese</a>
+                <a href="views/usuario/form.html" class="boton-registrese">Registrese</a>
             </div>
     </div>
 </body>

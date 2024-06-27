@@ -3,7 +3,7 @@
 }
 
 body{
-    background-image: url(../imagenes/olvidarContra.png);
+    background-image: url(../imagenes/form.png);
     background-size: cover;
     background-repeat: no-repeat;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -56,8 +56,12 @@ button{
     font-size: 45px;
     font-weight: 730;
     color: white;
-    text-decoration: none;
     padding: 10px 35px 10px 35px;
+    cursor: pointer;
+}
+
+button:hover{
+    background: rgb(1, 184, 20);
 }
 
 label{
@@ -101,14 +105,10 @@ textarea{
     height: 130px;
 }
 
-button:hover{
-    background: rgb(1, 184, 20);
-}
-
 /* Celular */
-@media (max-width: 600px){
+@media (max-width: 900px){
     body{
-        background-image: url(../imagenes/olvidarcontra2.jpg);
+        background-image: url(../imagenes/form2.jpg);
     }
 
     .columna{
@@ -132,8 +132,8 @@ button:hover{
     }
 
 }
-
-/* tableta */
+/* 
 @media (min-width: 601px) and (max-width: 900px){
     
 }
+ */
