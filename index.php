@@ -1,32 +1,44 @@
-<?php
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="css/login.css">
+    <title>Document</title>
+    <link rel="stylesheet" href="">
 </head>
 <body>
-    <div>
-        <form action="principal.html" method="post">
-            <h1>Login</h1>
-            <div class="formulario">
-                <h2>Documento</h2>
-                <input type="number" required>
-                <h2>Contraseña</h2>
-                <input type="password" required>
-                <div class="olvide">
-                    <a href="olvideMiContraseña"><h4>Olvide mi contraseña</h4></a>
-                </div>
-                <input type="submit" value="Ingresar">
-        </form>
-            <div class="registro"> 
-                <h4 class="cuenta">¿No tienes una cuenta?👇</h4>
-                <a href="views/usuario/form.html" class="boton-registrese">Registrese</a>
-            </div>
-    </div>
+
+<h1>hola </h1>
+
+
+
+<?php
+
+    require_once("./config/Enrutador.php");
+    require_once("./controllers/usuariosController.php");
+
+    
+
+    //recibir por get la ruta
+
+    $enrutador = new Enrutador();
+    if(isset($_GET["vista"])){
+        $enrutador->CargarVista($_GET["vista"]);
+    }else{
+        echo "Me carga el index principal";
+        ?>
+        <a href="index.php?vista=usuario/inicio">inicio</a> <br>
+        <a href="index.php?vista=usuario/registrar">registrar</a> <br>
+        <a href="views/usuario/form.php">formulario</a> <br>
+        <a href="index.php?vista=config/enrutador">enrutador</a>
+        <?php
+    }
+?>
+    
 </body>
 </html>
+
+
+
+

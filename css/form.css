@@ -3,7 +3,7 @@
 }
 
 body{
-    background-image: url(../imagenes/olvidarContra.png);
+    background-image: url(../imagenes/form.png);
     background-size: cover;
     background-repeat: no-repeat;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -108,7 +108,7 @@ textarea{
 /* Celular */
 @media (max-width: 900px){
     body{
-        background-image: url(../imagenes/olvidarcontra2.jpg);
+        background-image: url(../imagenes/form2.jpg);
     }
 
     .columna{
