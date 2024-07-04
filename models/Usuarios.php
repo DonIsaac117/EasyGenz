@@ -44,7 +44,7 @@ class Usuarios
     }
 
     public function setinfoC($id, $nombres, $apellidos, $tipo_documento){
-        $this -> ide = $id;
+        $this -> id = $id;
         $this -> nombres = $nombres;
         $this -> apellidos = $apellidos;
         $this -> tipo_documento = $tipo_documento;
@@ -68,7 +68,6 @@ class Usuarios
     public function eliminar($id) {
         $cadenaSql = "DELETE FROM usuarios WHERE id = $id";
         $this->conectarse->consultaSinRetorno($cadenaSql);
-    }
-    
+    }    
 
 }

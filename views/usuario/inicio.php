@@ -3,11 +3,11 @@
 $usuarioController = new UsuarioController();
 $listadoUsuarios = $usuarioController->listar();
 
-
 ?>
-<form action="" method="post">
+
+<form action="index.php?vista=usuario/inicio" method="POST">
     <label for="eliminar">Ponga el id que quiere al que se lo borren</label>
-    <input type="number" name="eliminar" id="eliminar">
+    <input type="number" name="eliminar" id="eliminar" required>
     <button type="submit">Eliminar</button>
 </form>
 <br>
@@ -30,19 +30,16 @@ $listadoUsuarios = $usuarioController->listar();
             <th>contacto_emergencia</th>
             <th>enfermedades</th>
             <th>alergias</th>
-
         </tr>
     </thead>
     
     <tbody>
-        
-    <?php
-        for($i=0; $i < count($listadoUsuarios); $i++): ?>
+        <?php for($i = 0; $i < count($listadoUsuarios); $i++): ?>
         <tr>
-            <?php for($j=0; $j < count($listadoUsuarios[$i]); $j++): ?>
-            <td><?php echo $listadoUsuarios[$i][$j];?></td>
-            <?php endfor?>
+            <?php for($j = 0; $j < count($listadoUsuarios[$i]); $j++): ?>
+            <td><?php echo $listadoUsuarios[$i][$j]; ?></td>
+            <?php endfor; ?>
         </tr>
-        <?php endfor?>
+        <?php endfor; ?>
     </tbody>
 </table>

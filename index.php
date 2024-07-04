@@ -29,10 +29,10 @@
         echo "Me carga el index principal";
         ?>
         <a href="index.php?vista=usuario/inicio">inicio</a> <br>
-        <a href="index.php?vista=usuario/registrar">registrar</a> <br>
+        <a href="index.php?vista=usuario/eliminar">eliminar</a> <br>
         <a href="views/usuario/form.php">formulario</a> <br>
         <a href="index.php?vista=config/enrutador">enrutador</a>
-        <?php
+        <?php 
     }
 ?>
     

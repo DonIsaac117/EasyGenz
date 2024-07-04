@@ -35,8 +35,16 @@ class UsuarioController {
     }
 
     public function eliminar() {
-        
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['eliminar'])) {
+            $id = $_POST['eliminar'];
+            $usuario = new Usuarios();
+            $usuario->eliminar($id);
+            header("Location: index.php?vista=usuario/inicio");
+            exit();
+        }
     }
+    
+    
 }
 
 ?>
