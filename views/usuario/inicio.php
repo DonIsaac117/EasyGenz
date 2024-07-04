@@ -5,7 +5,7 @@ $listadoUsuarios = $usuarioController->listar();
 
 ?>
 
-<form action="index.php?vista=usuario/inicio" method="POST">
+<form action="index.php?vista=usuario/eliminar" method="POST">
     <label for="eliminar">Ponga el id que quiere al que se lo borren</label>
     <input type="number" name="eliminar" id="eliminar" required>
     <button type="submit">Eliminar</button>
