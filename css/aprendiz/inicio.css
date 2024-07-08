@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: "Inter", sans-serif;
+
+}
+
+body{
+    display: flex;
+    margin: 0;
+}
+
+.nav{
+    flex: 1;
+    background: linear-gradient(360deg,#1FEF27,#279D2C );
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.sena{
+    max-width: 100%;
+    display: flex;
+    font-size: 24px;
+    font-weight: 700;
+    color: white;
+    align-items: center;
+    border-bottom: 2px solid white;
+}
+
+.menu{
+    height: 8%;
+    border-bottom: 1.5px white solid;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.menu div{
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+    display: flex;
+}
+
+.menu div :hover{
+    background: rgb(0, 0, 0, 0.2);
+    padding: 7.5% 0;
+}
+
+.menu span{
+    margin:-1px 5px;
+
+}
+
+.sena img{
+    width: 24%;  
+    margin: 5px;
+}
+
+.body{
+    flex: 8;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    
+}
+
+.header{
+    flex: 1;
+    background: linear-gradient(-90deg,#1FEF27,#279D2C );;
+    display:flex;
+    padding-top: 2px;
+    box-sizing: border-box;
+    border-left: 0.4px solid black;
+    
+}
+
+.title{
+    flex: 12;
+    color: white;
+    font-size: 40px;
+    text-align: center;
+    margin: auto;
+    font-weight: 700;
+    margin-left: 15px;
+}
+
+.perfil{
+    flex: 1;
+    text-align: right;
+    margin: auto 15px;
+    
+}
+
+.perfil span{
+    color: white;
+    font-size: 46px;
+    
+}
+
+.perfil{
+    flex: 1;
+}
+
+.main{
+    flex: 16;
+
+}
