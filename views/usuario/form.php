@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario</title>
-    <link rel="stylesheet" href="../../css/form.css">
+    <link rel="stylesheet" href="/EasyGenz/css/form.css">
 </head>
 <body>
     <h1>Registro</h1>
@@ -31,7 +31,7 @@
             <input type="number" id="num-doc" name="num_doc" required>
 
             <label for="tipo-sangre">Tipo de sangre</label>
-            <select required name="tipo_sangre" id="tipo-sangre">
+            <select required name="tipo-sangre" id="tipo-sangre">
                 <option value="seleccione">Seleccione..</option>
                 <option value="a+">A+</option>
                 <option value="o+">O+</option>
@@ -64,7 +64,7 @@
             <input type="text" id="eps" name="eps" required>
 
             <label for="contacto-emer">Contacto de emergencia</label>
-            <input type="number" id="contacto-emer" name="contacto_emer" required>
+            <input type="number" id="contacto-emer" name="contacto-emer" required>
 
             <label for="enfermedades">¿Enfermedades?</label>
             <textarea name="enfermedades" id="enfermedades" cols="30" rows="10"></textarea>

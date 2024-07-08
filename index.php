@@ -9,18 +9,10 @@
 </head>
 <body>
 
-<h1>hola </h1>
-
-
-
 <?php
 
     require_once("./config/Enrutador.php");
     require_once("./controllers/usuariosController.php");
-
-    
-
-    //recibir por get la ruta
 
     $enrutador = new Enrutador();
     if(isset($_GET["vista"])){
@@ -29,8 +21,9 @@
         echo "Me carga el index principal";
         ?>
         <a href="index.php?vista=usuario/inicio">inicio</a> <br>
-        <a href="index.php?vista=usuario/eliminar">eliminar</a> <br>
-        <a href="views/usuario/form.php">formulario</a> <br>
+        <a href="index.php?vista=usuario/login">Login</a> <br>
+        <a href="index.php?vista=usuario/eliminar">elimina</a> <br>
+        <a href="index.php?vista=usuario/registrar">formulario</a> <br>
         <a href="index.php?vista=config/enrutador">enrutador</a>
         <?php 
     }

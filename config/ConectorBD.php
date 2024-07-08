@@ -21,8 +21,6 @@ class ConectorBD {
         if ($this->conexion->connect_error) {
             echo $this-> conexion->connect_error;
             die();
-        }else {
-            echo "si hay conexion";
         }
     }
     public function consultaSinRetorno($cadenasql) {
