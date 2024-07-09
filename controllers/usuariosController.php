@@ -3,7 +3,7 @@
 require_once("./config/ConectorBD.php");
 require_once("./models/Usuarios.php");
 
-class UsuarioController {
+class UsuarioController { 
     private $usuarioModel;
 
     public function __construct() {
@@ -35,8 +35,6 @@ class UsuarioController {
         }
     }
     
-    
-
     public function listar() {
         return $this->usuarioModel->listAll();
     }

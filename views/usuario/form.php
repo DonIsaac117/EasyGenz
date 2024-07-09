@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>Registro</h1>
-    <form action="../../index.php?vista=usuario/registrar" method="POST" class="columna">
+    <form action="index.php?vista=usuario/registrar" method="POST" class="columna">
 
         <div class="col">
             <label for="nombre">Nombre(s)</label>

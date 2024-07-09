@@ -32,6 +32,8 @@
             <h4 class="cuenta">¿No tienes una cuenta?👇</h4>
             <a href="index.php?vista=usuario/registrar" class="boton-registrese">Registrese</a>
         </div>
+
+        </div>
     </div>
 </body>
 </html>

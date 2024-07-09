@@ -10,9 +10,11 @@
 <body>
 
 <?php
-
+ 
     require_once("./config/Enrutador.php");
     require_once("./controllers/usuariosController.php");
+    require_once("./controllers/programasController.php");
+    require_once("./controllers/ingresoSalidaController.php");
 
     $enrutador = new Enrutador();
     if(isset($_GET["vista"])){
@@ -22,9 +24,9 @@
         ?>
         <a href="index.php?vista=usuario/inicio">inicio</a> <br>
         <a href="index.php?vista=usuario/login">Login</a> <br>
-        <a href="index.php?vista=usuario/eliminar">elimina</a> <br>
         <a href="index.php?vista=usuario/registrar">formulario</a> <br>
-        <a href="index.php?vista=config/enrutador">enrutador</a>
+        <a href="index.php?vista=programa/inicio">Programa</a><br>
+        <a href="index.php?vista=ingresoSalida/inicio">IngresoSalida</a><br>
         <?php 
     }
 ?>
