@@ -1,15 +1,31 @@
 //Calendario
-document.addEventListener("DOMContentLoaded", function () {
-  var calendarEl = document.getElementById("calendar");
-  var calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: "dayGridMonth",
-    events: "load_events.php", // Cargamos los eventos desde el archivo PHP
-    editable: false,
-    selectable: true,
-  });
-  calendar.render();
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+       
+        buttonText: {
+            today: 'Hoy',
+            month: 'Mes',
+            week: 'Semana',
+            day: 'Día'
+        },
+        locale: 'es', 
+        events: 'load_events.php',
+        editable: false,
+        selectable: true,
+        eventClick: function(info) {
+            alert('Evento: ' + info.event.title);
+        },
+        eventMouseEnter: function(info) {
+            info.el.style.backgroundColor = info.event.classNames.includes('entrada') ? '#388e3c' : '#d32f2f';
+        },
+        eventMouseLeave: function(info) {
+            info.el.style.backgroundColor = info.event.classNames.includes('entrada') ? '#4caf50' : '#f44336';
+        }
+    });
+    calendar.render();
 });
-
 //Perfil
 document.getElementById("perfil").addEventListener("click", function () {
     var menu = document.getElementById("perfilMenu");
