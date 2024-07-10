@@ -10,13 +10,16 @@ class UsuarioController {
         $this->usuarioModel = new Usuarios();
     }
 
-    public function login() {
+    public function login($numero_documento,$contraseña) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $documento = $_POST['documento'];
+            $this->usuarioModel->getNumeroDocumento($numero_documento);
+            $this->usuarioModel->getContrasena($contraseña);
+
+
             $contrasena = $_POST['contrasena'];
     
             $usuario = new Usuarios();
-            $usuario->setNumeroDocumento($documento);
+            $usuario->setNumeroDocumento($numero_documento);
             $usuario->setContrasena($contrasena);
             
             $user = $usuario->verificarCredenciales();
@@ -30,7 +33,8 @@ class UsuarioController {
             } else {
                 // Las credenciales son incorrectas
                 echo "<script>alert('Credenciales incorrectas');</script>";
-                include "./views/usuario/login.php";
+                header("url=index.php");
+                
             }
         }
     }

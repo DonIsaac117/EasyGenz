@@ -57,7 +57,7 @@ $listadoIngresoSalida = $ingresoSalidaController->listar();
         <label for="estado">estado</label>
         <input type="text" name="estado" id="estado" required>
         
-        <button type="submit">Actualizar</button>
+        <button type="submit">actualizar</button>
     </form>
 
 <h3>Listado de Tabla Ingreso/Salida</h3>

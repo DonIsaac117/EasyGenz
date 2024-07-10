@@ -32,6 +32,9 @@ class Enrutador {
             }   
         }else if($carpetaArchivo[0] == "usuario"){
             switch ($carpetaArchivo[1]) {
+                case "recuperar":
+                    require_once ("./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php");
+                    break;
                 case "inicio":
                     require_once("./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php");
                     break;
@@ -52,17 +55,12 @@ class Enrutador {
                     $usuarioController->actualizar();
                     break;
                 case "login":
-                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                        $usuarioController = new UsuarioController();
-                        $usuarioController->login();
-                    } else {
-                        include "./views/usuario/login.php";
-                    }
-                    break; 
+                    require_once("./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php");
+                    break;
                 default:
                     require_once("./views/pageNotFound.php");
                     break;
-            }   
+            }    
         }else if($carpetaArchivo[0] == "ingresoSalida"){
             switch ($carpetaArchivo[1]) {
                 case "inicio":
@@ -87,17 +85,34 @@ class Enrutador {
                 default:
                     require_once("./views/pageNotFound.php");
                     break;
-            }   
+            }
+        }else if($carpetaArchivo[0] == "numeroFicha"){
+            switch ($carpetaArchivo[1]) {
+                case "inicio":
+                    require_once("./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php");
+                    break;
+                case "registrar":
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                        $NumeroFichaController = new NumeroFichaController();
+                        $NumeroFichaController->registrar();
+                    } else {
+                        include "./views/usuario/form.php";
+                    }
+                    break;
+                case "eliminar":
+                    $NumeroFichaController = new NumeroFichaController();
+                    $NumeroFichaController->eliminar();
+                    break;
+                case 'actualizar':
+                    $NumeroFichaController = new NumeroFichaController();
+                    $NumeroFichaController->actualizar();
+                    break;
+                default:
+                    require_once("./views/pageNotFound.php");
+                    break;   
+            }
         }
     }
-
-
-
-   
-                
-                
-
-
 }
 
 
