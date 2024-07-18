@@ -7,7 +7,7 @@ class ConectorBD {
     private $user = "root";
     private $password;
     private $database = "easygenz";
-    private $conexion;
+    public $conexion;
 
     //metodos / funciones
     public function __construct() {
@@ -19,8 +19,7 @@ class ConectorBD {
             $this ->port
         );
         if ($this->conexion->connect_error) {
-            echo $this-> conexion->connect_error;
-            die();
+            die("Conexión fallida: " . $this->conexion->connect_error);
         }
     }
     public function consultaSinRetorno($cadenasql) {

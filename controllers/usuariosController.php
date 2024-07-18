@@ -3,40 +3,11 @@
 require_once("./config/ConectorBD.php");
 require_once("./models/Usuarios.php");
 
-class UsuarioController { 
+class UsuarioController {  
     private $usuarioModel;
 
     public function __construct() {
         $this->usuarioModel = new Usuarios();
-    }
-
-    public function login($numero_documento,$contraseña) {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->usuarioModel->getNumeroDocumento($numero_documento);
-            $this->usuarioModel->getContrasena($contraseña);
-
-
-            $contrasena = $_POST['contrasena'];
-    
-            $usuario = new Usuarios();
-            $usuario->setNumeroDocumento($numero_documento);
-            $usuario->setContrasena($contrasena);
-            
-            $user = $usuario->verificarCredenciales();
-    
-            if ($user) {
-                // Las credenciales son correctas
-                session_start();
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['user_name'] = $user['nombres'];
-                header('Location: principal.html');
-            } else {
-                // Las credenciales son incorrectas
-                echo "<script>alert('Credenciales incorrectas');</script>";
-                header("url=index.php");
-                
-            }
-        }
     }
     
     public function listar() {
@@ -51,7 +22,7 @@ class UsuarioController {
             $this->usuarioModel->setNumeroDocumento($_POST['num_doc']);
             $this->usuarioModel->setTelefono($_POST['telefono']);
             $this->usuarioModel->setEmail($_POST['email']);
-            $this->usuarioModel->setContrasena($_POST['contrasena']);
+            $this->usuarioModel->setContraseña($_POST['contrasena']);
             $this->usuarioModel->setRh($_POST['tipo-sangre']);
             $this->usuarioModel->setEps($_POST['eps']);
             $this->usuarioModel->setContactoEmergencia($_POST['contacto-emer']);
@@ -59,7 +30,7 @@ class UsuarioController {
             $this->usuarioModel->setAlergias($_POST['alergias']);
 
             $this->usuarioModel->insertar();
-            header('Location: index.php?vista=usuario/inicio');
+            header('Location: index.php?vista=usuario/login');
         } else {
             echo "Error: La solicitud no es de tipo POST.";
         }
@@ -84,7 +55,7 @@ class UsuarioController {
             $this->usuarioModel->setNumeroDocumento($_POST['num_doc']);
             $this->usuarioModel->setTelefono($_POST['telefono']);
             $this->usuarioModel->setEmail($_POST['email']);
-            $this->usuarioModel->setContrasena($_POST['contrasena']);
+            $this->usuarioModel->setContraseña($_POST['contrasena']);
             $this->usuarioModel->setRh($_POST['tipo_sangre']);
             $this->usuarioModel->setEps($_POST['eps']);
             $this->usuarioModel->setContactoEmergencia($_POST['contacto_emer']);
@@ -97,7 +68,108 @@ class UsuarioController {
             echo "Error: La solicitud no es de tipo POST.";
         }
     }
+
+    public function login() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $numero_documento = $_POST['documento'];
+            $contrasena = $_POST['contrasena'];
     
+            $usuario = new Usuarios();
+            if ($usuario->verificarCredenciales($numero_documento, $contrasena)) {
+                echo "<script>
+                    console.log('Login exitoso');
+                    Swal.fire({
+                        title: 'Login exitoso',
+                        icon: 'success'
+                    }).then(function() {
+                        window.location.href = 'index.php?vista=usuario/bienvenida';
+                    });
+                </script>";
+            } else {
+                echo "<script>
+                    console.log('Credenciales incorrectas');
+                    Swal.fire({
+                        title: 'Credenciales incorrectas',
+                        icon: 'error'
+                    }).then(function() {
+                        window.location.href = 'index.php?vista=usuario/login';
+                    });
+                </script>";
+            }
+        } else {
+            include "./views/usuario/login.php";
+        }
+    }
+    
+
+    public function recuperar() {
+        session_start(); // Asegúrate de iniciar la sesión
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['email'])) {
+            $correo = $_POST['email'];
+            $usuarioModel = new Usuarios();
+            $usuario = $usuarioModel->obtenerUsuarioPorCorreo($correo);
+    
+            if ($usuario) {
+                $_SESSION['reset_email'] = $correo; // Configura la sesión aquí
+                $this->enviarCorreoRecuperacion($correo);
+                echo "<script>Swal.fire('Éxito', 'Mensaje enviado con éxito.', 'success');</script>";
+            } else {
+                echo "<script>Swal.fire('Error', 'El correo $correo no existe en la base de datos.', 'error');</script>";
+            }
+        }
+    
+        include "./views/usuario/recuperar.php";
+    }
+
+    private function enviarCorreoRecuperacion($correo) {
+        require("./PHPMailer-master/PHPMailer-master/src/PHPMailer.php");
+        require("./PHPMailer-master/PHPMailer-master/src/SMTP.php");
+    
+        $mail = new PHPMailer\PHPMailer\PHPMailer();
+        $mail->IsSMTP();
+        $mail->SMTPAuth = true;
+        $mail->SMTPSecure = 'ssl';
+        $mail->Host = "smtp.gmail.com";
+        $mail->Port = 465;
+        $mail->IsHTML(true);
+        $mail->Username = "easygenz45@gmail.com";
+        $mail->Password = "aiwi lrnn dsto lmfa";
+        $mail->SetFrom("easygenz45@gmail.com");
+        $mail->Subject = "Restablecer Contraseña";
+        $mail->Body = 'Haz clic en este <a href="http://localhost/isaac/index.php?vista=usuario/nuevaC">enlace</a> para restablecer tu contraseña.';
+        $mail->AddAddress($correo);
+    
+        if (!$mail->Send()) {
+            echo "<script>alert('No se pudo enviar el correo.')</script>";
+        }
+    }
+
+public function nuevaContrasena() {
+    session_start(); // Asegúrate de iniciar la sesión
+    if (isset($_SESSION['reset_email'])) {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $correo = $_SESSION['reset_email']; // Usa la sesión para obtener el correo
+            $nuevaContrasena = $_POST['contra'];
+            $nuevaContrasena2 = $_POST['contra2'];
+
+            if ($nuevaContrasena !== $nuevaContrasena2) {
+                echo "<script>Swal.fire('Error', 'Las contraseñas no coinciden.', 'error');</script>";
+            } else {
+                $usuarioModel = new Usuarios();
+
+                if ($usuarioModel->actualizarContrasena($correo, $nuevaContrasena)) {
+                    echo "<script>Swal.fire('Éxito', 'Contraseña actualizada exitosamente.', 'success');</script>";
+                    echo '<script>window.location.href = "index.php?vista=usuario/login";</script>';
+                } else {
+                    echo "<script>Swal.fire('Error', 'Error al actualizar la contraseña.', 'error');</script>";
+                }
+            }
+        }
+        include "./views/usuario/nuevaC.php";
+    } else {
+        echo "<script>Swal.fire('Error', 'Sesión no válida.', 'error');</script>";
+    }
+}
     
 }
 

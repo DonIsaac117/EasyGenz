@@ -49,8 +49,8 @@ class Usuarios
     public function getEmail() {return $this->email;}
     public function setEmail($email) {$this->email = $email;}
 
-    public function getContrasena() {return $this->contraseña;}
-    public function setContrasena($contrasena) {$this->contraseña = $contrasena;}
+    public function getContraseña() {return $this->contraseña;}
+    public function setContraseña($contraseña) {$this->contraseña = $contraseña;}
 
     public function getRh() { return $this->rh; }
     public function setRh($rh) { $this->rh = $rh; }
@@ -66,19 +66,6 @@ class Usuarios
 
     public function getAlergias() {return $this->alergias;}
     public function setAlergias($alergias) { $this->alergias = $alergias;}
-
-    
-    public function verificarCredenciales() {
-        $cadenaSql = "SELECT * FROM usuarios WHERE numero_documento = '$this->numero_documento' AND contrasena = '$this->contraseña'";
-        $resultado = $this->conectarse->consultaConRetorno($cadenaSql);
-        
-        if ($resultado->num_rows > 0) {
-            return $resultado->fetch_assoc();
-        } else {
-            return false;
-        }
-    }
-    
 
     public function listAll(){
         $cadenaSql = "SELECT * FROM usuarios";
@@ -145,6 +132,69 @@ class Usuarios
         $this->conectarse->consultaSinRetorno($cadenaSql);
     }
 
+
+    public function verificarCredenciales($numero_documento, $contrasena) {
+        $conexion = $this->conectarse->conexion;
+        
+        $sql = "SELECT * FROM usuarios WHERE numero_documento = ?";
+        $stmt = $conexion->prepare($sql);
+
+        if (!$stmt) {
+            echo "Error en la preparación: " . $conexion->error;
+            return false;
+        }
+
+        $stmt->bind_param('s', $numero_documento);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if (!$result) {
+            echo "Error en la ejecución: " . $stmt->error;
+            return false;
+        }
+
+        $usuario = $result->fetch_assoc();
+
+        if ($usuario) {
+            if ($contrasena === $usuario['contrasena']) {
+                return true;
+            } else {
+                echo "Contraseña incorrecta";
+                return false;
+            }
+        } else {
+            echo "Usuario no encontrado";
+            return false;
+        }
+    }
+
+    public function obtenerUsuarioPorCorreo($correo) {
+        $sql = "SELECT * FROM usuarios WHERE email = ?";
+        $stmt = $this->conectarse->conexion->prepare($sql);
+        $stmt->bind_param("s", $correo);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
+        return $resultado->fetch_assoc();
+    }
+
+    public function actualizarContrasena($email, $nuevaContrasena) {
+        $sql = "UPDATE usuarios SET contrasena = ? WHERE email = ?";
+        $stmt = $this->conectarse->conexion->prepare($sql);
+    
+        if (!$stmt) {
+            echo "Error en la preparación: " . $this->conectarse->conexion->error;
+            return false;
+        }
+    
+        $stmt->bind_param("ss", $nuevaContrasena, $email);
+        
+        if (!$stmt->execute()) {
+            echo "Error en la ejecución: " . $stmt->error;
+            return false;
+        }
+    
+        return true;
+    }
 }
     
 
