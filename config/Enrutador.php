@@ -6,15 +6,34 @@ class Enrutador {
         
         if ($carpetaArchivo[0] == "usuario") {
             switch ($carpetaArchivo[1]) {
+                case "login":
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                        $usuarioController = new UsuarioController();
+                        $usuarioController->login();
+                    } else {
+                        include "./views/usuario/login.php";
+                    }
+                    break;
                 case "recuperar":
-                    $usuarioController = new UsuarioController();
-                    $usuarioController->recuperar();
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                        $usuarioController = new UsuarioController();
+                        $usuarioController->recuperar();
+                    } else {
+                        include "./views/usuario/recuperar.php";
+                    }
                     break;
-            
                 case "nuevaC":
-                    $usuarioController = new UsuarioController();
-                    $usuarioController->nuevaContrasena();
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                        $usuarioController = new UsuarioController();
+                        $usuarioController->nuevaContrasena();
+                    } else {
+                        include "./views/usuario/nuevaC.php";
+                    }
                     break;
+                    case "inicio":
+                        echo $carpetaArchivo[1];
+                        require_once("./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php");
+                        break;
                 case "registrar":
                     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $usuarioController = new UsuarioController();
@@ -31,14 +50,6 @@ class Enrutador {
                     $usuarioController = new UsuarioController();
                     $usuarioController->actualizar();
                 break;
-                case "login":
-                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                        $usuarioController = new UsuarioController();
-                        $usuarioController->login();
-                    } else {
-                        include "./views/usuario/login.php";
-                    }
-                    break;
                 default:
                     require_once("./views/pageNotFound.php");
                     break;
@@ -119,6 +130,12 @@ class Enrutador {
                 default:
                     require_once("./views/pageNotFound.php");
                     break;   
+            }
+        }else if($carpetaArchivo[0] == "funcionario"){
+            switch ($carpetaArchivo[1]) {
+                case "inicio":
+                    require_once("./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php");
+                    break;
             }
         }
     }

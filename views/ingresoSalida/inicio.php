@@ -37,7 +37,7 @@ $listadoIngresoSalida = $ingresoSalidaController->listar();
     </form>
 
 <br><br>
-<h3 style="display:flex;justify-content: center;" >Registrar Ingreso/Salida</h3>
+<h3 style="display:flex;justify-content: center;" >Actualizar Ingreso/Salida</h3>
 <form action="index.php?vista=ingresoSalida/actualizar" method="post" style="display: flex; flex-direction: column; align-items: center;">
         <label for="id_usuario ">ID del Usuario</label>
         <input type="number" name="id_usuario" id="id_usuario " required>

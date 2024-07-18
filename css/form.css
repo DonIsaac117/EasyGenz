@@ -32,10 +32,19 @@ h1{
 }
 
 .col{
+    width: 33%;
     display: flex;
-    flex-basis: 33%;
     flex-direction: column;
     align-items: center;
+}
+
+select{
+    padding: 9px;
+    margin: 5px 0 30px 0;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    font-size: 20px;
+    width: 400px;
 }
 
 .btn{
@@ -64,7 +73,7 @@ button:hover{
     background: rgb(1, 184, 20);
 }
 
-label{
+label, legend{
     letter-spacing: 1.5px;
     color: white;
     font-size: 20px;
@@ -86,13 +95,34 @@ input[type="number"]::-webkit-outer-spin-button {
     margin: 0;
 }
 
-select{
-    padding: 9px;
-    margin: 5px 0 30px 0;
-    border: 1px solid #ccc;
-    border-radius: 15px;
-    font-size: 20px;
-    width: 400px;
+.radio{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    margin: 0;
+    width: 100%;
+    flex-wrap: nowrap;
+}
+
+legend{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.labelr{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    flex-wrap: nowrap;
+}
+
+.labelr label{
+    display: flex;
+    flex-wrap: nowrap;
+    width: 50%;
 }
 
 textarea{

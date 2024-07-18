@@ -70,30 +70,19 @@ class UsuarioController {
     }
 
     public function login() {
+        session_start();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $numero_documento = $_POST['documento'];
             $contrasena = $_POST['contrasena'];
     
             $usuario = new Usuarios();
             if ($usuario->verificarCredenciales($numero_documento, $contrasena)) {
-                echo "<script>
-                    console.log('Login exitoso');
-                    Swal.fire({
-                        title: 'Login exitoso',
-                        icon: 'success'
-                    }).then(function() {
-                        window.location.href = 'index.php?vista=usuario/bienvenida';
-                    });
+                echo"<script>
+                    window.location.href = 'index.php?vista=funcionario/inicio';
                 </script>";
             } else {
                 echo "<script>
-                    console.log('Credenciales incorrectas');
-                    Swal.fire({
-                        title: 'Credenciales incorrectas',
-                        icon: 'error'
-                    }).then(function() {
-                        window.location.href = 'index.php?vista=usuario/login';
-                    });
+                    window.location.href = 'index.php?vista=usuario/login';
                 </script>";
             }
         } else {
@@ -136,7 +125,7 @@ class UsuarioController {
         $mail->Password = "aiwi lrnn dsto lmfa";
         $mail->SetFrom("easygenz45@gmail.com");
         $mail->Subject = "Restablecer Contraseña";
-        $mail->Body = 'Haz clic en este <a href="http://localhost/isaac/index.php?vista=usuario/nuevaC">enlace</a> para restablecer tu contraseña.';
+        $mail->Body = 'Haz clic en este <a href="http://localhost/xdddad/clase/php/EasyGenz/index.php?vista=usuario/nuevaC">enlace</a> para restablecer tu contraseña.';
         $mail->AddAddress($correo);
     
         if (!$mail->Send()) {

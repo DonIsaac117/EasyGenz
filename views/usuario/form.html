@@ -53,6 +53,9 @@
 
             <label for="email">E-mail</label>
             <input type="email" id="email" name="email" required>
+
+            <label for="contacto-emer">Teléfono de emergencia</label>
+            <input type="number" id="contacto-emer" name="contacto-emer" required>
         </div>
 
         <div class="btn">
@@ -63,14 +66,41 @@
             <label for="eps">EPS</label>
             <input type="text" id="eps" name="eps" required>
 
-            <label for="contacto-emer">Contacto de emergencia</label>
-            <input type="number" id="contacto-emer" name="contacto-emer" required>
+            <div class="radio">
+                <legend>¿Tienes alergias?</legend>
+                <div class="labelr">
+                    <label>
+                        <input type="radio" name="alergiasr" value="si"> Sí
+                    </label>
+                    <label>
+                        <input type="radio" name="alergiasr" value="no"> No
+                    </label>
+                </div>
 
-            <label for="enfermedades">¿Enfermedades?</label>
-            <textarea name="enfermedades" id="enfermedades" cols="30" rows="10"></textarea>
 
-            <label for="alergias">¿Alergias?</label>
-            <textarea name="alergias" id="alergias" cols="30" rows="10"></textarea>
+                <label for="alergias">Alergias</label>
+                <textarea name="alergias" id="alergias" cols="30" rows="10"></textarea> 
+            </div>
+
+            <div class="radio">
+                <legend>¿Tienes Enfermedades?</legend>
+                <div class="labelr">
+                    <label>
+                        <input type="radio" name="enfermedadesr" value="si"> Sí
+                    </label>
+                    <label>
+                        <input type="radio" name="enfermedadesr" value="no"> No
+                    </label>
+                </div>
+
+
+                <label for="enfermedades">Enfermedades</label>
+                <textarea name="enfermedades" id="enfermedades" cols="30" rows="10"></textarea>
+            </div>
+
+
+
+ 
         </div>
     </form>
 </body>
