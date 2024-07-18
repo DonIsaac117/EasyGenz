@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario</title>
     <link rel="stylesheet" href="./css/form.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.8/dist/sweetalert2.min.css">
 </head>
 <body>
     <h1>Registro</h1>
@@ -20,7 +21,7 @@
             <label for="tipo-doc">Tipo de documento</label>
             <select required name="tipo_doc" id="tipo-doc">
                 <option value="seleccione">Seleccione..</option>
-                <option value="ti">Targeta de identidad</option>
+                <option value="ti">Tarjeta de identidad</option>
                 <option value="cc">Cédula de ciudadania</option>
                 <option value="ce">Cédula de extranjeria</option>
                 <option value="ppt">Permiso Por Protección Temporal</option>
@@ -73,5 +74,7 @@
             <textarea name="alergias" id="alergias" cols="30" rows="10"></textarea>
         </div>
     </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.8/dist/sweetalert2.min.js"></script>
 </body>
 </html>

@@ -3,6 +3,8 @@
 $ingresoSalidaController = new IngresoSalidaController();
 $listadoIngresoSalida = $ingresoSalidaController->listar();
 
+
+
 ?>
 <br><br>
 

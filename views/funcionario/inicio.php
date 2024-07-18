@@ -1,5 +1,7 @@
 <?php
 session_start();
+echo $_SESSION['id_usuario'];
+
 
 ?>
 
@@ -155,7 +157,8 @@ session_start();
 
     <script src="./js/funcionario/inicio.js"></script>
     <script>
-
+     
+      
     </script>
   </body>
 </html>
