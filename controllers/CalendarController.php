@@ -15,25 +15,31 @@ class CalendarController {
         $stmt = $this->event->getByUserId($id_usuario);
         $events = [];
         
-
         while ($row = $stmt->fetch_assoc()) {
-            // Evento de entrada
+            $fecha = $row['fecha'];
+            $hora_entrada = $row['hora_entrada'];
+            $hora_salida = $row['hora_salida'];
+    
+           
+            $ingreso = $fecha . 'T' . $hora_entrada;
+            $salida = $fecha . 'T' . $hora_salida;
+    
             $events[] = [
-                'title' => 'Entrada: ' . $row['hora_entrada'],
-                'start' => $row['fecha'],
+                'title' => 'Entrada: ' . $hora_entrada,
+                'start' => $ingreso, 
                 'allDay' => false,
                 'className' => 'entrada'
             ];
-
-            // Evento de salida
+    
             $events[] = [
-                'title' => 'Salida: ' . $row['hora_salida'],
-                'start' => $row['fecha'],
+                'title' => 'Salida: ' . $hora_salida,
+                'start' => $salida, 
                 'allDay' => false,
                 'className' => 'salida'
             ];
         }
-
+    
+        header('Content-Type: application/json');
         echo json_encode($events);
     }
 

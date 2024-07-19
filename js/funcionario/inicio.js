@@ -1,3 +1,4 @@
+//Calendario
 /*document.addEventListener("DOMContentLoaded", function () {
   var calendarEl = document.getElementById("calendar");
   var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -19,17 +20,17 @@ document.addEventListener('DOMContentLoaded', function() {
           center: 'title',
           right: 'dayGridMonth'
       },
-      locale: 'es',
-      editable: false,
-      selectable: true,
-      events: {
+      eventSources: {
           url: './events/load_events.php',
           method: 'POST',
           failure: function() {
               alert('Error al cargar los eventos');
-          }
+          },
+          success: function(data) {
+            console.log(data); 
+        }
       },
-      eventRender: function(info) {
+      eventDidMount: function(info) {
           var eventDate = new Date(info.event.start);
           var today = new Date();
           if (eventDate.setHours(0,0,0,0) === today.setHours(0,0,0,0)) {

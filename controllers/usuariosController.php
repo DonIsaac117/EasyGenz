@@ -1,7 +1,7 @@
 <?php
 
-require_once("./config/ConexionBD.php");
-require_once("./models/Usuarios.php");
+require_once'./../config/ConexionBd.php';
+require_once './../models/Usuarios.php';
 
 class UsuarioController {  
     private $usuarioModel;
@@ -81,11 +81,16 @@ class UsuarioController {
                 $id_usuario= $usuario->getId();
                 $_SESSION['id_usuario']= $id_usuario;
                 
-                echo "<script>
+                if(isset($_SESSION['id_usuario'])){
+                    echo "<script>
                    
                     window.location.href = 'index.php?vista=funcionario/inicio';
                     ;
                 </script>";
+                }else{
+                    echo '<script>alert("La sesion no esta iniciada");</script>';
+                }
+                
               
             } else {
                 echo "<script>
@@ -175,4 +180,4 @@ public function nuevaContrasena() {
     
 }
 
-?>
+

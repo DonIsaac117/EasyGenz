@@ -1,6 +1,6 @@
 <?php
 
-require_once ("./config/ConexionBD.php");
+require_once './../config/ConexionBd.php';
 
 class Usuarios
 {
@@ -157,6 +157,7 @@ class Usuarios
 
         if ($usuario) {
             if ($contrasena === $usuario['contrasena']) {
+                $this->id=$usuario['id'];
                 return true;
             } else {
                 echo "Contraseña incorrecta";
