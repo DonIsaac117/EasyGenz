@@ -5,7 +5,6 @@ require_once './config/ConexionBd.php';
 
 class Event{
     private $conectarse;
-    private $table_name = "controlfuncionarios";
 
     private $id_usuario;
     public $fecha;
@@ -63,14 +62,14 @@ class Event{
 
 
    public function create() {
-    $cadenaSql = "INSERT INTO $this->table_name(id_usuario, fecha, hora_entrada, hora_salida) VALUES ('$this->id_usuario', '$this->fecha', '$this->hora_entrada', '$this->hora_salida)";
+    $cadenaSql = "INSERT INTO controlfuncionarios(id_usuario, fecha, hora_entrada, hora_salida) VALUES ('$this->id_usuario', '$this->fecha', '$this->hora_entrada', '$this->hora_salida')";
 
     $this->conectarse->consultaSinRetorno($cadenaSql);
    }
     
 
    public function getByUserId($id_usuario) {
-    $cadenaSql = "SELECT fecha, hora_entrada, hora_salida FROM $this->table_name  WHERE id_usuario = $id_usuario";
+    $cadenaSql = "SELECT fecha, hora_entrada, hora_salida FROM controlfuncionarios WHERE id_usuario = $id_usuario";
     $resultado= $this->conectarse->consultaConRetorno($cadenaSql);
     return $resultado;
 }
