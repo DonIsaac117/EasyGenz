@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario</title>
-    <link rel="stylesheet" href="../../css/form.css">
+    <link rel="stylesheet" href="./css/form.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.8/dist/sweetalert2.min.css">
 </head>
 <body>
     <h1>Registro</h1>
@@ -53,9 +54,6 @@
 
             <label for="email">E-mail</label>
             <input type="email" id="email" name="email" required>
-
-            <label for="contacto-emer">Teléfono de emergencia</label>
-            <input type="number" id="contacto-emer" name="contacto-emer" required>
         </div>
 
         <div class="btn">
@@ -64,51 +62,19 @@
 
         <div class="col">
             <label for="eps">EPS</label>
-            <select required name="eps" id="eps">
-                <option value="seleccione">Seleccione..</option>
-                <option value="ti">Targeta de identidad</option>
-                <option value="cc">Cédula de ciudadania</option>
-                <option value="ce">Cédula de extranjeria</option>
-                <option value="ppt">Permiso Por Protección Temporal</option>
-                <option value="pep">PEP</option>
-            </select>
+            <input type="text" id="eps" name="eps" required>
 
-            <div class="radio">
-                <legend>¿Tienes alergias?</legend>
-                <div class="labelr">
-                    <label>
-                        <input type="radio" name="alergiasr" class="alergiasr" value="si"> Sí
-                    </label>
-                    <label>
-                        <input type="radio" name="alergiasr" class="alergiasr" value="no"> No
-                    </label>
-                </div>
+            <label for="contacto-emer">Contacto de emergencia</label>
+            <input type="number" id="contacto-emer" name="contacto-emer" required>
 
+            <label for="enfermedades">¿Enfermedades?</label>
+            <textarea name="enfermedades" id="enfermedades" cols="30" rows="10"></textarea>
 
-                <label for="alergias">Alergias</label>
-                <textarea name="alergias" id="alergias" cols="30" rows="10"></textarea> 
-            </div>
-
-            <div class="radio">
-                <legend>¿Tienes Enfermedades?</legend>
-                <div class="labelr">
-                    <label>
-                        <input type="radio" name="enfermedadesr" class="enfermedadesr" value="si"> Sí
-                    </label>
-                    <label>
-                        <input type="radio" name="enfermedadesr" class="enfermedadesr" value="no"> No
-                    </label>
-                </div>
-
-
-                <label for="enfermedades">Enfermedades</label>
-                <textarea name="enfermedades" id="enfermedades" cols="30" rows="10"></textarea>
-            </div>
-
-
-
- 
+            <label for="alergias">¿Alergias?</label>
+            <textarea name="alergias" id="alergias" cols="30" rows="10"></textarea>
         </div>
     </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.8/dist/sweetalert2.min.js"></script>
 </body>
 </html>

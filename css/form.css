@@ -10,14 +10,14 @@ body{
 }
 
 h1{
+
     justify-content: center;
     text-align: center;
-    font-size: 80px;
-    padding-top: 50px;
+    font-size: 10vh;
     color: white;
     text-shadow: 0 0 10px black;
-    margin: 30px 0 80px 0;
-    letter-spacing: 4px;
+    margin: 3% 0 6% 0;
+    letter-spacing: 8px;
 }
 
 .columna{
@@ -25,6 +25,7 @@ h1{
     flex-direction: row;
     justify-content: space-around;
     flex-wrap: wrap;
+    align-items: baseline;
 }
 
 .columna :nth-child(2){
@@ -32,31 +33,40 @@ h1{
 }
 
 .col{
+    width: 33%;
     display: flex;
-    flex-basis: 33%;
     flex-direction: column;
     align-items: center;
 }
+
+input, select{
+    padding: 2%;
+    margin: 4% 0 8% 0;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-size: 100%;
+    width: 70%;
+    }
 
 .btn{
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 50%;
     order: 4;
 }
 
 button{
     justify-content: center;
     align-items: center;
-    padding: 15px;
+    padding: 1.5% 6%;
     border: 1px solid rgb(6, 73, 13);
     background-color:rgb(6, 73, 13) ;
-    margin: -50px 0 0 0;
-    border-radius: 30px;
-    font-size: 45px;
-    font-weight: 730;
+    margin: 0;
+    border-radius: 55px;
+    font-size: 4vh;
+    font-weight: 700;
     color: white;
-    padding: 10px 35px 10px 35px;
     cursor: pointer;
 }
 
@@ -64,21 +74,35 @@ button:hover{
     background: rgb(1, 184, 20);
 }
 
-label{
-    letter-spacing: 1.5px;
+legend{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+label, legend{
+    letter-spacing: 0.2vh;
     color: white;
     font-size: 20px;
     text-shadow: 0 0 10px black;
 }
 
-input{
-    padding: 9px;
-    margin: 12px 0 40px 0;
-    border: 1px solid #ccc;
-    border-radius: 15px;
-    font-size: 20px;
-    width: 400px;
-    }
+.labelr{
+    margin: 2% 0 0 0;
+    display: flex;
+    width: 50%;
+    flex-wrap: nowrap;
+}
+
+.labelr label{
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+}
+
 
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
@@ -86,35 +110,51 @@ input[type="number"]::-webkit-outer-spin-button {
     margin: 0;
 }
 
-select{
-    padding: 9px;
-    margin: 5px 0 30px 0;
-    border: 1px solid #ccc;
-    border-radius: 15px;
-    font-size: 20px;
-    width: 400px;
+.radio{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    margin: 0;
+    width: 100%;
+    flex-wrap: nowrap;
 }
 
 textarea{
-    padding: 9px;
-    margin: 5px 0 30px 0;
+    padding: 2%;
+    margin: 4% 0 8% 0;
+    border-radius: 2vh;
     border: 1px solid #ccc;
-    border-radius: 15px;
     font-size: 20px;
-    width: 400px;
-    height: 130px;
+    width: 70%;
+    height: 150px;
 }
 
 /* Celular */
 @media (max-width: 900px){
     body{
-        background-image: url(../imagenes/form2.jpg);
+         background-image: url(../imagenes/form2.jpg); 
     }
 
     .columna{
         margin: 0;
         flex-direction: column;
         align-items: center;
+    }
+
+    h1{
+        -webkit-text-stroke: 2px black;
+        font-size: 60px;
+        margin: 20% 0 15% 0;
+    }
+
+    label, legend{
+      font-size: 20px;
+    }
+
+    input, select{
+        width: 80%;
     }
 
     .btn{
@@ -126,14 +166,42 @@ textarea{
     }
 
     .col{
-        height: 700px;
+        width: 90%;
+        height: 33%;
         align-items: center;
         justify-content: center;
     }
 
 }
-/* 
-@media (min-width: 601px) and (max-width: 900px){
-    
+
+@media (min-width: 901px) and (max-width: 1400px){
+    body{
+        background-image: url(../imagenes/form2.jpg);
+    }
+
+    .columna{
+        flex-direction: row;
+        align-items: baseline;
+        justify-content: center;
+    }
+
+    h1{
+        font-size: 65px;
+    }
+
+    .col{
+        align-items: center;
+    }
+
+    label, legend{
+        font-size: 19px;
+    }
+
+    input,select{
+        width: 80%;
+    }
+
+    textarea{
+        height: 95px;
+    }
 }
- */
