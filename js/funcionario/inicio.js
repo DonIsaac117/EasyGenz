@@ -24,26 +24,32 @@ document.addEventListener('DOMContentLoaded', function() {
           url: './events/load_events.php',
           method: 'POST',
           failure: function() {
-              alert('Error al cargar los eventos');
-          },
+            alert('Error intenta otro metodo');
+        },
           success: function(data) {
             console.log(data); 
         }
       },
+      eventTimeFormat: { // configurando el formato de la hora
+        hour: '2-digit',
+        minute: '2-digit',
+        meridiem: false // Esto quita el AM/PM
+    },
+  
       eventDidMount: function(info) {
-          var eventDate = new Date(info.event.start);
-          var today = new Date();
-          if (eventDate.setHours(0,0,0,0) === today.setHours(0,0,0,0)) {
-              info.el.style.backgroundColor = 'lightgreen';
-          }
-          if (info.event.classNames.includes('entrada')) {
-              info.el.style.color = 'green';
-          }
-          if (info.event.classNames.includes('salida')) {
-              info.el.style.color = 'blue';
-          }
+        var eventDate = new Date(info.event.start);
+        var today = new Date();
+        if (eventDate.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0)) {
+          info.el.style.backgroundColor = 'lightgreen';
+        }
+        if (info.event.classNames.includes('entrada')) {
+          info.el.style.color = 'green';
+        }
+        if (info.event.classNames.includes('salida')) {
+          info.el.style.color = 'blue';
+        }
       }
-  });
+    });
 
   calendar.render();
 });

@@ -1,6 +1,6 @@
 <?php
 
-require_once './../config/ConexionBd.php';
+require_once './config/ConexionBd.php';
 
 class Usuarios
 {

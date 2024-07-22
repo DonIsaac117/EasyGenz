@@ -1,7 +1,7 @@
 <?php
 
-require_once'./../config/ConexionBd.php';
-require_once './../models/Usuarios.php';
+require_once './config/ConexionBd.php';
+require_once './models/Usuarios.php';
 
 class UsuarioController {  
     private $usuarioModel;
