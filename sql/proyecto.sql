@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-07-2024 a las 20:58:24
+-- Tiempo de generación: 22-07-2024 a las 22:42:54
 -- Versión del servidor: 10.4.25-MariaDB
 -- Versión de PHP: 8.1.10
 
@@ -20,6 +20,569 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `easygenz`
 --
+
+DELIMITER $$
+--
+-- Procedimientos
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `aprendiz_ficha` ()   BEGIN
+SELECT
+	usuarios.nombres as nombre_aprendiz,
+    usuarios.apellidos as apellido_aprendiz,
+    usuarios.numero_documento,
+    numero_ficha.codigo as codigo_ficha,
+    numero_ficha.nombre as nombre_ficha,
+    numero_ficha.jornada,
+    programa.nombre as nombre_programa,
+    tipo_programa.tipo=programa.id_tipo_programa
+FROM usuarios
+INNER JOIN aprendiz on aprendiz.id_usuario=usuarios.id
+INNER JOIN numero_ficha on numero_ficha.codigo=aprendiz.codigo_numeroficha
+INNER JOIN programa on programa.id=numero_ficha.id_programa
+INNER JOIN tipo_programa on tipo_programa.id=programa.id_tipo_programa;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `aprendiz_ingreso_salida` ()   BEGIN
+SELECT usuarios.nombres as nombre_aprendiz,
+		usuarios.apellidos as apellido_aprendiz,
+        usuarios.numero_documento,
+numero_ficha.codigo as codigo_ficha,
+ingresosalida_ficha.fecha,
+ingresosalida_ficha.hora_entrada,
+ingresosalida_ficha.hora_salida,
+ingresosalida_ficha.estado,
+numero_ficha.jornada,
+ingresosalida_ficha.id_usuario 
+from usuarios
+inner join usuario_perfil on usuario_perfil.id_usuario = usuarios.id
+inner join ingresosalida_ficha on usuario_perfil.id_usuario =ingresosalida_ficha.id_usuario
+inner join numero_ficha on numero_ficha.codigo=ingresosalida_ficha.codigo_numeroficha
+WHERE usuario_perfil.id_perfil=1;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `fichas` ()   BEGIN
+SELECT
+numero_ficha.codigo as codigo_ficha,
+    numero_ficha.nombre as nombre_ficha,
+    numero_ficha.jornada,
+    numero_ficha.descripcion,
+    programa.nombre as nombre_programa,
+    tipo_programa.tipo
+    
+FROM numero_ficha
+INNER JOIN programa on programa.id=numero_ficha.id_programa
+INNER JOIN tipo_programa on tipo_programa.id=programa.id_tipo_programa;
+
+end$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `funcionarios` ()   BEGIN
+SELECT
+	usuarios.nombres,
+    usuarios.apellidos,
+    usuarios.numero_documento,
+    funcion.nombre,
+    funcion.descripcion
+FROM usuarios
+INNER JOIN funcionario on funcionario.id_usuario=usuarios.id
+INNER JOIN funcion on funcion.id=funcionario.id_funcion;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `instructor_ficha` ()   BEGIN
+SELECT
+	usuarios.nombres as nombre_instructor,
+    usuarios.apellidos as apellido_instructor,
+    usuarios.numero_documento,
+    numero_ficha.codigo as codigo_ficha,
+    numero_ficha.nombre as nombre_ficha,
+    numero_ficha.jornada,
+    programa.nombre as nombre_programa,
+    tipo_programa.tipo
+FROM usuarios
+INNER JOIN instructor on instructor.id_usuario=usuarios.id
+INNER JOIN numero_ficha on numero_ficha.codigo=instructor.codigo_numeroficha
+INNER JOIN programa on programa.id=numero_ficha.id_programa
+INNER JOIN tipo_programa on tipo_programa.id=programa.id_tipo_programa;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `instructor_ingreso_salida` ()   BEGIN
+SELECT usuarios.nombres as nombre_aprendiz,
+		usuarios.apellidos as apellido_aprendiz,
+        usuarios.numero_documento,
+numero_ficha.codigo as codigo_ficha,
+ingresosalida_ficha.fecha,
+ingresosalida_ficha.hora_entrada,
+ingresosalida_ficha.hora_salida,
+ingresosalida_ficha.estado,
+numero_ficha.jornada,
+ingresosalida_ficha.id_usuario 
+from usuarios
+inner join usuario_perfil on usuario_perfil.id_usuario = usuarios.id
+inner join ingresosalida_ficha on usuario_perfil.id_usuario =ingresosalida_ficha.id_usuario
+inner join numero_ficha on numero_ficha.codigo=ingresosalida_ficha.codigo_numeroficha
+WHERE usuario_perfil.id_perfil=2;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `perfiles` ()   BEGIN
+SELECT
+	usuarios.nombres,
+    usuarios.apellidos,
+    usuarios.numero_documento,
+    perfil.perfil
+FROM usuarios
+INNER JOIN usuario_perfil on usuario_perfil.id_usuario=usuarios.id
+INNER JOIN perfil on perfil.id=usuario_perfil.id_perfil;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usuarios_ficha` ()   BEGIN
+SELECT
+	usuarios.nombres as nombre,
+    usuarios.apellidos as apellido,
+    usuarios.numero_documento,
+    numero_ficha.codigo as codigo_ficha,
+    numero_ficha.nombre as nombre_ficha,
+    numero_ficha.jornada,
+    programa.nombre as nombre_programa,
+    tipo_programa.tipo
+FROM usuarios
+LEFT JOIN aprendiz on aprendiz.id_usuario=usuarios.id
+LEFT JOIN instructor on instructor.id_usuario=usuarios.id
+INNER JOIN numero_ficha on numero_ficha.codigo=aprendiz.codigo_numeroficha or numero_ficha.codigo=instructor.codigo_numeroficha
+INNER JOIN programa on programa.id=numero_ficha.id_programa
+INNER JOIN tipo_programa on tipo_programa.id=programa.id_tipo_programa;
+end$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usuario_controlfuncionario` ()   BEGIN
+SELECT usuarios.nombres AS nombre_funcionario,
+		 usuarios.apellidos as apellido_funcionario,
+    usuarios.numero_documento,
+controlfuncionarios.fecha,
+controlfuncionarios.hora_entrada,
+controlfuncionarios.hora_salida,
+controlfuncionarios.estado,
+controlfuncionarios.id_usuario
+from usuarios
+inner join usuario_perfil on usuario_perfil.id_usuario = usuarios.id
+inner join controlfuncionarios on controlfuncionarios.id_usuario =usuario_perfil.id_usuario;
+
+end$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usuario_ingreso_salida` ()   BEGIN
+SELECT usuarios.nombres,
+		usuarios.apellidos,
+        usuarios.numero_documento,
+numero_ficha.codigo as codigo_ficha,
+ingresosalida_ficha.fecha,
+ingresosalida_ficha.hora_entrada,
+ingresosalida_ficha.hora_salida,
+ingresosalida_ficha.estado,
+numero_ficha.jornada,
+ingresosalida_ficha.id_usuario 
+from usuarios
+inner join usuario_perfil on usuario_perfil.id_usuario = usuarios.id
+inner join ingresosalida_ficha on usuario_perfil.id_usuario =ingresosalida_ficha.id_usuario
+inner join numero_ficha on numero_ficha.codigo=ingresosalida_ficha.codigo_numeroficha;
+end$$
+
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `aprendiz`
+--
+
+CREATE TABLE `aprendiz` (
+  `id_usuario` int(11) DEFAULT NULL,
+  `codigo_numeroficha` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `aprendiz`
+--
+
+INSERT INTO `aprendiz` (`id_usuario`, `codigo_numeroficha`) VALUES
+(1, 2620031),
+(2, 2620031),
+(3, 42049482),
+(4, 7842958),
+(5, 7842958);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `auditoria`
+--
+
+CREATE TABLE `auditoria` (
+  `id` int(20) NOT NULL,
+  `usuario` varchar(30) NOT NULL,
+  `fecha` datetime NOT NULL,
+  `evento` varchar(20) NOT NULL,
+  `nombre_nuevo` varchar(100) NOT NULL,
+  `nombre_viejo` varchar(100) DEFAULT NULL,
+  `apellido_nuevo` varchar(100) NOT NULL,
+  `apellido_viejo` varchar(100) DEFAULT NULL,
+  `tipo_documento_nuevo` enum('TI','CC','PP') NOT NULL,
+  `tipo_documento_viejo` enum('TI','CC','PP') DEFAULT NULL,
+  `numero_documento_nuevo` varchar(20) NOT NULL,
+  `numero_documento_viejo` varchar(20) DEFAULT NULL,
+  `telefono_nuevo` bigint(20) NOT NULL,
+  `telefono_viejo` bigint(20) DEFAULT NULL,
+  `email_nuevo` varchar(100) NOT NULL,
+  `email_viejo` varchar(100) DEFAULT NULL,
+  `contrasena_nuevo` varchar(100) NOT NULL,
+  `contrasena_viejo` varchar(100) DEFAULT NULL,
+  `huella_nuevo` varbinary(50) NOT NULL,
+  `huella_viejo` varbinary(50) DEFAULT NULL,
+  `codigo_nuevo` int(50) NOT NULL,
+  `codigo_viejo` int(50) DEFAULT NULL,
+  `eps_nuevo` varchar(50) NOT NULL,
+  `eps_viejo` varchar(50) DEFAULT NULL,
+  `rh_nuevo` enum('A+','A-','B+','B-','AB+','AB-','O+','O-') NOT NULL,
+  `rh_viejo` enum('A+','A-','B+','B-','AB+','AB-','O+','O-') DEFAULT NULL,
+  `contacto_emergencia_nuevo` int(20) NOT NULL,
+  `contacto_emergencia_viejo` int(20) DEFAULT NULL,
+  `enfermedades_nuevo` varchar(100) NOT NULL,
+  `enfermedades_viejo` varchar(100) DEFAULT NULL,
+  `alergias_nuevo` varchar(100) NOT NULL,
+  `alergias_viejo` varchar(100) DEFAULT NULL,
+  `observaciones` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `auditoria`
+--
+
+INSERT INTO `auditoria` (`id`, `usuario`, `fecha`, `evento`, `nombre_nuevo`, `nombre_viejo`, `apellido_nuevo`, `apellido_viejo`, `tipo_documento_nuevo`, `tipo_documento_viejo`, `numero_documento_nuevo`, `numero_documento_viejo`, `telefono_nuevo`, `telefono_viejo`, `email_nuevo`, `email_viejo`, `contrasena_nuevo`, `contrasena_viejo`, `huella_nuevo`, `huella_viejo`, `codigo_nuevo`, `codigo_viejo`, `eps_nuevo`, `eps_viejo`, `rh_nuevo`, `rh_viejo`, `contacto_emergencia_nuevo`, `contacto_emergencia_viejo`, `enfermedades_nuevo`, `enfermedades_viejo`, `alergias_nuevo`, `alergias_viejo`, `observaciones`) VALUES
+(1, 'root@localhost', '2024-04-24 16:49:32', 'INSERT', 'CHAMO', NULL, 'MOISES', NULL, 'CC', NULL, '1077889910', NULL, 3133143151, NULL, 'CHAMOLOCO@VENECO.COM', NULL, 'JETSHO', NULL, 0x3939393939393939, NULL, 1100220, NULL, 'CEMENTERIO', NULL, 'AB+', NULL, 987654321, NULL, 'exceso de amvre', NULL, 'a la comida', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(2, 'root@localhost', '2024-05-14 14:41:30', 'DELETE', '', 'Ana', '', 'López', 'TI', 'CC', '', '56789012', 0, 5678901234, '', 'ana@example.com', '', 'passpass', '', NULL, 0, 0, '', 'famisanar', 'A+', 'A-', 0, 2147483647, '', 'Ninguna', '', 'Gluten', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(3, 'root@localhost', '2024-06-28 13:10:51', 'UPDATE', 'yo merito', 'yo merito', ':v', ':v', 'CC', 'CC', '1077967033', '1077967033', 3114829214, 3114829214, 'johand0620@gmail.com', 'fluvot@carelibro', '123456', '123456', 0x76585657, NULL, 123456789, 123456789, 'Sanitas', 'Sanitas', 'AB+', 'AB+', 27184783, 27184783, 'exceso de facha', 'exceso de facha', 'a los 🧒🏿', 'a los 🧒🏿', 'Se ha modificado un usuario por parte de :root@localhost'),
+(4, 'root@localhost', '2024-07-08 13:37:38', 'INSERT', '', NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(5, 'root@localhost', '2024-07-08 13:49:25', 'UPDATE', 'yo merito', 'yo merito', ':v', ':v', 'CC', 'CC', '1077967033', '1077967033', 3114829214, 3114829214, 'johand0620@gmail.com', 'johand0620@gmail.com', '1234', '123456', 0x76585657, 0x76585657, 123456789, 123456789, 'Sanitas', 'Sanitas', 'AB+', 'AB+', 27184783, 27184783, 'exceso de facha', 'exceso de facha', 'a los 🧒🏿', 'a los 🧒🏿', 'Se ha modificado un usuario por parte de :root@localhost'),
+(6, 'root@localhost', '2024-07-11 14:02:41', 'UPDATE', 'yo merito', 'yo merito', ':v', ':v', 'CC', 'CC', '1077967033', '1077967033', 3114829214, 3114829214, 'johand0620@gmail.com', 'johand0620@gmail.com', '1234', '1234', 0x76585657, 0x76585657, 123456789, 123456789, 'Sanitas', 'Sanitas', 'AB+', 'AB+', 27184783, 27184783, 'exceso de facha', 'exceso de facha', 'a los 🧒🏿', 'a los 🧒🏿', 'Se ha modificado un usuario por parte de :root@localhost'),
+(7, 'root@localhost', '2024-07-11 14:23:12', 'INSERT', '', NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(8, 'root@localhost', '2024-07-11 14:24:17', 'DELETE', '', '', '', '', 'TI', '', '', '', 0, 0, '', '', '', '', '', NULL, 0, NULL, '', '', 'A+', '', 0, 0, '', '', '', '', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(9, 'root@localhost', '2024-07-11 14:27:45', 'INSERT', '', NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(10, 'root@localhost', '2024-07-11 14:27:53', 'DELETE', '', '', '', '', 'TI', '', '', '', 0, 0, '', '', '', '', '', NULL, 0, NULL, '', '', 'A+', '', 0, 0, '', '', '', '', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(11, 'root@localhost', '2024-07-11 14:30:15', 'DELETE', '', '', '', '', 'TI', '', '', '', 0, 0, '', '', '', '', '', NULL, 0, NULL, '', '', 'A+', '', 0, 0, '', '', '', '', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(12, 'root@localhost', '2024-07-11 14:47:46', 'INSERT', '', NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(13, 'root@localhost', '2024-07-11 14:47:56', 'DELETE', '', '', '', '', 'TI', '', '', '', 0, 0, '', '', '', '', '', NULL, 0, NULL, '', '', 'A+', '', 0, 0, '', '', '', '', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(14, 'root@localhost', '2024-07-11 14:53:35', 'INSERT', '', NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(15, 'root@localhost', '2024-07-11 14:54:22', 'INSERT', '', NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(16, 'root@localhost', '2024-07-11 14:54:30', 'INSERT', '', NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(17, 'root@localhost', '2024-07-11 14:54:46', 'INSERT', '', NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(18, 'root@localhost', '2024-07-11 14:55:09', 'DELETE', '', '', '', '', 'TI', '', '', '', 0, 0, '', '', '', '', '', NULL, 0, NULL, '', '', 'A+', '', 0, 0, '', '', '', '', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(19, 'root@localhost', '2024-07-11 14:55:13', 'DELETE', '', '', '', '', 'TI', '', '', '', 0, 0, '', '', '', '', '', NULL, 0, NULL, '', '', 'A+', '', 0, 0, '', '', '', '', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(20, 'root@localhost', '2024-07-11 14:55:16', 'DELETE', '', '', '', '', 'TI', '', '', '', 0, 0, '', '', '', '', '', NULL, 0, NULL, '', '', 'A+', '', 0, 0, '', '', '', '', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(21, 'root@localhost', '2024-07-11 14:55:19', 'DELETE', '', '', '', '', 'TI', '', '', '', 0, 0, '', '', '', '', '', NULL, 0, NULL, '', '', 'A+', '', 0, 0, '', '', '', '', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(22, 'root@localhost', '2024-07-11 14:56:48', 'INSERT', '', NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(23, 'root@localhost', '2024-07-11 14:56:56', 'DELETE', '', '', '', '', 'TI', '', '', '', 0, 0, '', '', '', '', '', NULL, 0, NULL, '', '', 'A+', '', 0, 0, '', '', '', '', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(24, 'root@localhost', '2024-07-11 15:01:33', 'INSERT', 'julian', NULL, 'ramirez', NULL, 'CC', NULL, '432543', NULL, 4354325, NULL, 'julian@gmail.com', NULL, '4325', NULL, '', NULL, 0, NULL, 'no tiene', NULL, 'A-', NULL, 2345, NULL, 'erter', NULL, 'gfwer', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(25, 'root@localhost', '2024-07-11 15:01:50', 'INSERT', 'julian', NULL, 'ramirez', NULL, 'CC', NULL, '134124', NULL, 234324, NULL, 'julian@gmail.com', NULL, '1324321', NULL, '', NULL, 0, NULL, 'no tiene', NULL, 'AB+', NULL, 123413, NULL, 'sdfgs', NULL, 'qwe', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(26, 'root@localhost', '2024-07-11 16:05:10', 'INSERT', 'julian', NULL, 'ramirez', NULL, 'CC', NULL, '2344', NULL, 342543, NULL, 'j7u@gmail.com', NULL, '13243', NULL, '', NULL, 0, NULL, 'no tiene', NULL, 'AB+', NULL, 2435243, NULL, 'gfd', NULL, 'dgf', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(27, 'root@localhost', '2024-07-11 16:09:33', 'UPDATE', 'yo merito', 'yo merito', ':v', ':v', 'CC', 'CC', '1077967033', '1077967033', 3114829214, 3114829214, 'johand0620@gmail.com', 'johand0620@gmail.com', '12', '1234', 0x76585657, 0x76585657, 123456789, 123456789, 'Sanitas', 'Sanitas', 'AB+', 'AB+', 27184783, 27184783, 'exceso de facha', 'exceso de facha', 'a los 🧒🏿', 'a los 🧒🏿', 'Se ha modificado un usuario por parte de :root@localhost'),
+(28, 'root@localhost', '2024-07-17 13:30:55', 'INSERT', 'johan', NULL, 'betancur', NULL, 'TI', NULL, '123908321', NULL, 123214, NULL, 'johanb@gmail.com', NULL, '1234567', NULL, '', NULL, 0, NULL, 'famisanar', NULL, 'B-', NULL, 324532, NULL, 'wfdgsfd', NULL, 'dsgfdsfg', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(29, 'root@localhost', '2024-07-17 13:38:16', 'DELETE', '', 'johan', '', 'betancur', 'TI', 'TI', '', '123908321', 0, 123214, '', 'johanb@gmail.com', '', '1234567', '', NULL, 0, NULL, '', 'famisanar', 'A+', 'B-', 0, 324532, '', 'wfdgsfd', '', 'dsgfdsfg', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(30, 'root@localhost', '2024-07-17 13:38:48', 'INSERT', 'johan', NULL, 'betancur', NULL, 'TI', NULL, '131', NULL, 234243, NULL, 'johanb@gmail.com', NULL, '1234', NULL, '', NULL, 0, NULL, 'famisanar', NULL, 'O-', NULL, 24524, NULL, '23erwgfdsg', NULL, 'dsfgfdsg', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(31, 'root@localhost', '2024-07-17 13:41:41', 'INSERT', 'johan', NULL, 'betancur', NULL, 'TI', NULL, '131', NULL, 234243, NULL, 'johanb@gmail.com', NULL, '1234', NULL, '', NULL, 0, NULL, 'famisanar', NULL, 'O-', NULL, 24524, NULL, '23erwgfdsg', NULL, 'dsfgfdsg', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(32, 'root@localhost', '2024-07-17 13:56:44', 'DELETE', '', 'johan', '', 'betancur', 'TI', 'TI', '', '131', 0, 234243, '', 'johanb@gmail.com', '', '1234', '', NULL, 0, NULL, '', 'famisanar', 'A+', 'O-', 0, 24524, '', '23erwgfdsg', '', 'dsfgfdsg', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(33, 'root@localhost', '2024-07-17 13:56:50', 'DELETE', '', 'johan', '', 'betancur', 'TI', 'TI', '', '131', 0, 234243, '', 'johanb@gmail.com', '', '1234', '', NULL, 0, NULL, '', 'famisanar', 'A+', 'O-', 0, 24524, '', '23erwgfdsg', '', 'dsfgfdsg', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(34, 'root@localhost', '2024-07-17 13:57:44', 'INSERT', 'johan', NULL, 'betancur', NULL, 'TI', NULL, '1234', NULL, 213432, NULL, 'johanb@gmail.com', NULL, '1234', NULL, '', NULL, 0, NULL, 'famisanar', NULL, 'AB+', NULL, 2134213, NULL, 'wqfdd', NULL, 'sfdsa', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(35, 'root@localhost', '2024-07-17 14:11:37', 'INSERT', 'johan', NULL, 'betancur', NULL, 'TI', NULL, '1234', NULL, 213432, NULL, 'johanb@gmail.com', NULL, '1234', NULL, '', NULL, 0, NULL, 'famisanar', NULL, 'AB+', NULL, 2134213, NULL, 'wqfdd', NULL, 'sfdsa', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(36, 'root@localhost', '2024-07-17 14:12:38', 'INSERT', 'johan', NULL, 'betancur', NULL, 'TI', NULL, '1234', NULL, 213432, NULL, 'johanb@gmail.com', NULL, '1234', NULL, '', NULL, 0, NULL, 'famisanar', NULL, 'AB+', NULL, 2134213, NULL, 'wqfdd', NULL, 'sfdsa', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(37, 'root@localhost', '2024-07-17 14:12:45', 'DELETE', '', 'johan', '', 'betancur', 'TI', 'TI', '', '1234', 0, 213432, '', 'johanb@gmail.com', '', '1234', '', NULL, 0, NULL, '', 'famisanar', 'A+', 'AB+', 0, 2134213, '', 'wqfdd', '', 'sfdsa', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(38, 'root@localhost', '2024-07-17 14:13:05', 'INSERT', 'johan', NULL, 'betancur', NULL, 'CC', NULL, '1345', NULL, 12343, NULL, 'johanb@gmail.com', NULL, '213432', NULL, '', NULL, 0, NULL, 'famisanar', NULL, 'AB+', NULL, 24332, NULL, 'sfds', NULL, 'sdfgsfed', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(39, 'root@localhost', '2024-07-17 14:14:13', 'INSERT', 'johan', NULL, 'betancur', NULL, 'CC', NULL, '1345', NULL, 12343, NULL, 'johanb@gmail.com', NULL, '213432', NULL, '', NULL, 0, NULL, 'famisanar', NULL, 'AB+', NULL, 24332, NULL, 'sfds', NULL, 'sdfgsfed', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(40, 'root@localhost', '2024-07-17 14:14:16', 'INSERT', 'johan', NULL, 'betancur', NULL, 'CC', NULL, '1345', NULL, 12343, NULL, 'johanb@gmail.com', NULL, '213432', NULL, '', NULL, 0, NULL, 'famisanar', NULL, 'AB+', NULL, 24332, NULL, 'sfds', NULL, 'sdfgsfed', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(41, 'root@localhost', '2024-07-17 14:14:25', 'DELETE', '', 'johan', '', 'betancur', 'TI', 'CC', '', '1345', 0, 12343, '', 'johanb@gmail.com', '', '213432', '', NULL, 0, NULL, '', 'famisanar', 'A+', 'AB+', 0, 24332, '', 'sfds', '', 'sdfgsfed', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(42, 'root@localhost', '2024-07-17 14:14:56', 'DELETE', '', 'johan', '', 'betancur', 'TI', 'TI', '', '1234', 0, 213432, '', 'johanb@gmail.com', '', '1234', '', NULL, 0, NULL, '', 'famisanar', 'A+', 'AB+', 0, 2134213, '', 'wqfdd', '', 'sfdsa', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(43, 'root@localhost', '2024-07-17 14:14:56', 'DELETE', '', 'johan', '', 'betancur', 'TI', 'TI', '', '1234', 0, 213432, '', 'johanb@gmail.com', '', '1234', '', NULL, 0, NULL, '', 'famisanar', 'A+', 'AB+', 0, 2134213, '', 'wqfdd', '', 'sfdsa', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(44, 'root@localhost', '2024-07-17 14:14:56', 'DELETE', '', 'johan', '', 'betancur', 'TI', 'CC', '', '1345', 0, 12343, '', 'johanb@gmail.com', '', '213432', '', NULL, 0, NULL, '', 'famisanar', 'A+', 'AB+', 0, 24332, '', 'sfds', '', 'sdfgsfed', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(45, 'root@localhost', '2024-07-17 14:14:56', 'DELETE', '', 'johan', '', 'betancur', 'TI', 'CC', '', '1345', 0, 12343, '', 'johanb@gmail.com', '', '213432', '', NULL, 0, NULL, '', 'famisanar', 'A+', 'AB+', 0, 24332, '', 'sfds', '', 'sdfgsfed', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(46, 'root@localhost', '2024-07-17 14:19:23', 'INSERT', 'johan', NULL, 'betancur', NULL, 'TI', NULL, '1234', NULL, 213432, NULL, 'johanb@gmail.com', NULL, '1234', NULL, '', NULL, 0, NULL, 'famisanar', NULL, 'AB+', NULL, 2134213, NULL, 'wqfdd', NULL, 'sfdsa', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(47, 'root@localhost', '2024-07-17 14:24:37', 'INSERT', 'johan', NULL, 'betancur', NULL, 'TI', NULL, '1234', NULL, 213432, NULL, 'johanb@gmail.com', NULL, '1234', NULL, '', NULL, 0, NULL, 'famisanar', NULL, 'AB+', NULL, 2134213, NULL, 'wqfdd', NULL, 'sfdsa', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(48, 'root@localhost', '2024-07-17 14:24:48', 'DELETE', '', 'johan', '', 'betancur', 'TI', 'TI', '', '1234', 0, 213432, '', 'johanb@gmail.com', '', '1234', '', NULL, 0, NULL, '', 'famisanar', 'A+', 'AB+', 0, 2134213, '', 'wqfdd', '', 'sfdsa', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(49, 'root@localhost', '2024-07-17 14:24:52', 'DELETE', '', 'johan', '', 'betancur', 'TI', 'TI', '', '1234', 0, 213432, '', 'johanb@gmail.com', '', '1234', '', NULL, 0, NULL, '', 'famisanar', 'A+', 'AB+', 0, 2134213, '', 'wqfdd', '', 'sfdsa', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(50, 'root@localhost', '2024-07-17 14:24:58', 'INSERT', 'johan', NULL, 'betancur', NULL, 'TI', NULL, '1234', NULL, 213432, NULL, 'johanb@gmail.com', NULL, '1234', NULL, '', NULL, 0, NULL, 'famisanar', NULL, 'AB+', NULL, 2134213, NULL, 'wqfdd', NULL, 'sfdsa', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(51, 'root@localhost', '2024-07-17 14:25:04', 'DELETE', '', 'johan', '', 'betancur', 'TI', 'TI', '', '1234', 0, 213432, '', 'johanb@gmail.com', '', '1234', '', NULL, 0, NULL, '', 'famisanar', 'A+', 'AB+', 0, 2134213, '', 'wqfdd', '', 'sfdsa', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(52, 'root@localhost', '2024-07-17 14:25:43', 'INSERT', 'johan', NULL, 'diaz', NULL, 'CC', NULL, '2143143', NULL, 2345243, NULL, 'johanb@gmail.com', NULL, '234542', NULL, '', NULL, 0, NULL, 'famisanar', NULL, 'AB+', NULL, 2345, NULL, 'wfgs', NULL, 'dsgf', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(53, 'root@localhost', '2024-07-17 14:26:19', 'INSERT', 'johan', NULL, 'diaz', NULL, 'CC', NULL, '2143143', NULL, 2345243, NULL, 'johanb@gmail.com', NULL, '234542', NULL, '', NULL, 0, NULL, 'famisanar', NULL, 'AB+', NULL, 2345, NULL, 'wfgs', NULL, 'dsgf', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(54, 'root@localhost', '2024-07-17 14:26:25', 'DELETE', '', 'johan', '', 'diaz', 'TI', 'CC', '', '2143143', 0, 2345243, '', 'johanb@gmail.com', '', '234542', '', NULL, 0, NULL, '', 'famisanar', 'A+', 'AB+', 0, 2345, '', 'wfgs', '', 'dsgf', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(55, 'root@localhost', '2024-07-17 14:28:25', 'DELETE', '', 'johan', '', 'diaz', 'TI', 'CC', '', '2143143', 0, 2345243, '', 'johanb@gmail.com', '', '234542', '', NULL, 0, NULL, '', 'famisanar', 'A+', 'AB+', 0, 2345, '', 'wfgs', '', 'dsgf', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(56, 'root@localhost', '2024-07-17 14:28:49', 'INSERT', 'johan', NULL, 'betancur', NULL, 'TI', NULL, '123', NULL, 2134321, NULL, 'johanb@gmail.com', NULL, '13243', NULL, '', NULL, 0, NULL, 'famisanar', NULL, 'B+', NULL, 1234, NULL, 'werfw', NULL, 'sdfgs', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(57, 'root@localhost', '2024-07-17 14:28:53', 'INSERT', 'johan', NULL, 'betancur', NULL, 'TI', NULL, '123', NULL, 2134321, NULL, 'johanb@gmail.com', NULL, '13243', NULL, '', NULL, 0, NULL, 'famisanar', NULL, 'B+', NULL, 1234, NULL, 'werfw', NULL, 'sdfgs', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(58, 'root@localhost', '2024-07-17 14:29:07', 'DELETE', '', 'johan', '', 'betancur', 'TI', 'TI', '', '123', 0, 2134321, '', 'johanb@gmail.com', '', '13243', '', NULL, 0, NULL, '', 'famisanar', 'A+', 'B+', 0, 1234, '', 'werfw', '', 'sdfgs', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(59, 'root@localhost', '2024-07-17 14:29:56', 'DELETE', '', 'johan', '', 'betancur', 'TI', 'TI', '', '123', 0, 2134321, '', 'johanb@gmail.com', '', '13243', '', NULL, 0, NULL, '', 'famisanar', 'A+', 'B+', 0, 1234, '', 'werfw', '', 'sdfgs', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(60, 'root@localhost', '2024-07-17 14:30:17', 'INSERT', 'johan', NULL, 'betancur', NULL, 'TI', NULL, '2134', NULL, 134, NULL, 'gfhgfdhgfq@gmail.com', NULL, '12341', NULL, '', NULL, 0, NULL, 'famisanar', NULL, 'O-', NULL, 2435, NULL, 'fdgs', NULL, 'fdsgs', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(61, 'root@localhost', '2024-07-17 14:30:20', 'INSERT', 'johan', NULL, 'betancur', NULL, 'TI', NULL, '2134', NULL, 134, NULL, 'gfhgfdhgfq@gmail.com', NULL, '12341', NULL, '', NULL, 0, NULL, 'famisanar', NULL, 'O-', NULL, 2435, NULL, 'fdgs', NULL, 'fdsgs', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(62, 'root@localhost', '2024-07-17 14:30:26', 'DELETE', '', 'johan', '', 'betancur', 'TI', 'TI', '', '2134', 0, 134, '', 'gfhgfdhgfq@gmail.com', '', '12341', '', NULL, 0, NULL, '', 'famisanar', 'A+', 'O-', 0, 2435, '', 'fdgs', '', 'fdsgs', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(63, 'root@localhost', '2024-07-17 14:30:29', 'DELETE', '', 'johan', '', 'betancur', 'TI', 'TI', '', '2134', 0, 134, '', 'gfhgfdhgfq@gmail.com', '', '12341', '', NULL, 0, NULL, '', 'famisanar', 'A+', 'O-', 0, 2435, '', 'fdgs', '', 'fdsgs', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(64, 'root@localhost', '2024-07-17 14:32:32', 'INSERT', 'johan', NULL, 'betancur', NULL, 'CC', NULL, '1243', NULL, 12343, NULL, 'gfhgfdhgfq@gmail.com', NULL, '1234', NULL, '', NULL, 0, NULL, 'famisanar', NULL, 'AB+', NULL, 254, NULL, 'gf', NULL, 'dsgfsfd', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(65, 'root@localhost', '2024-07-17 14:32:50', 'DELETE', '', 'johan', '', 'betancur', 'TI', 'CC', '', '1243', 0, 12343, '', 'gfhgfdhgfq@gmail.com', '', '1234', '', NULL, 0, NULL, '', 'famisanar', 'A+', 'AB+', 0, 254, '', 'gf', '', 'dsgfsfd', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(66, 'root@localhost', '2024-07-17 14:34:53', 'INSERT', 'johan', NULL, 'betancur', NULL, 'CC', NULL, '1243', NULL, 12343, NULL, 'gfhgfdhgfq@gmail.com', NULL, '12341', NULL, '', NULL, 0, NULL, 'famisanar', NULL, 'AB+', NULL, 254, NULL, 'gf', NULL, 'dsgfsfd', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(67, 'root@localhost', '2024-07-17 14:35:19', 'INSERT', 'johan', NULL, 'betancur', NULL, 'CC', NULL, '1243', NULL, 12343, NULL, 'gfhgfdhgfq@gmail.com', NULL, '324542', NULL, '', NULL, 0, NULL, 'famisanar', NULL, 'AB+', NULL, 254, NULL, 'gf', NULL, 'dsgfsfd', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(68, 'root@localhost', '2024-07-17 14:36:35', 'DELETE', '', 'johan', '', 'betancur', 'TI', 'CC', '', '1243', 0, 12343, '', 'gfhgfdhgfq@gmail.com', '', '12341', '', NULL, 0, NULL, '', 'famisanar', 'A+', 'AB+', 0, 254, '', 'gf', '', 'dsgfsfd', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(69, 'root@localhost', '2024-07-17 14:36:35', 'DELETE', '', 'johan', '', 'betancur', 'TI', 'CC', '', '1243', 0, 12343, '', 'gfhgfdhgfq@gmail.com', '', '324542', '', NULL, 0, NULL, '', 'famisanar', 'A+', 'AB+', 0, 254, '', 'gf', '', 'dsgfsfd', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(70, 'root@localhost', '2024-07-17 17:05:53', 'INSERT', 'johan', NULL, 'betancur', NULL, 'CC', NULL, '526632771', NULL, 456977425, NULL, 'johand0620@gmail.com', NULL, '123456', NULL, '', NULL, 0, NULL, 'famisanar', NULL, 'A+', NULL, 123456, NULL, 'GASTRITIS ', NULL, 'SI', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(71, 'root@localhost', '2024-07-19 16:30:13', 'INSERT', 'johan', NULL, 'betancur', NULL, 'TI', NULL, '1344312', NULL, 432432, NULL, 'gfhgfdhgfq@gmail.com', NULL, '3214214', NULL, '', NULL, 0, NULL, 'famisanar', NULL, 'AB+', NULL, 876585, NULL, 'tyytu', NULL, 'tyuity', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(72, 'root@localhost', '2024-07-22 14:49:08', 'INSERT', 'johan', NULL, 'betancur', NULL, 'CC', NULL, '4674576', NULL, 6544654, NULL, 'gfhgfdhgfq@gmail.com', NULL, '4567457', NULL, '', NULL, 0, NULL, '', NULL, 'AB+', NULL, 46576574, NULL, 'ertye', NULL, 'etryer', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(73, 'root@localhost', '2024-07-22 14:51:07', 'INSERT', 'johan', NULL, 'betancur', NULL, 'CC', NULL, '578576', NULL, 567856, NULL, 'johanb@gmail.com', NULL, '65765', NULL, '', NULL, 0, NULL, '', NULL, 'B-', NULL, 654745, NULL, '64657465', NULL, '4567465', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(74, 'root@localhost', '2024-07-22 14:51:37', 'DELETE', '', 'johan', '', 'betancur', 'TI', 'CC', '', '526632771', 0, 456977425, '', 'johand0620@gmail.com', '', '123456', '', NULL, 0, NULL, '', '', 'A+', 'A+', 0, 123456, '', 'GASTRITIS ', '', 'SI', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(75, 'root@localhost', '2024-07-22 14:51:37', 'DELETE', '', 'johan', '', 'betancur', 'TI', 'TI', '', '1344312', 0, 432432, '', 'gfhgfdhgfq@gmail.com', '', '3214214', '', NULL, 0, NULL, '', '', 'A+', 'AB+', 0, 876585, '', 'tyytu', '', 'tyuity', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(76, 'root@localhost', '2024-07-22 14:51:37', 'DELETE', '', 'johan', '', 'betancur', 'TI', 'CC', '', '4674576', 0, 6544654, '', 'gfhgfdhgfq@gmail.com', '', '4567457', '', NULL, 0, NULL, '', '', 'A+', 'AB+', 0, 46576574, '', 'ertye', '', 'etryer', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(77, 'root@localhost', '2024-07-22 14:51:37', 'DELETE', '', 'johan', '', 'betancur', 'TI', 'CC', '', '578576', 0, 567856, '', 'johanb@gmail.com', '', '65765', '', NULL, 0, NULL, '', '', 'A+', 'B-', 0, 654745, '', '64657465', '', '4567465', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(78, 'root@localhost', '2024-07-22 14:57:41', 'INSERT', 'johan', NULL, 'betancur', NULL, 'CC', NULL, '578576', NULL, 567856, NULL, 'johanb@gmail.com', NULL, '8909', NULL, '', NULL, 0, NULL, '', NULL, 'B-', NULL, 654745, NULL, '64657465', NULL, '4567465', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(79, 'root@localhost', '2024-07-22 15:32:30', 'INSERT', 'johan', NULL, 'diaz', NULL, 'CC', NULL, '87978', NULL, 7907, NULL, 'fdgjhfdkg@gmail.com', NULL, '798079', NULL, '', NULL, 0, NULL, '', NULL, 'B-', NULL, 79097, NULL, '7890987', NULL, '78909870', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(80, 'root@localhost', '2024-07-22 15:33:33', 'INSERT', 'johan', NULL, 'diaz', NULL, 'CC', NULL, '87978', NULL, 7907, NULL, 'fdgjhfdkg@gmail.com', NULL, '98776', NULL, '', NULL, 0, NULL, '', NULL, 'B-', NULL, 79097, NULL, '7890987', NULL, '78909870', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(81, 'root@localhost', '2024-07-22 15:34:37', 'INSERT', 'johan', NULL, 'diaz', NULL, 'CC', NULL, '87978', NULL, 7907, NULL, 'fdgjhfdkg@gmail.com', NULL, '89879786', NULL, '', NULL, 0, NULL, '', NULL, 'B-', NULL, 79097, NULL, '7890987', NULL, '78909870', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(82, 'root@localhost', '2024-07-22 15:39:02', 'INSERT', 'johan', NULL, 'diaz', NULL, 'CC', NULL, '87978', NULL, 7907, NULL, 'fdgjhfdkg@gmail.com', NULL, '9876', NULL, '', NULL, 0, NULL, '', NULL, 'B-', NULL, 79097, NULL, '7890987', NULL, '78909870', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(83, 'root@localhost', '2024-07-22 15:39:37', 'INSERT', 'johan', NULL, 'diaz', NULL, 'CC', NULL, '4764657', NULL, 6547654, NULL, 'johanb@gmail.com', NULL, '5467654', NULL, '', NULL, 0, NULL, '', NULL, 'A-', NULL, 4676547, NULL, '657647', NULL, '4657547', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
+(84, 'root@localhost', '2024-07-22 15:40:49', 'DELETE', '', 'johan', '', 'betancur', 'TI', 'CC', '', '578576', 0, 567856, '', 'johanb@gmail.com', '', '8909', '', NULL, 0, NULL, '', '', 'A+', 'B-', 0, 654745, '', '64657465', '', '4567465', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(85, 'root@localhost', '2024-07-22 15:40:49', 'DELETE', '', 'johan', '', 'diaz', 'TI', 'CC', '', '87978', 0, 7907, '', 'fdgjhfdkg@gmail.com', '', '798079', '', NULL, 0, NULL, '', '', 'A+', 'B-', 0, 79097, '', '7890987', '', '78909870', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(86, 'root@localhost', '2024-07-22 15:40:49', 'DELETE', '', 'johan', '', 'diaz', 'TI', 'CC', '', '87978', 0, 7907, '', 'fdgjhfdkg@gmail.com', '', '98776', '', NULL, 0, NULL, '', '', 'A+', 'B-', 0, 79097, '', '7890987', '', '78909870', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(87, 'root@localhost', '2024-07-22 15:40:49', 'DELETE', '', 'johan', '', 'diaz', 'TI', 'CC', '', '87978', 0, 7907, '', 'fdgjhfdkg@gmail.com', '', '89879786', '', NULL, 0, NULL, '', '', 'A+', 'B-', 0, 79097, '', '7890987', '', '78909870', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(88, 'root@localhost', '2024-07-22 15:40:49', 'DELETE', '', 'johan', '', 'diaz', 'TI', 'CC', '', '87978', 0, 7907, '', 'fdgjhfdkg@gmail.com', '', '9876', '', NULL, 0, NULL, '', '', 'A+', 'B-', 0, 79097, '', '7890987', '', '78909870', 'Se ha Eliminado un usuario por parte de :root@localhost'),
+(89, 'root@localhost', '2024-07-22 15:40:49', 'DELETE', '', 'johan', '', 'diaz', 'TI', 'CC', '', '4764657', 0, 6547654, '', 'johanb@gmail.com', '', '5467654', '', NULL, 0, NULL, '', '', 'A+', 'A-', 0, 4676547, '', '657647', '', '4657547', 'Se ha Eliminado un usuario por parte de :root@localhost');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `controlfuncionarios`
+--
+
+CREATE TABLE `controlfuncionarios` (
+  `id_usuario` int(11) DEFAULT NULL,
+  `fecha` date DEFAULT NULL,
+  `hora_entrada` time DEFAULT NULL,
+  `hora_salida` time DEFAULT NULL,
+  `observacion` varchar(100) DEFAULT NULL,
+  `estado` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `controlfuncionarios`
+--
+
+INSERT INTO `controlfuncionarios` (`id_usuario`, `fecha`, `hora_entrada`, `hora_salida`, `observacion`, `estado`) VALUES
+(4, '2024-04-16', '12:16:12', '20:16:12', 'ingresa nrmal', 'activo'),
+(5, '2024-04-16', '16:16:12', '24:16:12', 'nada', 'en descanso'),
+(6, '2024-04-30', '16:16:12', '24:16:12', 'en su casa', 'durmiendo');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `elementos_personales`
+--
+
+CREATE TABLE `elementos_personales` (
+  `id` int(11) NOT NULL,
+  `marca` varchar(30) NOT NULL,
+  `color` varchar(30) NOT NULL,
+  `numer_serie` varchar(100) NOT NULL,
+  `descripcion` varchar(500) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `id_tipo_elemento` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `funcion`
+--
+
+CREATE TABLE `funcion` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(50) DEFAULT NULL,
+  `descripcion` varchar(200) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `funcion`
+--
+
+INSERT INTO `funcion` (`id`, `nombre`, `descripcion`) VALUES
+(1, 'Coordinador de programas', 'Coordinar la implementación de programas de formación y capacitación.'),
+(2, 'Asesor en orientación laboral', 'Brindar asesoramiento y orientación a los estudiantes y graduados sobre opciones de carrera y oportunidades laborales.'),
+(3, 'Gestor de proyectos', 'Planificar, coordinar y supervisar la ejecución de proyectos relacionados con la formación y el desarrollo profesional.'),
+(4, 'Analista de recursos humanos', 'Administrar procesos de reclutamiento y selección de personal para vacantes internas y externas.'),
+(5, 'Coordinador de prácticas empresariales', 'Establecer y mantener relaciones con empresas y organizaciones para facilitar oportunidades de prácticas laborales para los estudiantes.');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `funcionario`
+--
+
+CREATE TABLE `funcionario` (
+  `id_usuario` int(11) DEFAULT NULL,
+  `id_funcion` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `funcionario`
+--
+
+INSERT INTO `funcionario` (`id_usuario`, `id_funcion`) VALUES
+(9, 1),
+(9, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ingresosalida_ficha`
+--
+
+CREATE TABLE `ingresosalida_ficha` (
+  `id_usuario` int(11) DEFAULT NULL,
+  `codigo_numeroficha` int(11) DEFAULT NULL,
+  `fecha` date DEFAULT NULL,
+  `hora_entrada` time DEFAULT NULL,
+  `hora_salida` time DEFAULT NULL,
+  `observacion` varchar(100) DEFAULT NULL,
+  `estado` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `ingresosalida_ficha`
+--
+
+INSERT INTO `ingresosalida_ficha` (`id_usuario`, `codigo_numeroficha`, `fecha`, `hora_entrada`, `hora_salida`, `observacion`, `estado`) VALUES
+(1, 42049482, '2024-04-01', '20:08:18', '35:08:18', 'ninguna', 'en curso'),
+(2, 2620031, '2024-04-01', '06:19:18', '30:08:18', 'n/n', 'aprobado'),
+(3, 7842958, '2024-04-17', '12:19:18', '20:08:18', 'fulvo fulvo', 'cancelado'),
+(6, 42049482, '2024-07-27', '13:49:58', '21:09:28', 'cosas', 'aprovado'),
+(7, 7842958, '2024-10-14', '09:49:38', '22:03:48', 'salio', 'en curso'),
+(8, 2620031, '2024-07-11', '16:39:28', '23:05:28', 'hola adios', 'cancelado');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `instructor`
+--
+
+CREATE TABLE `instructor` (
+  `id_usuario` int(11) DEFAULT NULL,
+  `codigo_numeroficha` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `instructor`
+--
+
+INSERT INTO `instructor` (`id_usuario`, `codigo_numeroficha`) VALUES
+(6, 2620031),
+(7, 42049482),
+(8, 7842958);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `numero_ficha`
+--
+
+CREATE TABLE `numero_ficha` (
+  `codigo` int(11) NOT NULL,
+  `jornada` varchar(10) DEFAULT NULL,
+  `nombre` varchar(50) DEFAULT NULL,
+  `descripcion` varchar(100) DEFAULT NULL,
+  `id_programa` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `numero_ficha`
+--
+
+INSERT INTO `numero_ficha` (`codigo`, `jornada`, `nombre`, `descripcion`, `id_programa`) VALUES
+(2620031, 'tarde', 'tgo Adso', 'no se no estudio ahi', 398244),
+(7842958, 'mañana', 'tgo fulvo', '', 3862842),
+(42049482, 'noche', 'tecnico Sistemas', 'no se tampoco estudio ahi', 9753573);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `perfil`
+--
+
+CREATE TABLE `perfil` (
+  `id` int(11) NOT NULL,
+  `perfil` varchar(30) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `perfil`
+--
+
+INSERT INTO `perfil` (`id`, `perfil`) VALUES
+(1, 'Aprendiz'),
+(2, 'Instructor'),
+(3, 'Funcionario');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `programa`
+--
+
+CREATE TABLE `programa` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(50) DEFAULT NULL,
+  `id_tipo_programa` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `programa`
+--
+
+INSERT INTO `programa` (`id`, `nombre`, `id_tipo_programa`) VALUES
+(398244, 'ADSO ', 1),
+(3862842, 'Sistemas', 2),
+(9753573, 'exel con Andres', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipo_elemento`
+--
+
+CREATE TABLE `tipo_elemento` (
+  `id` int(11) NOT NULL,
+  `tipo` varchar(40) NOT NULL,
+  `descripcion` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `tipo_elemento`
+--
+
+INSERT INTO `tipo_elemento` (`id`, `tipo`, `descripcion`) VALUES
+(1, 'tecnologico', 'equipos electronicos tales como computadores, tablets, impresora portable, entre otros'),
+(2, 'deportivo', 'objetos tales como balones, entre otros ');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipo_programa`
+--
+
+CREATE TABLE `tipo_programa` (
+  `id` int(11) NOT NULL,
+  `tipo` varchar(20) DEFAULT NULL,
+  `descripcion` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `tipo_programa`
+--
+
+INSERT INTO `tipo_programa` (`id`, `tipo`, `descripcion`) VALUES
+(1, 'Tecnologo', 'Duración de la ficha 4 semestres con un semestre de practicas y 3 de lectiva'),
+(2, 'tecnico', 'duracion de la ficha 2 semestres'),
+(3, 'curso corto', 'Oscila entre las 40 y 80 horas'),
+(9, 'virtual', 'duracion 48 horas');
 
 -- --------------------------------------------------------
 
@@ -62,9 +625,7 @@ INSERT INTO `usuarios` (`id`, `nombres`, `apellidos`, `tipo_documento`, `numero_
 (13, 'CHAMO', 'MOISES', 'CC', '1077889910', 3133143151, 'CHAMOLOCO@VENECO.COM', 'JETSHO', 0x3939393939393939, 1100220, '', 'AB+', 987654321, 'exceso de amvre', 'a la comida'),
 (25, 'julian', 'ramirez', 'CC', '432543', 4354325, 'julian@gmail.com', '4325', NULL, NULL, '', 'A-', 2345, 'erter', 'gfwer'),
 (26, 'julian', 'ramirez', 'CC', '134124', 234324, 'julian@gmail.com', '1324321', NULL, NULL, '', 'AB+', 123413, 'sdfgs', 'qwe'),
-(27, 'julian', 'ramirez', 'CC', '2344', 342543, 'j7u@gmail.com', '13243', NULL, NULL, '', 'AB+', 2435243, 'gfd', 'dgf'),
-(49, 'johan', 'betancur', 'CC', '526632771', 456977425, 'johand0620@gmail.com', '123456', NULL, NULL, '', 'A+', 123456, 'GASTRITIS ', 'SI'),
-(50, 'johan', 'betancur', 'TI', '1344312', 432432, 'gfhgfdhgfq@gmail.com', '3214214', NULL, NULL, '', 'AB+', 876585, 'tyytu', 'tyuity');
+(27, 'julian', 'ramirez', 'CC', '2344', 342543, 'j7u@gmail.com', '13243', NULL, NULL, '', 'AB+', 2435243, 'gfd', 'dgf');
 
 --
 -- Disparadores `usuarios`
@@ -275,9 +836,121 @@ END
 $$
 DELIMITER ;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuario_perfil`
+--
+
+CREATE TABLE `usuario_perfil` (
+  `id_usuario` int(11) DEFAULT NULL,
+  `id_perfil` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `usuario_perfil`
+--
+
+INSERT INTO `usuario_perfil` (`id_usuario`, `id_perfil`) VALUES
+(1, 1),
+(2, 1),
+(3, 1),
+(4, 1),
+(5, 1),
+(6, 2),
+(7, 2),
+(8, 2),
+(9, 3);
+
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `aprendiz`
+--
+ALTER TABLE `aprendiz`
+  ADD KEY `fk_id_usuario_aprendiz` (`id_usuario`),
+  ADD KEY `fk_codigo_numeroficha_aprendiz` (`codigo_numeroficha`);
+
+--
+-- Indices de la tabla `auditoria`
+--
+ALTER TABLE `auditoria`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `controlfuncionarios`
+--
+ALTER TABLE `controlfuncionarios`
+  ADD KEY `fk_controlfuncionario_usuarioperf` (`id_usuario`);
+
+--
+-- Indices de la tabla `elementos_personales`
+--
+ALTER TABLE `elementos_personales`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_tipo_elemento` (`id_tipo_elemento`),
+  ADD KEY `id_usuario` (`id_usuario`);
+
+--
+-- Indices de la tabla `funcion`
+--
+ALTER TABLE `funcion`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `funcionario`
+--
+ALTER TABLE `funcionario`
+  ADD KEY `fk_id_usuario_funcion` (`id_usuario`),
+  ADD KEY `fk_id_funcion_usuario` (`id_funcion`);
+
+--
+-- Indices de la tabla `ingresosalida_ficha`
+--
+ALTER TABLE `ingresosalida_ficha`
+  ADD KEY `fk_id_usuario_ingresosalida` (`id_usuario`),
+  ADD KEY `fk_codigo_numeroficha_ingresosalida` (`codigo_numeroficha`);
+
+--
+-- Indices de la tabla `instructor`
+--
+ALTER TABLE `instructor`
+  ADD KEY `fk__id_usuario_instructor` (`id_usuario`),
+  ADD KEY `fk_codigo_numeroficha_instructor` (`codigo_numeroficha`);
+
+--
+-- Indices de la tabla `numero_ficha`
+--
+ALTER TABLE `numero_ficha`
+  ADD PRIMARY KEY (`codigo`),
+  ADD KEY `fk_id_programa` (`id_programa`);
+
+--
+-- Indices de la tabla `perfil`
+--
+ALTER TABLE `perfil`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `programa`
+--
+ALTER TABLE `programa`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_id_tipo_programa` (`id_tipo_programa`);
+
+--
+-- Indices de la tabla `tipo_elemento`
+--
+ALTER TABLE `tipo_elemento`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tipo_programa`
+--
+ALTER TABLE `tipo_programa`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `usuarios`
@@ -286,14 +959,127 @@ ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `usuario_perfil`
+--
+ALTER TABLE `usuario_perfil`
+  ADD KEY `fk_id_usuario_perfil` (`id_usuario`),
+  ADD KEY `fk_id_perfil_usuario` (`id_perfil`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `auditoria`
+--
+ALTER TABLE `auditoria`
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
+
+--
+-- AUTO_INCREMENT de la tabla `elementos_personales`
+--
+ALTER TABLE `elementos_personales`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `funcion`
+--
+ALTER TABLE `funcion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de la tabla `perfil`
+--
+ALTER TABLE `perfil`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `programa`
+--
+ALTER TABLE `programa`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9753574;
+
+--
+-- AUTO_INCREMENT de la tabla `tipo_elemento`
+--
+ALTER TABLE `tipo_elemento`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `tipo_programa`
+--
+ALTER TABLE `tipo_programa`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `aprendiz`
+--
+ALTER TABLE `aprendiz`
+  ADD CONSTRAINT `fk_codigo_numeroficha_aprendiz` FOREIGN KEY (`codigo_numeroficha`) REFERENCES `numero_ficha` (`codigo`),
+  ADD CONSTRAINT `fk_id_usuario_aprendiz` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`);
+
+--
+-- Filtros para la tabla `controlfuncionarios`
+--
+ALTER TABLE `controlfuncionarios`
+  ADD CONSTRAINT `fk_controlfuncionario_usuarioperf` FOREIGN KEY (`id_usuario`) REFERENCES `usuario_perfil` (`id_usuario`);
+
+--
+-- Filtros para la tabla `elementos_personales`
+--
+ALTER TABLE `elementos_personales`
+  ADD CONSTRAINT `id_tipo_elemento` FOREIGN KEY (`id_tipo_elemento`) REFERENCES `tipo_elemento` (`id`),
+  ADD CONSTRAINT `id_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`);
+
+--
+-- Filtros para la tabla `funcionario`
+--
+ALTER TABLE `funcionario`
+  ADD CONSTRAINT `fk_id_funcion_usuario` FOREIGN KEY (`id_funcion`) REFERENCES `funcion` (`id`),
+  ADD CONSTRAINT `fk_id_usuario_funcion` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`);
+
+--
+-- Filtros para la tabla `ingresosalida_ficha`
+--
+ALTER TABLE `ingresosalida_ficha`
+  ADD CONSTRAINT `fk_codigo_numeroficha_ingresosalida` FOREIGN KEY (`codigo_numeroficha`) REFERENCES `numero_ficha` (`codigo`),
+  ADD CONSTRAINT `fk_id_usuario_ingresosalida` FOREIGN KEY (`id_usuario`) REFERENCES `usuario_perfil` (`id_usuario`);
+
+--
+-- Filtros para la tabla `instructor`
+--
+ALTER TABLE `instructor`
+  ADD CONSTRAINT `fk__id_usuario_instructor` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`),
+  ADD CONSTRAINT `fk_codigo_numeroficha_instructor` FOREIGN KEY (`codigo_numeroficha`) REFERENCES `numero_ficha` (`codigo`);
+
+--
+-- Filtros para la tabla `numero_ficha`
+--
+ALTER TABLE `numero_ficha`
+  ADD CONSTRAINT `fk_id_programa` FOREIGN KEY (`id_programa`) REFERENCES `programa` (`id`);
+
+--
+-- Filtros para la tabla `programa`
+--
+ALTER TABLE `programa`
+  ADD CONSTRAINT `fk_id_tipo_programa` FOREIGN KEY (`id_tipo_programa`) REFERENCES `tipo_programa` (`id`);
+
+--
+-- Filtros para la tabla `usuario_perfil`
+--
+ALTER TABLE `usuario_perfil`
+  ADD CONSTRAINT `fk_id_perfil_usuario` FOREIGN KEY (`id_perfil`) REFERENCES `perfil` (`id`),
+  ADD CONSTRAINT `fk_id_usuario_perfil` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
