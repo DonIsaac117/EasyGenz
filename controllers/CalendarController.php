@@ -3,6 +3,8 @@
 
 require_once '../models/Events.php';
 
+header('Content-Type: application/json');
+
 class CalendarController {
 
     private $event;
@@ -16,34 +18,30 @@ class CalendarController {
         $events = [];
         
         while ($row = $stmt->fetch_assoc()) {
-            $fecha = $row['fecha'];
-            $hora_entrada = $row['hora_entrada'];
-            $hora_salida = $row['hora_salida'];
-    
-           
-            $ingreso = $fecha . 'T' . $hora_entrada;
-            $salida = $fecha . 'T' . $hora_salida;
-    
             $events[] = [
-                'title' => 'Entrada: ' . $hora_entrada,
-                'start' => $ingreso, 
+                'title' => 'Entrada: ' . $row['hora_entrada'],
+                'start' => $row['fecha'] . 'T' . $row['hora_entrada'],
                 'allDay' => false,
                 'className' => 'entrada'
             ];
-    
+
             $events[] = [
-                'title' => 'Salida: ' . $hora_salida,
-                'start' => $salida, 
+                'title' => 'Salida: ' . $row['hora_salida'],
+                'start' => $row['fecha'] . 'T' . $row['hora_salida'],
                 'allDay' => false,
                 'className' => 'salida'
             ];
         }
-    
-        header('Content-Type: application/json');
-        echo json_encode($events);
-    }
 
-    
+        $json_events = json_encode($events);
+        
+        if (json_last_error() != JSON_ERROR_NONE) {
+            echo json_last_error_msg(); // Imprime cualquier error de JSON
+        } else {
+            echo $json_events;
+        }
+        exit();
+    }
     public function registerEvent($data) {
         $this->event->id_usuario = $data['id_usuario'];
         $this->event->fecha = $data['fecha'];
@@ -56,4 +54,7 @@ class CalendarController {
 
         return false;
     }
-} 
+}
+
+    
+  
