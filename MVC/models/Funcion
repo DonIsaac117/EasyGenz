@@ -1,0 +1,78 @@
+<?php
+require_once("./config/conector.php");
+class Funcion{
+    private $id_usuario;
+    private $fecha;
+    private $hora_entrada;
+    private $hora_salida;
+    private $observacion;
+    private $estado;
+    private $conectarse;
+
+    public function __construct(){
+        $this->conectarse = new ConectarBD();
+    }
+
+    public function getIdUsuario(){
+        return $this->id_usuario;
+    }
+
+    public function setIdUsuario($id_usuario){
+        $this->id_usuario = $id_usuario;
+    }
+
+    public function getFecha(){
+        return $this->fecha;
+    }
+
+    public function setFecha($fecha){
+        $this->fecha = $fecha;
+    }
+
+    public function getHora_entrada(){
+        return $this->hora_entrada;
+    }
+
+    public function setHora_entrada($hora_entrada){
+        $this->hora_entrada = $hora_entrada;
+    }
+
+    public function getHora_salida(){
+        return $this->hora_salida;
+    }
+
+    public function setHora_salida($hora_salida){
+        $this->hora_salida = $hora_salida;
+    }
+
+    public function getObservacion(){
+        return $this->observacion;
+    }
+
+    public function setObservacion($observacion){
+        $this->observacion = $observacion;
+    }
+
+    public function getEstado(){
+        return $this->estado;
+    }
+
+    public function setEstado($estado){
+        $this->estado = $estado;
+    }
+
+
+    public function listAll(){
+        $cadenasql = "SELECT * FROM controlfuncionarios";
+        $resultado = $this->conectarse->consultaconRetorno($cadenasql);
+        $datos = $resultado->fetch_all();
+        return $datos;
+    }
+
+    public function create(){
+        $cadenasql = "INSERT INTO controlfuncionarios (id_usuario, fecha, hora_entrada, hora_salida, observacion, estado) VALUES ('$this->id_usuario', '$this->fecha', '$this->hora_entrada', '$this->hora_salida', '$this->observacion', '$this->estado')";
+        $this->conectarse->consultasinRetorno($cadenasql);
+
+    }
+    
+}
