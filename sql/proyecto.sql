@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-07-2024 a las 22:42:54
--- Versión del servidor: 10.4.25-MariaDB
--- Versión de PHP: 8.1.10
+-- Tiempo de generación: 14-05-2024 a las 21:43:41
+-- Versión del servidor: 10.4.28-MariaDB
+-- Versión de PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `easygenz`
+-- Base de datos: `proyecto`
 --
 
 DELIMITER $$
@@ -198,7 +198,7 @@ DELIMITER ;
 CREATE TABLE `aprendiz` (
   `id_usuario` int(11) DEFAULT NULL,
   `codigo_numeroficha` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `aprendiz`
@@ -236,9 +236,9 @@ CREATE TABLE `auditoria` (
   `email_viejo` varchar(100) DEFAULT NULL,
   `contrasena_nuevo` varchar(100) NOT NULL,
   `contrasena_viejo` varchar(100) DEFAULT NULL,
-  `huella_nuevo` varbinary(50) NOT NULL,
+  `huella_nuevo` varbinary(50) DEFAULT NULL,
   `huella_viejo` varbinary(50) DEFAULT NULL,
-  `codigo_nuevo` int(50) NOT NULL,
+  `codigo_nuevo` int(50) DEFAULT NULL,
   `codigo_viejo` int(50) DEFAULT NULL,
   `eps_nuevo` varchar(50) NOT NULL,
   `eps_viejo` varchar(50) DEFAULT NULL,
@@ -251,7 +251,7 @@ CREATE TABLE `auditoria` (
   `alergias_nuevo` varchar(100) NOT NULL,
   `alergias_viejo` varchar(100) DEFAULT NULL,
   `observaciones` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `auditoria`
@@ -259,33 +259,7 @@ CREATE TABLE `auditoria` (
 
 INSERT INTO `auditoria` (`id`, `usuario`, `fecha`, `evento`, `nombre_nuevo`, `nombre_viejo`, `apellido_nuevo`, `apellido_viejo`, `tipo_documento_nuevo`, `tipo_documento_viejo`, `numero_documento_nuevo`, `numero_documento_viejo`, `telefono_nuevo`, `telefono_viejo`, `email_nuevo`, `email_viejo`, `contrasena_nuevo`, `contrasena_viejo`, `huella_nuevo`, `huella_viejo`, `codigo_nuevo`, `codigo_viejo`, `eps_nuevo`, `eps_viejo`, `rh_nuevo`, `rh_viejo`, `contacto_emergencia_nuevo`, `contacto_emergencia_viejo`, `enfermedades_nuevo`, `enfermedades_viejo`, `alergias_nuevo`, `alergias_viejo`, `observaciones`) VALUES
 (1, 'root@localhost', '2024-04-24 16:49:32', 'INSERT', 'CHAMO', NULL, 'MOISES', NULL, 'CC', NULL, '1077889910', NULL, 3133143151, NULL, 'CHAMOLOCO@VENECO.COM', NULL, 'JETSHO', NULL, 0x3939393939393939, NULL, 1100220, NULL, 'CEMENTERIO', NULL, 'AB+', NULL, 987654321, NULL, 'exceso de amvre', NULL, 'a la comida', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
-(2, 'root@localhost', '2024-05-14 14:41:30', 'DELETE', '', 'Ana', '', 'López', 'TI', 'CC', '', '56789012', 0, 5678901234, '', 'ana@example.com', '', 'passpass', '', NULL, 0, 0, '', 'famisanar', 'A+', 'A-', 0, 2147483647, '', 'Ninguna', '', 'Gluten', 'Se ha Eliminado un usuario por parte de :root@localhost'),
-(3, 'root@localhost', '2024-06-28 13:10:51', 'UPDATE', 'yo merito', 'yo merito', ':v', ':v', 'CC', 'CC', '1077967033', '1077967033', 3114829214, 3114829214, 'johand0620@gmail.com', 'fluvot@carelibro', '123456', '123456', 0x76585657, NULL, 123456789, 123456789, 'Sanitas', 'Sanitas', 'AB+', 'AB+', 27184783, 27184783, 'exceso de facha', 'exceso de facha', 'a los 🧒🏿', 'a los 🧒🏿', 'Se ha modificado un usuario por parte de :root@localhost'),
-(4, 'root@localhost', '2024-07-08 13:37:38', 'INSERT', '', NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
-(5, 'root@localhost', '2024-07-08 13:49:25', 'UPDATE', 'yo merito', 'yo merito', ':v', ':v', 'CC', 'CC', '1077967033', '1077967033', 3114829214, 3114829214, 'johand0620@gmail.com', 'johand0620@gmail.com', '1234', '123456', 0x76585657, 0x76585657, 123456789, 123456789, 'Sanitas', 'Sanitas', 'AB+', 'AB+', 27184783, 27184783, 'exceso de facha', 'exceso de facha', 'a los 🧒🏿', 'a los 🧒🏿', 'Se ha modificado un usuario por parte de :root@localhost'),
-(6, 'root@localhost', '2024-07-11 14:02:41', 'UPDATE', 'yo merito', 'yo merito', ':v', ':v', 'CC', 'CC', '1077967033', '1077967033', 3114829214, 3114829214, 'johand0620@gmail.com', 'johand0620@gmail.com', '1234', '1234', 0x76585657, 0x76585657, 123456789, 123456789, 'Sanitas', 'Sanitas', 'AB+', 'AB+', 27184783, 27184783, 'exceso de facha', 'exceso de facha', 'a los 🧒🏿', 'a los 🧒🏿', 'Se ha modificado un usuario por parte de :root@localhost'),
-(7, 'root@localhost', '2024-07-11 14:23:12', 'INSERT', '', NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
-(8, 'root@localhost', '2024-07-11 14:24:17', 'DELETE', '', '', '', '', 'TI', '', '', '', 0, 0, '', '', '', '', '', NULL, 0, NULL, '', '', 'A+', '', 0, 0, '', '', '', '', 'Se ha Eliminado un usuario por parte de :root@localhost'),
-(9, 'root@localhost', '2024-07-11 14:27:45', 'INSERT', '', NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
-(10, 'root@localhost', '2024-07-11 14:27:53', 'DELETE', '', '', '', '', 'TI', '', '', '', 0, 0, '', '', '', '', '', NULL, 0, NULL, '', '', 'A+', '', 0, 0, '', '', '', '', 'Se ha Eliminado un usuario por parte de :root@localhost'),
-(11, 'root@localhost', '2024-07-11 14:30:15', 'DELETE', '', '', '', '', 'TI', '', '', '', 0, 0, '', '', '', '', '', NULL, 0, NULL, '', '', 'A+', '', 0, 0, '', '', '', '', 'Se ha Eliminado un usuario por parte de :root@localhost'),
-(12, 'root@localhost', '2024-07-11 14:47:46', 'INSERT', '', NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
-(13, 'root@localhost', '2024-07-11 14:47:56', 'DELETE', '', '', '', '', 'TI', '', '', '', 0, 0, '', '', '', '', '', NULL, 0, NULL, '', '', 'A+', '', 0, 0, '', '', '', '', 'Se ha Eliminado un usuario por parte de :root@localhost'),
-(14, 'root@localhost', '2024-07-11 14:53:35', 'INSERT', '', NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
-(15, 'root@localhost', '2024-07-11 14:54:22', 'INSERT', '', NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
-(16, 'root@localhost', '2024-07-11 14:54:30', 'INSERT', '', NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
-(17, 'root@localhost', '2024-07-11 14:54:46', 'INSERT', '', NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
-(18, 'root@localhost', '2024-07-11 14:55:09', 'DELETE', '', '', '', '', 'TI', '', '', '', 0, 0, '', '', '', '', '', NULL, 0, NULL, '', '', 'A+', '', 0, 0, '', '', '', '', 'Se ha Eliminado un usuario por parte de :root@localhost'),
-(19, 'root@localhost', '2024-07-11 14:55:13', 'DELETE', '', '', '', '', 'TI', '', '', '', 0, 0, '', '', '', '', '', NULL, 0, NULL, '', '', 'A+', '', 0, 0, '', '', '', '', 'Se ha Eliminado un usuario por parte de :root@localhost'),
-(20, 'root@localhost', '2024-07-11 14:55:16', 'DELETE', '', '', '', '', 'TI', '', '', '', 0, 0, '', '', '', '', '', NULL, 0, NULL, '', '', 'A+', '', 0, 0, '', '', '', '', 'Se ha Eliminado un usuario por parte de :root@localhost'),
-(21, 'root@localhost', '2024-07-11 14:55:19', 'DELETE', '', '', '', '', 'TI', '', '', '', 0, 0, '', '', '', '', '', NULL, 0, NULL, '', '', 'A+', '', 0, 0, '', '', '', '', 'Se ha Eliminado un usuario por parte de :root@localhost'),
-(22, 'root@localhost', '2024-07-11 14:56:48', 'INSERT', '', NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 0, NULL, '', NULL, '', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
-(23, 'root@localhost', '2024-07-11 14:56:56', 'DELETE', '', '', '', '', 'TI', '', '', '', 0, 0, '', '', '', '', '', NULL, 0, NULL, '', '', 'A+', '', 0, 0, '', '', '', '', 'Se ha Eliminado un usuario por parte de :root@localhost'),
-(24, 'root@localhost', '2024-07-11 15:01:33', 'INSERT', 'julian', NULL, 'ramirez', NULL, 'CC', NULL, '432543', NULL, 4354325, NULL, 'julian@gmail.com', NULL, '4325', NULL, '', NULL, 0, NULL, 'no tiene', NULL, 'A-', NULL, 2345, NULL, 'erter', NULL, 'gfwer', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
-(25, 'root@localhost', '2024-07-11 15:01:50', 'INSERT', 'julian', NULL, 'ramirez', NULL, 'CC', NULL, '134124', NULL, 234324, NULL, 'julian@gmail.com', NULL, '1324321', NULL, '', NULL, 0, NULL, 'no tiene', NULL, 'AB+', NULL, 123413, NULL, 'sdfgs', NULL, 'qwe', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
-(26, 'root@localhost', '2024-07-11 16:05:10', 'INSERT', 'julian', NULL, 'ramirez', NULL, 'CC', NULL, '2344', NULL, 342543, NULL, 'j7u@gmail.com', NULL, '13243', NULL, '', NULL, 0, NULL, 'no tiene', NULL, 'AB+', NULL, 2435243, NULL, 'gfd', NULL, 'dgf', NULL, 'Se ha ingresado un nuevo usuario por parte de :root@localhost'),
-(27, 'root@localhost', '2024-07-11 16:09:33', 'UPDATE', 'yo merito', 'yo merito', ':v', ':v', 'CC', 'CC', '1077967033', '1077967033', 3114829214, 3114829214, 'johand0620@gmail.com', 'johand0620@gmail.com', '12', '1234', 0x76585657, 0x76585657, 123456789, 123456789, 'Sanitas', 'Sanitas', 'AB+', 'AB+', 27184783, 27184783, 'exceso de facha', 'exceso de facha', 'a los 🧒🏿', 'a los 🧒🏿', 'Se ha modificado un usuario por parte de :root@localhost'),
-(28, 'root@localhost', '2024-07-22 15:40:49', 'DELETE', '', 'johan', '', 'diaz', 'TI', 'CC', '', '4764657', 0, 6547654, '', 'johanb@gmail.com', '', '5467654', '', NULL, 0, NULL, '', '', 'A+', 'A-', 0, 4676547, '', '657647', '', '4657547', 'Se ha Eliminado un usuario por parte de :root@localhost');
+(2, 'root@localhost', '2024-05-14 14:41:30', 'DELETE', '', 'Ana', '', 'López', 'TI', 'CC', '', '56789012', 0, 5678901234, '', 'ana@example.com', '', 'passpass', '', NULL, 0, 0, '', 'famisanar', 'A+', 'A-', 0, 2147483647, '', 'Ninguna', '', 'Gluten', 'Se ha Eliminado un usuario por parte de :root@localhost');
 
 -- --------------------------------------------------------
 
@@ -300,7 +274,7 @@ CREATE TABLE `controlfuncionarios` (
   `hora_salida` time DEFAULT NULL,
   `observacion` varchar(100) DEFAULT NULL,
   `estado` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `controlfuncionarios`
@@ -314,22 +288,6 @@ INSERT INTO `controlfuncionarios` (`id_usuario`, `fecha`, `hora_entrada`, `hora_
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `elementos_personales`
---
-
-CREATE TABLE `elementos_personales` (
-  `id` int(11) NOT NULL,
-  `marca` varchar(30) NOT NULL,
-  `color` varchar(30) NOT NULL,
-  `numer_serie` varchar(100) NOT NULL,
-  `descripcion` varchar(500) NOT NULL,
-  `id_usuario` int(11) NOT NULL,
-  `id_tipo_elemento` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `funcion`
 --
 
@@ -337,7 +295,7 @@ CREATE TABLE `funcion` (
   `id` int(11) NOT NULL,
   `nombre` varchar(50) DEFAULT NULL,
   `descripcion` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `funcion`
@@ -359,7 +317,7 @@ INSERT INTO `funcion` (`id`, `nombre`, `descripcion`) VALUES
 CREATE TABLE `funcionario` (
   `id_usuario` int(11) DEFAULT NULL,
   `id_funcion` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `funcionario`
@@ -383,7 +341,7 @@ CREATE TABLE `ingresosalida_ficha` (
   `hora_salida` time DEFAULT NULL,
   `observacion` varchar(100) DEFAULT NULL,
   `estado` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `ingresosalida_ficha`
@@ -406,7 +364,7 @@ INSERT INTO `ingresosalida_ficha` (`id_usuario`, `codigo_numeroficha`, `fecha`, 
 CREATE TABLE `instructor` (
   `id_usuario` int(11) DEFAULT NULL,
   `codigo_numeroficha` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `instructor`
@@ -429,7 +387,7 @@ CREATE TABLE `numero_ficha` (
   `nombre` varchar(50) DEFAULT NULL,
   `descripcion` varchar(100) DEFAULT NULL,
   `id_programa` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `numero_ficha`
@@ -449,7 +407,7 @@ INSERT INTO `numero_ficha` (`codigo`, `jornada`, `nombre`, `descripcion`, `id_pr
 CREATE TABLE `perfil` (
   `id` int(11) NOT NULL,
   `perfil` varchar(30) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `perfil`
@@ -470,7 +428,7 @@ CREATE TABLE `programa` (
   `id` int(11) NOT NULL,
   `nombre` varchar(50) DEFAULT NULL,
   `id_tipo_programa` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `programa`
@@ -484,26 +442,6 @@ INSERT INTO `programa` (`id`, `nombre`, `id_tipo_programa`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tipo_elemento`
---
-
-CREATE TABLE `tipo_elemento` (
-  `id` int(11) NOT NULL,
-  `tipo` varchar(40) NOT NULL,
-  `descripcion` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `tipo_elemento`
---
-
-INSERT INTO `tipo_elemento` (`id`, `tipo`, `descripcion`) VALUES
-(1, 'tecnologico', 'equipos electronicos tales como computadores, tablets, impresora portable, entre otros'),
-(2, 'deportivo', 'objetos tales como balones, entre otros ');
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `tipo_programa`
 --
 
@@ -511,7 +449,7 @@ CREATE TABLE `tipo_programa` (
   `id` int(11) NOT NULL,
   `tipo` varchar(20) DEFAULT NULL,
   `descripcion` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `tipo_programa`
@@ -519,9 +457,8 @@ CREATE TABLE `tipo_programa` (
 
 INSERT INTO `tipo_programa` (`id`, `tipo`, `descripcion`) VALUES
 (1, 'Tecnologo', 'Duración de la ficha 4 semestres con un semestre de practicas y 3 de lectiva'),
-(2, 'tecnico', 'duracion de la ficha 2 semestres'),
-(3, 'curso corto', 'Oscila entre las 40 y 80 horas'),
-(9, 'virtual', 'duracion 48 horas');
+(2, 'Tecnico', 'un año con 6 meses de lectiva y 6 de practica'),
+(3, 'curso corto', 'Oscila entre las 40 y 80 horas');
 
 -- --------------------------------------------------------
 
@@ -533,14 +470,14 @@ CREATE TABLE `usuarios` (
   `id` int(11) NOT NULL,
   `nombres` varchar(50) NOT NULL,
   `apellidos` varchar(50) NOT NULL,
-  `tipo_documento` enum('TI','CC','PP','CE','PPT','PEP') NOT NULL,
+  `tipo_documento` enum('TI','CC','PP') NOT NULL,
   `numero_documento` varchar(20) NOT NULL,
   `telefono` bigint(20) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `contrasena` varchar(50) NOT NULL,
   `huella` varbinary(50) DEFAULT NULL,
   `codigo` int(50) DEFAULT NULL,
-  `eps` enum('COOSALUD EPS-S','NUEVA EPS','MUTUAL SER','ALIANSALUD EPS','SALUD TOTAL EPS S.A','EPS SANITAS','EPS SURA','FAMISANAR','SERVICIO OCCIDENTAL DE SALUD EPS SOS','SALUD MIA','COMFENALCO VALLE','COMPENSAR EPS','EPM - EMPRESAS PUBLICAS DE MEDELLIN','FONDO DE PASIVO SOCIAL DE FERROCARRILES NACIONALES DE COLOMBIA','CAJACOPI ATLANTICO','CAPRESOCA','COMFACHOCO','COMFAORIENTE','EPS FAMILIAR DE COLOMBIA','ASMET SALUD','EMSSANAR E.S.S.','CAPITAL SALUD EPS-S','SAVIA SALUD EPS','DUSAKAWI EPSI','ASOCIACION INDIGENA DEL CAUCA EPSI','ANAS WAYUU EPSI','MALLAMAS EPSI','PIJAOS SALUD EPSI','SALUD BÓLIVAR EPS SAS') DEFAULT NULL,
+  `eps` varchar(50) DEFAULT NULL,
   `rh` enum('A+','A-','B+','B-','AB+','AB-','O+','O-') DEFAULT NULL,
   `contacto_emergencia` int(20) DEFAULT NULL,
   `enfermedades` varchar(100) DEFAULT NULL,
@@ -552,19 +489,16 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombres`, `apellidos`, `tipo_documento`, `numero_documento`, `telefono`, `email`, `contrasena`, `huella`, `codigo`, `eps`, `rh`, `contacto_emergencia`, `enfermedades`, `alergias`) VALUES
-(1, 'yo merito', ':v', 'CC', '1077967033', 3114829214, 'johand0620@gmail.com', '12', 0x76585657, 123456789, '', 'AB+', 27184783, 'exceso de facha', 'a los 🧒🏿'),
-(2, 'chiki fulvo', 'messi:v', 'TI', '1016000066', 666, 'fifa2585@fulvo.com', '123456789', NULL, 12345678, '', 'A-', 1122334455, 'solo cuando no hay fulvo', 'a juancho'),
-(3, 'Patroclo Isaac', 'Newton de la Vega', 'CC', '3139749347824', 28426489248, 'nose@gmail', '3628468242', NULL, 2147483647, '', 'O+', 457, 'estornudadera', 'al mani'),
-(4, 'juandavicho', 'facilito', 'CC', '37824629840', 31127264284, 'izilito@gmail', 'la menos segura', NULL, 2147483647, '', 'AB+', 2147483647, 'patear el valon peor que un burro', 'todas'),
-(5, 'julian', 'martines', 'CC', '3247468274', 39247294, 'juliaaan@gmail', 'error 404', NULL, 7, '', 'A-', 1234567, 'patas de palo', 'la caña de azucar'),
-(6, 'María', 'Rodríguez', 'CC', '12345678', 1234567890, 'maria@example.com', 'password123', '', 0, '', 'A+', 2147483647, 'Diabetes', 'Ninguna'),
-(7, 'Juan', 'Pérez', 'CC', '23456789', 2345678901, ' juan@example.com', 'securepass321', NULL, 0, '', 'O+', 2147483647, 'Hipertensión', 'Penicilina'),
-(8, 'Laura', 'Gómez', 'CC', '34567890', 3456789012, 'laura@example.com', 'mypass123', NULL, 0, '', 'B-', 2147483647, 'Asma', 'Nueces'),
-(9, 'Carlos', 'Martínez', 'CC', '45678901', 4567890123, 'carlos@example.com', '123456abc', NULL, 0, '', 'A-', 2147483647, 'Artritis', 'Mariscos'),
-(13, 'CHAMO', 'MOISES', 'CC', '1077889910', 3133143151, 'CHAMOLOCO@VENECO.COM', 'JETSHO', 0x3939393939393939, 1100220, '', 'AB+', 987654321, 'exceso de amvre', 'a la comida'),
-(25, 'julian', 'ramirez', 'CC', '432543', 4354325, 'julian@gmail.com', '4325', NULL, NULL, '', 'A-', 2345, 'erter', 'gfwer'),
-(26, 'julian', 'ramirez', 'CC', '134124', 234324, 'julian@gmail.com', '1324321', NULL, NULL, '', 'AB+', 123413, 'sdfgs', 'qwe'),
-(27, 'julian', 'ramirez', 'CC', '2344', 342543, 'j7u@gmail.com', '13243', NULL, NULL, '', 'AB+', 2435243, 'gfd', 'dgf');
+(1, 'yo merito', ':v', 'CC', '1077967033', 3114829214, 'fluvot@carelibro', '123456', NULL, 123456789, 'Sanitas', 'AB+', 27184783, 'exceso de facha', 'a los 🧒🏿'),
+(2, 'chiki fulvo', 'messi:v', 'TI', '1016000066', 666, 'fifa2585@fulvo.com', '123456789', NULL, 12345678, 'corvesalud', 'A-', 1122334455, 'solo cuando no hay fulvo', 'a juancho'),
+(3, 'Patroclo Isaac', 'Newton de la Vega', 'CC', '3139749347824', 28426489248, 'nose@gmail', '3628468242', NULL, 2147483647, 'no aplico', 'O+', 457, 'estornudadera', 'al mani'),
+(4, 'juandavicho', 'facilito', 'CC', '37824629840', 31127264284, 'izilito@gmail', 'la menos segura', NULL, 2147483647, 'corvesalu', 'AB+', 2147483647, 'patear el valon peor que un burro', 'todas'),
+(5, 'julian', 'martines', 'CC', '3247468274', 39247294, 'juliaaan@gmail', 'error 404', NULL, 7, 'que disque famisanar', 'A-', 1234567, 'patas de palo', 'la caña de azucar'),
+(6, 'María', 'Rodríguez', 'CC', '12345678', 1234567890, 'maria@example.com', 'password123', '', 0, 'Sanitas', 'A+', 2147483647, 'Diabetes', 'Ninguna'),
+(7, 'Juan', 'Pérez', 'CC', '23456789', 2345678901, ' juan@example.com', 'securepass321', NULL, 0, 'famisanar', 'O+', 2147483647, 'Hipertensión', 'Penicilina'),
+(8, 'Laura', 'Gómez', 'CC', '34567890', 3456789012, 'laura@example.com', 'mypass123', NULL, 0, 'famisanar', 'B-', 2147483647, 'Asma', 'Nueces'),
+(9, 'Carlos', 'Martínez', 'CC', '45678901', 4567890123, 'carlos@example.com', '123456abc', NULL, 0, 'sanitas', 'A-', 2147483647, 'Artritis', 'Mariscos'),
+(13, 'CHAMO', 'MOISES', 'CC', '1077889910', 3133143151, 'CHAMOLOCO@VENECO.COM', 'JETSHO', 0x3939393939393939, 1100220, 'CEMENTERIO', 'AB+', 987654321, 'exceso de amvre', 'a la comida');
 
 --
 -- Disparadores `usuarios`
@@ -748,6 +682,8 @@ INSERT into auditoria (
     telefono_nuevo,
     email_nuevo,
     contrasena_nuevo,
+    huella_nuevo,
+    codigo_nuevo,
     eps_nuevo,
     rh_nuevo,
     contacto_emergencia_nuevo,
@@ -765,6 +701,8 @@ INSERT into auditoria (
     new.telefono,
     new.email,
     new.contrasena,
+    new.huella,
+    new.codigo,
     new.eps,
     new.rh,
     new.contacto_emergencia,
@@ -784,7 +722,7 @@ DELIMITER ;
 CREATE TABLE `usuario_perfil` (
   `id_usuario` int(11) DEFAULT NULL,
   `id_perfil` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `usuario_perfil`
@@ -823,14 +761,6 @@ ALTER TABLE `auditoria`
 --
 ALTER TABLE `controlfuncionarios`
   ADD KEY `fk_controlfuncionario_usuarioperf` (`id_usuario`);
-
---
--- Indices de la tabla `elementos_personales`
---
-ALTER TABLE `elementos_personales`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_tipo_elemento` (`id_tipo_elemento`),
-  ADD KEY `id_usuario` (`id_usuario`);
 
 --
 -- Indices de la tabla `funcion`
@@ -880,12 +810,6 @@ ALTER TABLE `programa`
   ADD KEY `fk_id_tipo_programa` (`id_tipo_programa`);
 
 --
--- Indices de la tabla `tipo_elemento`
---
-ALTER TABLE `tipo_elemento`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indices de la tabla `tipo_programa`
 --
 ALTER TABLE `tipo_programa`
@@ -912,13 +836,7 @@ ALTER TABLE `usuario_perfil`
 -- AUTO_INCREMENT de la tabla `auditoria`
 --
 ALTER TABLE `auditoria`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
-
---
--- AUTO_INCREMENT de la tabla `elementos_personales`
---
-ALTER TABLE `elementos_personales`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `funcion`
@@ -939,22 +857,16 @@ ALTER TABLE `programa`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9753574;
 
 --
--- AUTO_INCREMENT de la tabla `tipo_elemento`
---
-ALTER TABLE `tipo_elemento`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
 -- AUTO_INCREMENT de la tabla `tipo_programa`
 --
 ALTER TABLE `tipo_programa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Restricciones para tablas volcadas
@@ -972,13 +884,6 @@ ALTER TABLE `aprendiz`
 --
 ALTER TABLE `controlfuncionarios`
   ADD CONSTRAINT `fk_controlfuncionario_usuarioperf` FOREIGN KEY (`id_usuario`) REFERENCES `usuario_perfil` (`id_usuario`);
-
---
--- Filtros para la tabla `elementos_personales`
---
-ALTER TABLE `elementos_personales`
-  ADD CONSTRAINT `id_tipo_elemento` FOREIGN KEY (`id_tipo_elemento`) REFERENCES `tipo_elemento` (`id`),
-  ADD CONSTRAINT `id_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`);
 
 --
 -- Filtros para la tabla `funcionario`
