@@ -2,6 +2,7 @@
 session_start();
 $id_usuario=$_SESSION['id_usuario'];
 
+
 ?>
 
 
@@ -131,17 +132,17 @@ $id_usuario=$_SESSION['id_usuario'];
         </div>
         <div class="description">
           <div class="titleDescription">
-            <h2>JUEVES</h2>
-            <h3>04/01/23</h3>
+            <h2></h2>
+            <h3></h3>
           </div>
           <div class="mainDescription">
             <div class="textDescription">
               <h3>HORA INGRESO:</h3>
-              <h4 style="color: #20CA9A;">1:00 PM</h4>
+              <h4 style="color: #20CA9A;"></h4>
             </div>
             <div class="textDescription">
-              <h3>HORA SALIDA</h3>
-              <h4 style="color: #1BA1EB;">5:45 PM</h4>
+              <h3>HORA SALIDA:</h3>
+              <h4 style="color: #1BA1EB;"></h4>
             </div>
             <div class="observacion">
               <h3>OBSERVACIONES:</h3>

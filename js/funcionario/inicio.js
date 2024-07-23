@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   var calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: "dayGridMonth",  
+    initialDate: new Date(),
       header: {
           left: 'prev,next today',
           center: 'title',
@@ -26,16 +27,34 @@ document.addEventListener('DOMContentLoaded', function() {
           failure: function() {
             alert('Error intenta otro metodo');
         },
-          success: function(data) {
-            console.log(data); 
-        }
       },
-      eventTimeFormat: { // configurando el formato de la hora
-        hour: '2-digit',
-        minute: '2-digit',
-        meridiem: false // Esto quita el AM/PM
+      selectable:true,
+    
+      dateClick: function(info) {
+        // Mostrar información por defecto para un día vacío
+        document.querySelector('.titleDescription h2').textContent = info.date.toLocaleDateString('es-ES', { weekday: 'long' }).toUpperCase();
+        document.querySelector('.titleDescription h3').textContent = info.dateStr;
+        document.querySelector('.textDescription:nth-child(1) h4').textContent = 'N/A';
+        document.querySelector('.textDescription:nth-child(2) h4').textContent = 'N/A';
+        document.querySelector('.observacion h5').textContent = 'N/A';
     },
+    eventClick: function(info) {
+      var title = info.event.title.split(': ');
+      var time = title[1];
+      var type = title[0];
+      var date = info.event.start.toISOString().split('T')[0];
   
+      document.querySelector('.titleDescription h2').textContent = info.event.start.toLocaleDateString('es-ES', { weekday: 'long' }).toUpperCase();
+      document.querySelector('.titleDescription h3').textContent = date;
+  
+      if (type === 'Entrada') {
+          document.querySelector('.textDescription:nth-child(1) h4').textContent = time;
+      } else if (type === 'Salida') {
+          document.querySelector('.textDescription:nth-child(2) h4').textContent = time;
+      }
+      document.querySelector('.observacion h5').textContent = 'Observación del evento';
+  },
+
       eventDidMount: function(info) {
         var eventDate = new Date(info.event.start);
         var today = new Date();
@@ -67,5 +86,5 @@ document.getElementById("perfil").addEventListener("click", function () {
     }
   });
 
-  
+  print_r(title)
 
