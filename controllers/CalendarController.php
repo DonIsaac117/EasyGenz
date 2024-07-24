@@ -30,7 +30,7 @@ class CalendarController
             $events = [];
             $processed_dates = []; 
         
-            while ($row = $stmt->fetch_assoc()) {
+       
                 $fecha = $row['fecha'];
                 if (!isset($processed_dates[$fecha])) {
                     $processed_dates[$fecha] = [
@@ -50,7 +50,7 @@ class CalendarController
                         'className' => 'entrada'
                     ];
                     $processed_dates[$fecha]['entrada'] = true;
-                }
+                
         
         
                 if (!$processed_dates[$fecha]['salida']) {
@@ -63,7 +63,7 @@ class CalendarController
                     ];
                     $processed_dates[$fecha]['salida'] = true;
                 }
-            }
+    }
         $json_events = json_encode($events);
 
         if (json_last_error() != JSON_ERROR_NONE) {
