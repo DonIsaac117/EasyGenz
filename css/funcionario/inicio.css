@@ -277,3 +277,15 @@ body{
     color: orange;
     line-height: 18px;
 }
+
+/* Calendario */
+
+.fc-event-time {
+    order: 2; 
+}
+.fc-event-title {
+    order: 1; 
+}
+.fc-event-title-container {
+    display: flex; 
+}

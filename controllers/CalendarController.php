@@ -1,6 +1,5 @@
 <?php
 
-
 require_once './../models/Events.php';
 
 header('Content-Type: application/json');
@@ -19,7 +18,7 @@ class CalendarController
     {
         $stmt = $this->event->getByUserId($id_usuario);
         $events = [];
-
+       
 
         if (!$stmt) {
             echo json_encode(['error' => 'Error al obtener eventos']);
@@ -27,43 +26,37 @@ class CalendarController
         }
 
         while ($row = $stmt->fetch_assoc()) {
-            $events = [];
-            $processed_dates = []; 
-        
-       
-                $fecha = $row['fecha'];
-                if (!isset($processed_dates[$fecha])) {
-                    $processed_dates[$fecha] = [
-                        'entrada' => false,
-                        'salida' => false
-                    ];
-                }
-        
-                $hora_entrada = date("H:i", strtotime($row['hora_entrada']));
-                $hora_salida = date("H:i", strtotime($row['hora_salida']));
-        
-               
-                    $events[] = [
-                        'title' => 'Entrada ',
-                        'start' => $fecha . 'T' . $hora_entrada,
-                        'allDay' => false,
-                        'className' => 'entrada'
-                    ];
-                    $processed_dates[$fecha]['entrada'] = true;
-                
-        
-        
-                if (!$processed_dates[$fecha]['salida']) {
-                    $events[] = [
-                        'title' => 'Salida ' ,
-                        'start' => $fecha . 'T' . $hora_salida,
-                        'allDay' => false,
-                        'className' => 'salida',
-                    
-                    ];
-                    $processed_dates[$fecha]['salida'] = true;
-                }
-    }
+            $processed_dates = [];
+            $fecha = $row['fecha'];
+            if (!isset($processed_dates[$fecha])) {
+                $processed_dates[$fecha] = [
+                    'entrada' => false,
+                    'salida' => false,
+                ];
+            }
+
+            $hora_entrada = date("H:i", strtotime($row['hora_entrada']));
+            $hora_salida = date("H:i", strtotime($row['hora_salida']));
+
+            $events[] = [
+                'title' => 'Entrada ',
+                'start' => $fecha . 'T' . $hora_entrada,
+                'allDay' => false,
+                'className' => 'entrada',
+            ];
+            $processed_dates[$fecha]['entrada'] = true;
+
+            if (!$processed_dates[$fecha]['salida']) {
+                $events[] = [
+                    'title' => 'Salida ',
+                    'start' => $fecha . 'T' . $hora_salida,
+                    'allDay' => false,
+                    'className' => 'salida',
+
+                ];
+                $processed_dates[$fecha]['salida'] = true;
+            }
+        }
         $json_events = json_encode($events);
 
         if (json_last_error() != JSON_ERROR_NONE) {
@@ -87,6 +80,3 @@ class CalendarController
         return false;
     }
 }
-
-
-

@@ -32,7 +32,14 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Error intenta otro metodo');
         },
       },
+      eventTimeFormat: {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true,
+        meridiem: 'short'
+       },
       selectable:true,
+      
     
       dateClick: function(info) {
         var date = info.dateStr;
@@ -45,14 +52,10 @@ document.addEventListener('DOMContentLoaded', function() {
         var selectedDateEvents = calendar.getEvents().filter(event => event.startStr.startsWith(date));
         if (selectedDateEvents.length > 0) {
             selectedDateEvents.forEach(event => {
-                var title = event.title.split(': ');
-                var time = title[1];
-                var type = title[0];
-
-                if (type === 'Entrada') {
-                    textDescriptionEntradaH4.textContent = time;
-                } else if (type === 'Salida') {
-                    textDescriptionSalidaH4.textContent = time;
+                if (event.classNames.includes('entrada')) {
+                    textDescriptionEntradaH4.textContent = event.start.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: true });
+                } else if (event.classNames.includes('salida')) {
+                    textDescriptionSalidaH4.textContent = event.start.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: true });
                 }
             });
         }
@@ -72,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
     });
-
+ 
   calendar.render();
 
   
@@ -82,9 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   if (todayEvents.length > 0) {
       var firstEvent = todayEvents[0];
-      var title = firstEvent.title.split(': ');
-      var time = title[1];
-      var type = title[0];
+      
       var date = firstEvent.start.toISOString().split('T')[0];
 
       titleDescriptionH2.textContent = firstEvent.start.toLocaleDateString('es-ES', { weekday: 'long' }).toUpperCase();
