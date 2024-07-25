@@ -32,6 +32,14 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Error intenta otro metodo');
         },
       },
+      buttonText: {
+        today: 'Hoy',
+        month: 'Mes',
+        week: 'Semana',
+        day: 'Día',
+        list: 'Lista',
+    },
+
       eventTimeFormat: {
         hour: '2-digit',
         minute: '2-digit',
@@ -39,6 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
         meridiem: 'short'
        },
       selectable:true,
+      locale: 'es',
       
     
       dateClick: function(info) {
@@ -54,8 +63,10 @@ document.addEventListener('DOMContentLoaded', function() {
             selectedDateEvents.forEach(event => {
                 if (event.classNames.includes('entrada')) {
                     textDescriptionEntradaH4.textContent = event.start.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: true });
+                    observacionH5.textContent = event.extendedProps.observations || 'N/A';
                 } else if (event.classNames.includes('salida')) {
                     textDescriptionSalidaH4.textContent = event.start.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: true });
+                    observacionH5.textContent = event.extendedProps.observations || 'N/A';
                 }
             });
         }
@@ -103,14 +114,35 @@ document.addEventListener('DOMContentLoaded', function() {
           }
       });
 
-      observacionH5.textContent = 'Observación del evento';
+      observacionH5.textContent = event.extendedProps.observations || 'N/A';
   } else {
       titleDescriptionH2.textContent = today.toLocaleDateString('es-ES', { weekday: 'long' }).toUpperCase();
       titleDescriptionH3.textContent = todayStr;
       textDescriptionEntradaH4.textContent = 'N/A';
       textDescriptionSalidaH4.textContent = 'N/A';
       observacionH5.textContent = 'N/A';
+      observacionH5.textContent = 'N/A';
   }
+
+  highlightToday();
+
+  // Overwrite the today button action
+  highlightToday();
+
+  // Overwrite the today button action
+  document.querySelector('.fc-today-button').addEventListener('click', function() {
+      calendar.today();
+      highlightToday();
+
+      // Manually trigger a date click event for today's date
+      var today = new Date();
+      calendar.trigger('dateClick', {
+          date: today,
+          dateStr: today.toISOString().split('T')[0],
+          allDay: true,
+          dayEl: document.querySelector('.fc-day-today')
+      });
+  });
 });
 
 

@@ -146,7 +146,7 @@ $id_usuario=$_SESSION['id_usuario'];
             </div>
             <div class="observacion">
               <h3>OBSERVACIONES:</h3>
-              <h5>Este es un ejemplo de las observaciones que puede llegar a tener algun usuario de esta aplicacion ignorar...</h5>
+              <h5></h5>
             </div>
           </div>
      

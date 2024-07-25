@@ -285,7 +285,5 @@ body{
 }
 .fc-event-title {
     order: 1; 
-}
-.fc-event-title-container {
-    display: flex; 
+   
 }

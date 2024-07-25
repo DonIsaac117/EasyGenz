@@ -41,7 +41,7 @@ class Event
 
 
     public function getByUserId($id_usuario) {
-        $cadenaSql = "SELECT fecha, hora_entrada, hora_salida FROM controlfuncionarios WHERE id_usuario = ?";
+        $cadenaSql = "SELECT fecha, hora_entrada, hora_salida, observacion FROM controlfuncionarios WHERE id_usuario = ?";
         $stmt = $this->conectarse->conexion->prepare($cadenaSql);
         if ($stmt === false) {
             die("Error en la preparación: " . $this->conectarse->conexion->error);

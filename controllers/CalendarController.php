@@ -37,12 +37,16 @@ class CalendarController
 
             $hora_entrada = date("H:i", strtotime($row['hora_entrada']));
             $hora_salida = date("H:i", strtotime($row['hora_salida']));
+            $observacion = $row['observacion'];
+           
 
             $events[] = [
                 'title' => 'Entrada ',
                 'start' => $fecha . 'T' . $hora_entrada,
                 'allDay' => false,
                 'className' => 'entrada',
+                'observations' => $observacion,
+               
             ];
             $processed_dates[$fecha]['entrada'] = true;
 
@@ -52,6 +56,8 @@ class CalendarController
                     'start' => $fecha . 'T' . $hora_salida,
                     'allDay' => false,
                     'className' => 'salida',
+                    'observations' => $observacion,
+                    
 
                 ];
                 $processed_dates[$fecha]['salida'] = true;
