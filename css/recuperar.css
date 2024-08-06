@@ -1,0 +1,86 @@
+body {
+    background-image: url(../imagenes/recuperar.jpeg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+
+@media (max-width: 1200px) {
+    body {
+        background-size: cover;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        background-size: cover;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        background-size: cover;
+    }
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+h1{
+    text-align: center;
+    font-size: 90px;
+    padding-top: 60px;
+    margin-bottom: 40px ;
+    color: white;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.formulario{
+    text-align: center;
+}
+h2{
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 40px;
+    margin-bottom: 60px;
+}
+
+h3{
+    text-align: center;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 40px;
+    margin-bottom: 60px;
+}
+
+input[type="email"] {
+    padding: 8px;
+    margin-bottom: 60px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    font-size: 25px;
+    width: 80%;
+    }
+
+  
+input[type="submit"]:hover, .boton-registrese:hover {
+    background-color: rgb(39, 172, 24);
+}
+input[type="submit"] {
+    padding: 15px 45px 15px 45px;
+    margin: 30px auto 10px auto; 
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    font-size: 40px; 
+    font-weight: 730;
+    background-color: rgb(17, 81, 8);
+    color: #fff;
+    cursor: pointer;
+    display: block;
+}
+
