@@ -226,8 +226,8 @@ CREATE TABLE `auditoria` (
   `nombre_viejo` varchar(100) DEFAULT NULL,
   `apellido_nuevo` varchar(100) NOT NULL,
   `apellido_viejo` varchar(100) DEFAULT NULL,
-  `tipo_documento_nuevo` enum('TI','CC','PP','CE','PPT','PEP') NOT NULL,
-  `tipo_documento_viejo` enum('TI','CC','PP','CE','PPT','PEP') DEFAULT NULL,
+  `tipo_documento_nuevo` enum('TI','CC','PP') NOT NULL,
+  `tipo_documento_viejo` enum('TI','CC','PP') DEFAULT NULL,
   `numero_documento_nuevo` varchar(20) NOT NULL,
   `numero_documento_viejo` varchar(20) DEFAULT NULL,
   `telefono_nuevo` bigint(20) NOT NULL,
@@ -470,7 +470,7 @@ CREATE TABLE `usuarios` (
   `id` int(11) NOT NULL,
   `nombres` varchar(50) NOT NULL,
   `apellidos` varchar(50) NOT NULL,
-  `tipo_documento` enum('TI','CC','PP','CE','PPT','PEP') NOT NULL,
+  `tipo_documento` enum('TI','CC','PP') NOT NULL,
   `numero_documento` varchar(20) NOT NULL,
   `telefono` bigint(20) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
@@ -647,26 +647,25 @@ $$
 DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `eliminar_usuario_total` BEFORE DELETE ON `usuarios` FOR EACH ROW BEGIN
-   
-    -- Eliminar registros relacionados en la tabla 'ingresosalida_ficha'
-    DELETE FROM ingresosalida_ficha WHERE id_usuario = OLD.id;
-   
     -- Eliminar registros relacionados en la tabla 'aprendiz'
     DELETE FROM aprendiz WHERE id_usuario = OLD.id;
     
     -- Eliminar registros relacionados en la tabla 'instructor'
     DELETE FROM instructor WHERE id_usuario = OLD.id;
     
+    -- Eliminar registros relacionados en la tabla 'usuario_perfil'
+    DELETE FROM usuario_perfil WHERE id_usuario = OLD.id;
+    
     -- Eliminar registros relacionados en la tabla 'controlfuncionarios'
     DELETE FROM controlfuncionarios WHERE id_usuario = OLD.id;
     
     -- Eliminar registros relacionados en la tabla 'funcionario'
+     
      DELETE FROM funcionario WHERE id_usuario = OLD.id;
     
-     -- Eliminar registros relacionados en la tabla 'usuario_perfil'
-    DELETE FROM usuario_perfil WHERE id_usuario = OLD.id;
     
-   
+    -- Eliminar registros relacionados en la tabla 'ingresosalida_ficha'
+    DELETE FROM ingresosalida_ficha WHERE id_usuario = OLD.id;
  END
 $$
 DELIMITER ;
