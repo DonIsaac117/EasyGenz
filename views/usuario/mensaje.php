@@ -1,1 +1,0 @@
-<h1>Mensaje de prueba con la vista</h1>
