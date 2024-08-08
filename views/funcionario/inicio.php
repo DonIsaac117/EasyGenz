@@ -52,7 +52,7 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
        <a href="?vista=funcionario/registros">
        <div>
           <span class="material-icons-sharp">description</span>
-          <p>Mis Registros</p>
+          <p>Registros</p>
         </div>
       </div>
        </a>
@@ -115,6 +115,10 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
                 <h4>N°Documento</h4>
                 <h5><?php echo isset($datosUsuario['numero_documento']) ? $datosUsuario['numero_documento'] : 'N/A'; ?></h5>
               </div>
+              <div>
+                <h4>Telefono</h4>
+                <h5><?php echo isset($datosUsuario['telefono']) ? $datosUsuario['telefono'] : 'N/A'; ?></h5>
+              </div>
             </div>
             <h3 style="text-align: center;">Datos Medicos</h3>
             <div class="userData">
@@ -141,7 +145,6 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
                     </div>
 
             <div class="userEnd">
-              <button class="btnBlue">Actualizar datos</button>
               <button class="btnRed">Cerrar sesion</button>
             </div>
 

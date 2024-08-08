@@ -2,12 +2,16 @@
 
 require_once './config/ConexionBd.php';
 require_once './models/Usuarios.php';
+require_once './models/Registros.php';
 
 class UsuarioController {  
     private $usuarioModel;
+   
+    private $registro;
 
     public function __construct() {
         $this->usuarioModel = new Usuarios();
+        $this->registro = new Registro(); 
     }
     
     public function listar() {
@@ -179,6 +183,24 @@ public function nuevaContrasena() {
 } 
 public function obtenerPerfilUsuario($id) {
     return $this->usuarioModel->obtenerUsuarioPorId($id);
+}
+
+public function listUsuarios($id_usuario, $filters = [])
+{
+    $fecha_desde = isset($filters['fecha_desde']) ? $filters['fecha_desde'] : null;
+    $fecha_hasta = isset($filters['fecha_hasta']) ? $filters['fecha_hasta'] : null;
+    $numero_documento = isset($filters['numero_documento']) ? $filters['numero_documento'] : null;
+    $nombre = isset($filters['nombre']) ? $filters['nombre'] : null;
+    $apellido = isset($filters['apellido']) ? $filters['apellido'] : null;
+
+    $resultados = $this->registro->getByUserId($id_usuario, $fecha_desde, $fecha_hasta, $numero_documento, $nombre, $apellido);
+    $usuarios = [];
+
+    while ($row = $resultados->fetch_assoc()) {
+        $usuarios[] = $row;
+    }
+
+    return $usuarios;
 }
 }
 

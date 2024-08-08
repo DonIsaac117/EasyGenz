@@ -74,6 +74,25 @@ class Usuarios
         return $datos;
     }
 
+    public function listAllFilter($filters = [])
+    {
+        $cadenaSql = "SELECT id, nombres, apellidos, numero_documento FROM usuarios WHERE 1=1";
+
+        // Aplicar filtros de búsqueda
+        if (!empty($filters['nombre'])) {
+            $cadenaSql .= " AND nombre LIKE '%" . $this->conectarse->conexion->real_escape_string($filters['nombre']) . "%'";
+        }
+        if (!empty($filters['apellido'])) {
+            $cadenaSql .= " AND apellido LIKE '%" . $this->conectarse->conexion->real_escape_string($filters['apellido']) . "%'";
+        }
+        if (!empty($filters['numero_documento'])) {
+            $cadenaSql .= " AND numero_documento = '" . $this->conectarse->conexion->real_escape_string($filters['numero_documento']) . "'";
+        }
+
+        $resultado = $this->conectarse->consultaConRetorno($cadenaSql);
+        return $resultado->fetch_all(MYSQLI_ASSOC);
+    }
+
     
     public function insertar()
     {
