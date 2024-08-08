@@ -127,6 +127,9 @@ class Enrutador
                 case "inicio":
                     require_once ("./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php");
                     break;
+                    case "registros":
+                        require_once ("./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php");
+                        break;
 
                 default:
                     require_once ("./views/pageNotFound.php");

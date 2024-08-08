@@ -1,21 +1,7 @@
 <?php
 session_start();
-$id_usuario = $_SESSION['id_usuario'];
-require_once './controllers/usuariosController.php';
+$id_usuario=$_SESSION['id_usuario'];
 
-$usuarioController = new UsuarioController();
-
-// Obtener los datos del usuario
-$datosUsuario = $usuarioController->obtenerPerfilUsuario($id_usuario);
-
-// Separar nombres y apellidos
-$nombres = explode(' ', $datosUsuario['nombres']);
-$primerNombre = $nombres[0];
-$segundoNombre = isset($nombres[1]) ? $nombres[1] : 'N/A';
-
-$apellidos = explode(' ', $datosUsuario['apellidos']);
-$primerApellido = $apellidos[0];
-$segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
 
 ?>
 
@@ -40,39 +26,29 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
         <img src="./imagenes/funcionario/logoSena.png" />Funcionario
       </div>
       <div class="menu">
-        <a href="?vista=funcionario/inicio">
-        <div style="background: rgb(0, 0, 0, 0.32);">
+        <div>
           <span class="material-icons-sharp">home</span>
-          <p>Calendario</p>
+          <p>Inicio</p>
         </div>
-        </a>
-
       </div>
       <div class="menu">
-       <a href="?vista=funcionario/registros">
-       <div>
+        <div>
           <span class="material-icons-sharp">description</span>
           <p>Mis Registros</p>
         </div>
       </div>
-       </a>
-
       <div class="menu">
-       <a href="?vista=funcionario/soporte"> <div>
+        <div>
           <span class="material-icons-sharp">question_mark</span>
           <p>Soporte</p>
-        </div></a>
+        </div>
       </div>
-
       <div class="menu">
-      <a href="?vista=funcionario/inicio">
-      <div>
+        <div>
           <span class="material-icons-sharp">supervisor_account</span>
           <p>Usuarios</p>
         </div>
-      </a>
       </div>
-
     </nav>
     <div class="body">
       <header class="header">
@@ -87,64 +63,65 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
                 <span class="material-icons-sharp">account_circle</span>
                 <button class="btnBlue">Cambiar foto</button>
               </div>
-
+              
               <div class="nameUser">
-                            <h2><?php echo $datosUsuario['nombres']; ?></h2>
-                            <h5><?php echo $datosUsuario['email']; ?></h5>
-                        </div>
-                    </div>
+                <h2>USER</h2>
+                <h5>user@gmail.com</h5>
+              </div>
+           
+            </div>
 
-                    <div class="userData">
-                        <div>
-                            <h4>Primer nombre</h4>
-                            <h5><?php echo $primerNombre; ?></h5>
-                        </div>
-                        <div>
-                            <h4>Segundo nombre</h4>
-                            <h5><?php echo $segundoNombre; ?></h5>
-                        </div>
-                        <div>
-                            <h4>Primer apellido</h4>
-                            <h5><?php echo $primerApellido; ?></h5>
-                        </div>
-                        <div>
-                            <h4>Segundo apellido</h4>
-                            <h5><?php echo $segundoApellido; ?></h5>
-                        </div>
-                        <div>
+            <div class="userData">
+              <div>
+                <h4>Primer nombre</h4>
+                <h5>username</h5>
+              </div>
+              <div>
+                <h4>Segundo nombre</h4>
+                <h5>username2</h5>
+              </div>
+              <div>
+                <h4>Primer aprellido</h4>
+                <h5>userlastname</h5>
+              </div>
+              <div>
+                <h4>Segundo apellido</h4>
+                <h5>userlastname2</h5>
+              </div>
+              <div>
                 <h4>N°Documento</h4>
-                <h5><?php echo isset($datosUsuario['numero_documento']) ? $datosUsuario['numero_documento'] : 'N/A'; ?></h5>
+                <h5>90129733</h5>
               </div>
             </div>
             <h3 style="text-align: center;">Datos Medicos</h3>
             <div class="userData">
               <div>
                 <h4>EPS</h4>
-                <h5><?php echo isset($datosUsuario['eps']) ? $datosUsuario['eps'] : 'N/A'; ?></h5>
+                <h5>epsname</h5>
               </div>
               <div>
                 <h4>RH</h4>
-                <h5><?php echo isset($datosUsuario['rh']) ? $datosUsuario['rh'] : 'N/A'; ?></h5>
+                <h5>o+</h5>
               </div>
               <div>
                 <h4>Contacto de Emergencia</h4>
-                <h5><?php echo isset($datosUsuario['contacto_emergencia']) ? $datosUsuario['contacto_emergencia'] : 'N/A'; ?></h5>
+                <h5>100000</h5>
               </div>
               <div>
                 <h4>Enfermedades</h4>
-                <h5><?php echo isset($datosUsuario['enfermedades']) ? $datosUsuario['enfermedades'] : 'N/A'; ?></h5>
+                <h5>N/A</h5>
               </div>
               <div>
                 <h4>Alergias</h4>
-                <h5><?php echo isset($datosUsuario['alergias']) ? $datosUsuario['alergias'] : 'N/A'; ?></h5>
+                <h5>N/A</h5>
               </div>
-                    </div>
-
-            <div class="userEnd">
-              <button class="btnBlue">Actualizar datos</button>
-              <button class="btnRed">Cerrar sesion</button>
             </div>
 
+            <div class="userEnd">
+              <button class="btnBlue">Actualizar mis datos</button>
+              <button class="btnRed">Cerrar sesion</button>
+            </div>
+            
           </div>
         </div>
       </header>
@@ -172,7 +149,7 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
               <h5></h5>
             </div>
           </div>
-
+     
 
         </div>
       </main>
@@ -180,8 +157,8 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
 
     <script src="./js/funcionario/inicio.js"></script>
     <script>
-
-
+     
+      
     </script>
   </body>
 </html>

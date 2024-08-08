@@ -176,8 +176,10 @@ public function nuevaContrasena() {
     } else {
         echo "<script>Swal.fire('Error', 'Sesión no válida.', 'error');</script>";
     }
+} 
+public function obtenerPerfilUsuario($id) {
+    return $this->usuarioModel->obtenerUsuarioPorId($id);
 }
-    
 }
 
 

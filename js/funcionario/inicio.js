@@ -1,15 +1,5 @@
 //Calendario
-/*document.addEventListener("DOMContentLoaded", function () {
-  var calendarEl = document.getElementById("calendar");
-  var calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: "dayGridMonth",
-    events: "loadEvents.php", // Cargamos los eventos desde el archivo PHP
-    editable: false,
-    selectable: true,
-  });
-  calendar.render();
-});
-*/
+
 document.addEventListener('DOMContentLoaded', function() {
   var calendarEl = document.getElementById('calendar');
   var titleDescriptionH2 = document.querySelector('.titleDescription h2');
@@ -20,11 +10,11 @@ document.addEventListener('DOMContentLoaded', function() {
   var calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: "dayGridMonth",  
     initialDate: new Date(),
-      header: {
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth'
-      },
+    headerToolbar: {
+      left: 'title',
+     
+      right: 'today prev,next'
+  },
       eventSources: {
           url: './events/load_events.php',
           method: 'POST',
@@ -53,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
       dateClick: function(info) {
         var date = info.dateStr;
         titleDescriptionH2.textContent = info.date.toLocaleDateString('es-ES', { weekday: 'long' }).toUpperCase();
-        titleDescriptionH3.textContent = date;
+        titleDescriptionH3.textContent =date;
         textDescriptionEntradaH4.textContent = 'N/A';
         textDescriptionSalidaH4.textContent = 'N/A';
         observacionH5.textContent = 'N/A';
@@ -100,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
       var date = firstEvent.start.toISOString().split('T')[0];
 
       titleDescriptionH2.textContent = firstEvent.start.toLocaleDateString('es-ES', { weekday: 'long' }).toUpperCase();
-      titleDescriptionH3.textContent = date;
+      titleDescriptionH3.textContent =date;
 
       todayEvents.forEach(event => {
           var title = event.title.split(': ');
@@ -117,46 +107,53 @@ document.addEventListener('DOMContentLoaded', function() {
       observacionH5.textContent = event.extendedProps.observations || 'N/A';
   } else {
       titleDescriptionH2.textContent = today.toLocaleDateString('es-ES', { weekday: 'long' }).toUpperCase();
-      titleDescriptionH3.textContent = todayStr;
+      titleDescriptionH3.textContent =todayStr;
       textDescriptionEntradaH4.textContent = 'N/A';
       textDescriptionSalidaH4.textContent = 'N/A';
       observacionH5.textContent = 'N/A';
       observacionH5.textContent = 'N/A';
   }
-
-  highlightToday();
-
-  // Overwrite the today button action
-  highlightToday();
-
-  // Overwrite the today button action
-  document.querySelector('.fc-today-button').addEventListener('click', function() {
-      calendar.today();
-      highlightToday();
-
-      // Manually trigger a date click event for today's date
-      var today = new Date();
-      calendar.trigger('dateClick', {
-          date: today,
-          dateStr: today.toISOString().split('T')[0],
-          allDay: true,
-          dayEl: document.querySelector('.fc-day-today')
-      });
+  document.querySelectorAll('.fc-prev-button, .fc-next-button').forEach(button => {
+    button.addEventListener('click', function() {
+        setTimeout(function() {
+            button.blur(); // Elimina el foco del botón para evitar que quede "presionado"
+        }, 100);
+    });
   });
+  
+ 
+      
 });
 
 
 //Perfil
-document.getElementById("perfil").addEventListener("click", function () {
-    var menu = document.getElementById("perfilMenu");
-    if (menu.style.display === "none" || menu.style.display === "") {
-      menu.style.display = "block";
-      perfil.style.color = "rgb(0, 0, 0, 0.6)";
-    } else {
-      menu.style.display = "none";
-      perfil.style.color = "";
-    }
-  });
 
-  
+var perfilSpan = document.querySelector('.perfil>span');
+var perfilMenu = document.querySelector('.perfilMenu');
+
+perfilSpan.addEventListener('click', function(e) {
+    e.stopPropagation();
+    perfilMenu.classList.toggle('show');
+});
+
+document.addEventListener('click', function(e) {
+    if (!perfilMenu.contains(e.target) && !perfilSpan.contains(e.target)) {
+        perfilMenu.classList.remove('show');
+    }
+});
+
+perfilMenu.addEventListener('click', function(e) {
+    e.stopPropagation();
+});
+
+// Mostrar los elementos con animación después de cargar la página
+setTimeout(function() {
+  document.querySelector('.main').classList.add('show');
+
+}, 100); 
+
+setTimeout(function() {
+  document.querySelector('.description').classList.add('show');
+}, 700); 
+
 

@@ -196,6 +196,16 @@ class Usuarios
     
         return true;
     }
+
+    public function obtenerUsuarioPorId($id) {
+        $conexion = $this->conectarse->conexion;
+        $sql = "SELECT * FROM usuarios WHERE id = ?";
+        $stmt = $conexion->prepare($sql);
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
 }
     
 
