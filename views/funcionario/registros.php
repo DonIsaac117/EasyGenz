@@ -3,6 +3,8 @@ session_start();
 $id_usuario = $_SESSION['id_usuario'];
 require_once './controllers/usuariosController.php';
 
+
+
 $usuarioController = new UsuarioController();
 
 // Obtener los datos del usuario
@@ -17,18 +19,11 @@ $apellidos = explode(' ', $datosUsuario['apellidos']);
 $primerApellido = $apellidos[0];
 $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
 
-$filters = [
-  'fecha_desde' => $_GET['fecha_desde'] ?? null,
-  'fecha_hasta' => $_GET['fecha_hasta'] ?? null,
-  'numero_documento' => $_GET['numero_documento'] ?? null,
-  'nombre' => $_GET['nombre'] ?? null,
-  'apellido' => $_GET['apellido'] ?? null
-];
 
-$usuarios = $usuarioController->listUsuarios($_SESSION['id_usuario'], $filters);
-?>
 
 ?>
+
+
 
 
 
@@ -165,39 +160,65 @@ $usuarios = $usuarioController->listUsuarios($_SESSION['id_usuario'], $filters);
       </header>
       <main class="main">
         <div class="mainLayout">
-        <form method="GET">
-    <input type="text" name="numero_documento" placeholder="Número de documento">
-    <input type="text" name="nombre" placeholder="Nombre">
-    <input type="text" name="apellido" placeholder="Apellido">
-    <input type="date" name="fecha_desde">
-    <input type="date" name="fecha_hasta">
-    <button type="submit">Filtrar</button>
+        <h1>Registros de Usuarios</h1>
+
+<form id="filterForm"method="get" action="">
+<input type="hidden" name="vista" value="funcionario/registros">
+    <label for="numero_documento">Número de Documento:</label>
+    <input type="text" id="numero_documento" name="numero_documento" value="<?= htmlspecialchars($_GET['numero_documento'] ?? '') ?>">
+    <br>
+
+    <label for="nombres">Nombre:</label>
+    <input type="text" id="nombres" name="nombres" value="<?= htmlspecialchars($_GET['nombres'] ?? '') ?>">
+    <br>
+
+    <label for="apellidos">Apellido:</label>
+    <input type="text" id="apellidos" name="apellidos" value="<?= htmlspecialchars($_GET['apellidos'] ?? '') ?>">
+    <br>
+
+    <label for="fechaDesde">Fecha Desde:</label>
+    <input type="date" id="fechaDesde" name="fechaDesde" value="<?= htmlspecialchars($_GET['fechaDesde'] ?? '') ?>">
+    <br>
+
+    <label for="fechaHasta">Fecha Hasta:</label>
+    <input type="date" id="fechaHasta" name="fechaHasta" value="<?= htmlspecialchars($_GET['fechaHasta'] ?? '') ?>">
+    <br>
+
+    <button type="submit" >Filtrar</button>
+    <button type="button" onclick="clearFilters()">Limpiar</button>
 </form>
 
-<table>
+<table border="1">
     <thead>
         <tr>
-            <th>Número de Documento</th>
+            <th>NºDocumento</th>
             <th>Nombre</th>
             <th>Apellido</th>
-            <th>Fecha</th>
             <th>Hora Entrada</th>
             <th>Hora Salida</th>
             <th>Observación</th>
+            <th>Fecha</th>
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($usuarios as $usuario): ?>
-            <tr>
-                <td><?php echo $usuario['numero_documento']; ?></td>
-                <td><?php echo $usuario['nombre']; ?></td>
-                <td><?php echo $usuario['apellido']; ?></td>
-                <td><?php echo $usuario['fecha']; ?></td>
-                <td><?php echo $usuario['hora_entrada']; ?></td>
-                <td><?php echo $usuario['hora_salida']; ?></td>
-                <td><?php echo $usuario['observacion']; ?></td>
-            </tr>
-        <?php endforeach; ?>
+        <?php
+        $usuarios = (new UsuarioController())->listUsuarios($_GET['numero_documento'] ?? null, $_GET['nombres'] ?? null, $_GET['apellidos'] ?? null, $_GET['fechaDesde'] ?? null, $_GET['fechaHasta'] ?? null);
+        if ($usuarios->num_rows > 0) {
+            while ($usuario = $usuarios->fetch_assoc()) {
+                echo "<tr>
+                        <td>{$usuario['numero_documento']}</td>
+                        <td>{$usuario['nombres']}</td>
+                        <td>{$usuario['apellidos']}</td>
+                        <td>{$usuario['hora_entrada']}</td>
+                        <td>{$usuario['hora_salida']}</td>
+                        <td>{$usuario['observacion']}</td>
+                        <td>{$usuario['fecha']}</td>
+                      </tr>";
+            }
+        } else {
+            echo "<tr><td colspan='6'>No se encontraron usuarios.</td></tr>";
+        }
+        ?>
     </tbody>
 </table>
         </div>

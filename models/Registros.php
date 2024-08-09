@@ -11,41 +11,53 @@ class Registro
         $this->conectarse = new ConexionBd();
     }
 
-    public function getByUserId($id, $fecha_desde = null, $fecha_hasta = null, $numero_documento = null, $nombre = null, $apellido = null)
+    public function getAll($documento = null, $nombre = null, $apellido = null, $fechaDesde = null, $fechaHasta = null)
     {
-        $cadenaSql = "
-            SELECT u.numero_documento, u.nombres, u.apellidos, cf.fecha, cf.hora_entrada, cf.hora_salida, cf.observacion
-            FROM usuarios u
-            LEFT JOIN controlfuncionarios cf ON u.id = cf.id_usuario
-            LEFT JOIN ingresosalida_ficha is ON u.id = is.id_usuario
-            WHERE u.id = ?";
+        $params = [];
+        $sql = "SELECT u.numero_documento, u.nombres, u.apellidos, 
+                       IFNULL(cf.hora_entrada, isa.hora_entrada) as hora_entrada, 
+                       IFNULL(cf.hora_salida, isa.hora_salida) as hora_salida, 
+                       IFNULL(cf.observacion, isa.observacion) as observacion, 
+                       IFNULL(cf.fecha, isa.fecha) as fecha
+                FROM usuarios u
+                LEFT JOIN controlfuncionarios cf ON u.id = cf.id_usuario
+                LEFT JOIN ingresosalida_ficha isa ON u.id = isa.id_usuario
+                WHERE 1=1";
 
-        if ($fecha_desde && $fecha_hasta) {
-            $cadenaSql .= " AND (cf.fecha BETWEEN ? AND ? OR is.fecha BETWEEN ? AND ?)";
-        }
-
-        if ($numero_documento) {
-            $cadenaSql .= " AND u.numero_documento = ?";
+        if ($documento) {
+            $sql .= " AND u.numero_documento = ?";
+            $params[] = $documento;
         }
 
         if ($nombre) {
-            $cadenaSql .= " AND u.nombres LIKE ?";
+            $sql .= " AND u.nombres LIKE ?";
+            $params[] = "%$nombre%";
         }
 
         if ($apellido) {
-            $cadenaSql .= " AND u.apellidos LIKE ?";
+            $sql .= " AND u.apellidos LIKE ?";
+            $params[] = "%$apellido%";
         }
 
-        $stmt = $this->conectarse->conexion->prepare($cadenaSql);
-        
+        if ($fechaDesde) {
+            $sql .= " AND IFNULL(cf.fecha, isa.fecha) >= ?";
+            $params[] = $fechaDesde;
+        }
+
+        if ($fechaHasta) {
+            $sql .= " AND IFNULL(cf.fecha, isa.fecha) <= ?";
+            $params[] = $fechaHasta;
+        }
+
+        $stmt = $this->conectarse->conexion->prepare($sql);
         if ($stmt === false) {
             die("Error en la preparación: " . $this->conectarse->conexion->error);
         }
 
-        if ($fecha_desde && $fecha_hasta) {
-            $stmt->bind_param("ississ", $id, $fecha_desde, $fecha_hasta, $fecha_desde, $fecha_hasta, $numero_documento, $nombre, $apellido);
-        } else {
-            $stmt->bind_param("i", $id);
+        // Bind parameters dynamically
+        if (!empty($params)) {
+            $types = str_repeat('s', count($params));
+            $stmt->bind_param($types, ...$params);
         }
 
         $stmt->execute();

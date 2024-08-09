@@ -185,22 +185,14 @@ public function obtenerPerfilUsuario($id) {
     return $this->usuarioModel->obtenerUsuarioPorId($id);
 }
 
-public function listUsuarios($id_usuario, $filters = [])
+
+public function listUsuarios($documento = null, $nombre = null, $apellido = null, $fechaDesde = null, $fechaHasta = null)
 {
-    $fecha_desde = isset($filters['fecha_desde']) ? $filters['fecha_desde'] : null;
-    $fecha_hasta = isset($filters['fecha_hasta']) ? $filters['fecha_hasta'] : null;
-    $numero_documento = isset($filters['numero_documento']) ? $filters['numero_documento'] : null;
-    $nombre = isset($filters['nombre']) ? $filters['nombre'] : null;
-    $apellido = isset($filters['apellido']) ? $filters['apellido'] : null;
-
-    $resultados = $this->registro->getByUserId($id_usuario, $fecha_desde, $fecha_hasta, $numero_documento, $nombre, $apellido);
-    $usuarios = [];
-
-    while ($row = $resultados->fetch_assoc()) {
-        $usuarios[] = $row;
-    }
-
+    $registro = new Registro();
+    $usuarios = $registro->getAll($documento, $nombre, $apellido, $fechaDesde, $fechaHasta);
     return $usuarios;
+
+    
 }
 }
 
