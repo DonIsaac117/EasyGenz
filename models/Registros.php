@@ -25,8 +25,8 @@ class Registro
                 WHERE 1=1";
 
         if ($documento) {
-            $sql .= " AND u.numero_documento = ?";
-            $params[] = $documento;
+            $sql .= " AND u.numero_documento LIKE ?";
+            $params[] = "%$documento%";
         }
 
         if ($nombre) {
