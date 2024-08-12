@@ -14,7 +14,7 @@ class Registro
     public function getAll($documento = null, $nombre = null, $apellido = null, $fechaDesde = null, $fechaHasta = null)
     {
         $params = [];
-        $sql = "SELECT u.numero_documento, u.nombres, u.apellidos, 
+        $sql = "SELECT id, email, telefono, eps, alergias, enfermedades, rh, contacto_emergencia, u.numero_documento, u.nombres, u.apellidos, 
                        IFNULL(cf.hora_entrada, isa.hora_entrada) as hora_entrada, 
                        IFNULL(cf.hora_salida, isa.hora_salida) as hora_salida, 
                        IFNULL(cf.observacion, isa.observacion) as observacion, 
@@ -25,8 +25,8 @@ class Registro
                 WHERE 1=1";
 
         if ($documento) {
-            $sql .= " AND u.numero_documento = ?";
-            $params[] = $documento;
+            $sql .= " AND u.numero_documento LIKE ?";
+            $params[] = "%$documento%";
         }
 
         if ($nombre) {

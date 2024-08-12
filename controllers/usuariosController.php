@@ -7,11 +7,9 @@ require_once './models/Registros.php';
 class UsuarioController {  
     private $usuarioModel;
    
-    private $registro;
 
     public function __construct() {
         $this->usuarioModel = new Usuarios();
-        $this->registro = new Registro(); 
     }
     
     public function listar() {
@@ -194,6 +192,7 @@ public function listUsuarios($documento = null, $nombre = null, $apellido = null
 
     
 }
+
 }
 
 

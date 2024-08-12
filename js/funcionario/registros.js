@@ -54,3 +54,44 @@ document.addEventListener("DOMContentLoaded", function () {
     window.history.replaceState({}, "", newUrl);
   }
 });
+
+document.querySelectorAll("th").forEach((header) => {
+  header.addEventListener("click", function () {
+    const table = header.parentElement.parentElement.parentElement;
+    const tbody = table.querySelector("tbody");
+    const column = Array.from(header.parentNode.children).indexOf(header);
+    const order = header.classList.contains("asc") ? "desc" : "asc";
+
+    Array.from(tbody.querySelectorAll("tr"))
+      .sort((rowA, rowB) => {
+        const cellA = rowA.children[column].textContent.trim();
+        const cellB = rowB.children[column].textContent.trim();
+        return order === "asc"
+          ? cellA.localeCompare(cellB)
+          : cellB.localeCompare(cellA);
+      })
+      .forEach((row) => tbody.appendChild(row));
+
+    document
+      .querySelectorAll("th")
+      .forEach((th) => th.classList.remove("asc", "desc"));
+    header.classList.add(order);
+
+    // Actualizar las flechas
+    table
+      .querySelectorAll("th .material-icons-sharp")
+      .forEach((icon) => (icon.textContent = "arrow_drop_down"));
+    header.querySelector(".material-icons-sharp").textContent =
+      order === "asc" ? "arrow_drop_up" : "arrow_drop_down";
+  });
+});
+
+function mostrarModal(id) {
+  document.getElementById('modal-' + id).style.display = 'block';
+  document.querySelector('.modal-overlay').style.display = 'block'; 
+}
+
+function ocultarModal(id) {
+  document.getElementById('modal-' + id).style.display = 'none';
+  document.querySelector('.modal-overlay').style.display = 'none'; 
+}

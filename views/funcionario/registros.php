@@ -191,41 +191,69 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
 <table border="1">
     <thead>
         <tr>
-            <th>NºDocumento</th>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Hora Entrada</th>
-            <th>Hora Salida</th>
-            <th>Observación</th>
-            <th>Fecha</th>
+        <th id="colDocumento">Documento <span class="material-icons-sharp">arrow_drop_down</span></th>
+        <th id="colNombre">Nombre <span class="material-icons-sharp">arrow_drop_down</span></th>
+        <th id="colApellido">Apellido <span class="material-icons-sharp">arrow_drop_down</span></th>
+        <th id="colHoraEntrada">Hora Entrada <span class="material-icons-sharp">arrow_drop_down</span></th>
+        <th id="colHoraSalida">Hora Salida <span class="material-icons-sharp">arrow_drop_down</span></th>
+        <th id="colPerfil">Perfil</th>
+        <th>Observacion</th>
+        <th id="colFecha">Fecha <span class="material-icons-sharp">arrow_drop_down</span></th>
         </tr>
     </thead>
     <tbody>
-        <?php
-        $usuarios = (new UsuarioController())->listUsuarios($_GET['numero_documento'] ?? null, $_GET['nombres'] ?? null, $_GET['apellidos'] ?? null, $_GET['fechaDesde'] ?? null, $_GET['fechaHasta'] ?? null);
-        if ($usuarios->num_rows > 0) {
-            while ($usuario = $usuarios->fetch_assoc()) {
-                echo "<tr>
-                        <td>{$usuario['numero_documento']}</td>
-                        <td>{$usuario['nombres']}</td>
-                        <td>{$usuario['apellidos']}</td>
-                        <td>{$usuario['hora_entrada']}</td>
-                        <td>{$usuario['hora_salida']}</td>
-                        <td>{$usuario['observacion']}</td>
-                        <td>{$usuario['fecha']}</td>
-                      </tr>";
-            }
-        } else {
-            echo "<tr><td colspan='6'>No se encontraron usuarios.</td></tr>";
-        }
+      <?php
+    function mostrarDato($dato) {
+    return isset($dato) && !empty($dato) ? htmlspecialchars($dato) : 'N/A';
+}
+
+$usuarios = (new UsuarioController())->listUsuarios($_GET['numero_documento'] ?? null, $_GET['nombres'] ?? null, $_GET['apellidos'] ?? null, $_GET['fechaDesde'] ?? null, $_GET['fechaHasta'] ?? null);
+
+if ($usuarios->num_rows > 0) {
+    while ($usuario = $usuarios->fetch_assoc()) {
+        $perfilUsuario = (new Usuarios())->obtenerPerfilUsuario($usuario['id']);
         ?>
-    </tbody>
+        <tr onclick="mostrarModal(<?= $usuario['id'] ?>)">
+            <td><?= mostrarDato($usuario['numero_documento']) ?></td>
+            <td><?= mostrarDato($usuario['nombres']) ?></td>
+            <td><?= mostrarDato($usuario['apellidos']) ?></td>
+            <td><?= mostrarDato($usuario['hora_entrada']) ?></td>
+            <td><?= mostrarDato($usuario['hora_salida']) ?></td>
+            <td><?= mostrarDato($perfilUsuario['perfil'] ?? null) ?></td>
+            <td><?= mostrarDato($usuario['observacion']) ?></td>
+            <td><?= mostrarDato($usuario['fecha']) ?></td>
+        </tr>
+
+        <!-- Modal -->
+        <div class="modal" id="modal-<?= $usuario['id'] ?>">
+            <div class="modal-content">
+                <span class="modal-close" onclick="ocultarModal(<?= $usuario['id'] ?>)">&times;</span>
+                <div class="modal-header">
+                    <h2><?= mostrarDato($usuario['nombres']) ?> <?= mostrarDato($usuario['apellidos']) ?></h2>
+                    <div class="perfil">
+                        <p>Perfil: <?= mostrarDato($perfilUsuario['perfil']) ?></p>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <p>Correo: <?= mostrarDato($usuario['email']) ?></p>
+                    <p>Teléfono: <?= mostrarDato($usuario['telefono']) ?></p>
+                    <p>EPS: <?= mostrarDato($usuario['eps']) ?></p>
+                    <p>Enfermedades: <?= mostrarDato($usuario['enfermedades']) ?></p>
+                    <p>Alergias: <?= mostrarDato($usuario['alergias']) ?></p>
+                    <p>RH: <?= mostrarDato($usuario['rh']) ?></p>
+                    <p>Contacto de emergencia: <?= mostrarDato($usuario['contacto_emergencia']) ?></p>
+                </div>
+            </div>
+        </div>
+    <?php
+    }
+} else {
+    echo "<tr><td colspan='7'>No se encontraron usuarios.</td></tr>";
+}
+?>
+</tbody>
 </table>
-        </div>
-   
 
-
-        </div>
       </main>
     </div>
 

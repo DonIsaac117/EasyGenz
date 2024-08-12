@@ -225,6 +225,22 @@ class Usuarios
         $result = $stmt->get_result();
         return $result->fetch_assoc();
     }
+
+    public function obtenerPerfilUsuario($id) {
+        $conexion = $this->conectarse->conexion;
+        $sql= "SELECT p.perfil
+            FROM perfil p
+            INNER JOIN usuario_perfil up ON p.id = up.id_perfil
+            WHERE up.id_usuario = ?";
+            
+        
+        $stmt = $conexion->prepare($sql);
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+        
+    }
 }
     
 

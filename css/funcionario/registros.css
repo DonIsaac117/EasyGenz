@@ -9,7 +9,7 @@
 body {
     display: flex;
     margin: 0;
-    overflow: hidden;
+   overflow: hidden;
 }
 
 a {
@@ -17,11 +17,16 @@ a {
 }
 
 .nav {
+    position: sticky;
     flex: 1;
-    background: linear-gradient(360deg,#1FEF27,#279D2C );
-    height: 100vh;
+    background: linear-gradient(360deg, #1FEF27, #279D2C);
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
+}
+
+.nav::-webkit-scrollbar{
+    overflow: hidden;
 }
 
 .sena {
@@ -86,7 +91,7 @@ a {
 }
 
 .sena img {
-    width: 24%;  
+    width: 24%;
     margin: 0.5%;
 }
 
@@ -98,10 +103,11 @@ a {
 }
 
 .header {
+    position: sticky;
     height: 8vh;
-    background: linear-gradient(-90deg,#1FEF27,#279D2C );
+    background: linear-gradient(-90deg, #1FEF27, #279D2C);
     display: flex;
-    padding:  0;
+    padding: 0;
     box-sizing: border-box;
     border-left: 0.4px solid black;
 }
@@ -122,14 +128,14 @@ a {
     margin: auto 15px;
 }
 
-.perfil > span {
+.perfil>span {
     color: white;
     font-size: clamp(36px, 3vw, 46px);
     cursor: pointer;
     padding-top: 5px;
 }
 
-.perfil > span:hover {
+.perfil>span:hover {
     color: rgb(0, 0, 0, 0.55);
 }
 
@@ -139,10 +145,10 @@ a {
 }
 
 .perfilMenu {
-    background: linear-gradient(180deg,rgba(0,0,0,0.80),rgba(24, 63, 33, 0.80));
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.80), rgba(24, 63, 33, 0.80));
     position: absolute;
-    top: 8vh; 
-    right: 6px; 
+    top: 8vh;
+    right: 6px;
     width: clamp(22vw, 28vw, 38vw);
     min-height: 60vh;
     max-height: 86vh;
@@ -152,13 +158,15 @@ a {
     transform: translateY(-100%);
     transition: transform 0.5s ease, opacity 0.5s ease;
     opacity: 0;
-    pointer-events: none; /* Prevents interaction when hidden */
+    pointer-events: none;
+    /* Prevents interaction when hidden */
 }
 
 .perfilMenu.show {
     transform: translateY(0);
     opacity: 1;
-    pointer-events: auto; /* Allows interaction when shown */
+    pointer-events: auto;
+    /* Allows interaction when shown */
 }
 
 .perfilIcon {
@@ -172,7 +180,7 @@ a {
     margin: 8px 8px 1.5px 9px;
 }
 
-.perfilIcon > div {
+.perfilIcon>div {
     display: flex;
     flex-direction: column;
 }
@@ -280,10 +288,10 @@ a {
 
 }
 
-.titleDescription h2::after{
-    content:"/" ;
-   
-    
+.titleDescription h2::after {
+    content: "/";
+
+
 }
 
 
@@ -292,14 +300,14 @@ a {
     height: 100%;
 }
 
-.mainDescription h3{
+.mainDescription h3 {
     font-size: clamp(15px, 1.2vw, 27px);
-    
+
 }
 
-.mainDescription h4{
+.mainDescription h4 {
     font-size: clamp(12px, 1.05vw, 24px);
-    
+
 }
 
 .textDescription {
@@ -325,10 +333,53 @@ a {
 /* Calendario */
 
 .fc-event-time {
-    order: 2; 
+    order: 2;
     font-size: clamp(8px, 0.9vw, 18px);
 }
+
 .fc-event-title {
-    order: 1; 
+    order: 1;
     font-size: clamp(8px, 0.9vw, 18px);
+}
+
+
+.modal {
+    display: none; /* Ocultar el modal por defecto */
+    position: fixed; /* Fijar el modal en la pantalla */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000; /* Asegurar que esté sobre otros elementos */
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.3);
+}
+
+.modal-content {
+    position: relative;
+    z-index: 1001;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
+}
+
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+
+.modal-close {
+    cursor: pointer;
 }
