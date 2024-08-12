@@ -29,64 +29,65 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Aprendiz</title>
-    <link rel="stylesheet" href="./css/funcionario/registros.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Material+Icons+Sharp"
-      rel="stylesheet"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js"></script>
-  </head>
-  <body>
-    <nav class="nav">
-      <div class="sena">
-        <img src="./imagenes/funcionario/logoSena.png" />Funcionario
-      </div>
-      <div class="menu">
-        <a href="?vista=funcionario/inicio">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aprendiz</title>
+  <link rel="stylesheet" href="./css/funcionario/registros.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Icons+Sharp" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js"></script>
+</head>
+
+<body>
+  <nav class="nav">
+    <div class="sena">
+      <img src="./imagenes/funcionario/logoSena.png" />Funcionario
+    </div>
+    <div class="menu">
+      <a href="?vista=funcionario/inicio">
         <div>
           <span class="material-icons-sharp">home</span>
           <p>Calendario</p>
         </div>
-        </a>
+      </a>
 
-      </div>
-      <div class="menu">
-       <a href="?vista=funcionario/registros">
-       <div style="background: rgb(0, 0, 0, 0.32);">
+    </div>
+    <div class="menu">
+      <a href="?vista=funcionario/registros">
+        <div style="background: rgb(0, 0, 0, 0.32);">
           <span class="material-icons-sharp">description</span>
           <p>Registros</p>
         </div>
-      </div>
-       </a>
+    </div>
+    </a>
 
-      <div class="menu">
-       <a href="?vista=funcionario/soporte"> <div>
+    <div class="menu">
+      <a href="?vista=funcionario/soporte">
+        <div>
           <span class="material-icons-sharp">question_mark</span>
           <p>Soporte</p>
-        </div></a>
-      </div>
+        </div>
+      </a>
+    </div>
 
-      <div class="menu">
+    <div class="menu">
       <a href="?vista=funcionario/inicio">
-      <div>
+        <div>
           <span class="material-icons-sharp">supervisor_account</span>
           <p>Usuarios</p>
         </div>
       </a>
-      </div>
+    </div>
 
-    </nav>
-    <div class="body">
-      <header class="header">
-        <div class="title">
-          <p>Control de Registro</p>
-        </div>
-        <div class="perfil">
+  </nav>
+  <div class="body">
+    <header class="header">
+      <div class="title">
+        <p>Control de Registro</p>
+      </div>
+      <div class="perfil">
           <span class="material-icons-sharp" id="perfil">account_circle</span>
           <div id="perfilMenu" class="perfilMenu">
             <div class="perfilIcon">
@@ -157,110 +158,152 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
 
           </div>
         </div>
-      </header>
-      <main class="main">
-        <div class="mainLayout">
-        <h1>Registros de Usuarios</h1>
+    </header>
+    <main class="main">
+      <div class="mainLayout">
 
-<form id="filterForm"method="get" action="">
-<input type="hidden" name="vista" value="funcionario/registros">
-    <label for="numero_documento">Número de Documento:</label>
-    <input type="text" id="numero_documento" name="numero_documento" value="<?= htmlspecialchars($_GET['numero_documento'] ?? '') ?>">
-    <br>
+        <form id="filterForm" method="get" action="">
+          <input type="hidden" name="vista" value="funcionario/registros">
+         <div class="divInput">
+          <label for="numero_documento">N°Documento:</label>
+          <input type="text" id="numero_documento" name="numero_documento"
+            value="<?= htmlspecialchars($_GET['numero_documento'] ?? '') ?>">
+          
 
-    <label for="nombres">Nombre:</label>
-    <input type="text" id="nombres" name="nombres" value="<?= htmlspecialchars($_GET['nombres'] ?? '') ?>">
-    <br>
+          <label for="nombres">Nombre:</label>
+          <input type="text" id="nombres" name="nombres" value="<?= htmlspecialchars($_GET['nombres'] ?? '') ?>">
+       
 
-    <label for="apellidos">Apellido:</label>
-    <input type="text" id="apellidos" name="apellidos" value="<?= htmlspecialchars($_GET['apellidos'] ?? '') ?>">
-    <br>
+          <label for="apellidos">Apellido:</label>
+          <input type="text" id="apellidos" name="apellidos" value="<?= htmlspecialchars($_GET['apellidos'] ?? '') ?>">
+          </div>
 
-    <label for="fechaDesde">Fecha Desde:</label>
-    <input type="date" id="fechaDesde" name="fechaDesde" value="<?= htmlspecialchars($_GET['fechaDesde'] ?? '') ?>">
-    <br>
+          <div class="divInput">
+          <label for="fechaDesde">Fecha Desde:</label>
+          <input type="date" id="fechaDesde" name="fechaDesde"
+            value="<?= htmlspecialchars($_GET['fechaDesde'] ?? '') ?>">
+      
 
-    <label for="fechaHasta">Fecha Hasta:</label>
-    <input type="date" id="fechaHasta" name="fechaHasta" value="<?= htmlspecialchars($_GET['fechaHasta'] ?? '') ?>">
-    <br>
+          <label for="fechaHasta">Fecha Hasta:</label>
+          <input type="date" id="fechaHasta" name="fechaHasta"
+            value="<?= htmlspecialchars($_GET['fechaHasta'] ?? '') ?>">
+         
 
-    <button type="submit" >Filtrar</button>
-    <button type="button" onclick="clearFilters()">Limpiar</button>
-</form>
+          <button type="submit">Filtrar</button>
+          <button type="button" onclick="clearFilters()">Limpiar</button>
+          </div>
+        </form>
+      <div class="table-container">
+        <table border="1">
+          <thead>
+            <tr>
+              <th id="colDocumento">Documento <span class="material-icons-sharp">arrow_drop_down</span></th>
+              <th id="colNombre">Nombre <span class="material-icons-sharp">arrow_drop_down</span></th>
+              <th id="colApellido">Apellido <span class="material-icons-sharp">arrow_drop_down</span></th>
+              <th id="colHoraEntrada">Hora Entrada <span class="material-icons-sharp">arrow_drop_down</span></th>
+              <th id="colHoraSalida">Hora Salida <span class="material-icons-sharp">arrow_drop_down</span></th>
+              <th id="colPerfil">Perfil</th>
+              <th>Observacion</th>
+              <th id="colFecha">Fecha <span class="material-icons-sharp">arrow_drop_down</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+            function mostrarDato($dato)
+            {
+              return isset($dato) && !empty($dato) ? htmlspecialchars($dato) : 'N/A';
+            }
 
-<table border="1">
-    <thead>
-        <tr>
-        <th id="colDocumento">Documento <span class="material-icons-sharp">arrow_drop_down</span></th>
-        <th id="colNombre">Nombre <span class="material-icons-sharp">arrow_drop_down</span></th>
-        <th id="colApellido">Apellido <span class="material-icons-sharp">arrow_drop_down</span></th>
-        <th id="colHoraEntrada">Hora Entrada <span class="material-icons-sharp">arrow_drop_down</span></th>
-        <th id="colHoraSalida">Hora Salida <span class="material-icons-sharp">arrow_drop_down</span></th>
-        <th id="colPerfil">Perfil</th>
-        <th>Observacion</th>
-        <th id="colFecha">Fecha <span class="material-icons-sharp">arrow_drop_down</span></th>
-        </tr>
-    </thead>
-    <tbody>
-      <?php
-    function mostrarDato($dato) {
-    return isset($dato) && !empty($dato) ? htmlspecialchars($dato) : 'N/A';
-}
+            $usuarios = (new UsuarioController())->listUsuarios($_GET['numero_documento'] ?? null, $_GET['nombres'] ?? null, $_GET['apellidos'] ?? null, $_GET['fechaDesde'] ?? null, $_GET['fechaHasta'] ?? null);
 
-$usuarios = (new UsuarioController())->listUsuarios($_GET['numero_documento'] ?? null, $_GET['nombres'] ?? null, $_GET['apellidos'] ?? null, $_GET['fechaDesde'] ?? null, $_GET['fechaHasta'] ?? null);
+            if ($usuarios->num_rows > 0) {
+              while ($usuario = $usuarios->fetch_assoc()) {
+                $perfilUsuario = (new Usuarios())->obtenerPerfilUsuario($usuario['id']);
+                ?>
+                <tr onclick="mostrarModal(<?= $usuario['id'] ?>)">
+                  <td>
+                    <?= mostrarDato($usuario['numero_documento']) ?>
+                  </td>
+                  <td>
+                    <?= mostrarDato($usuario['nombres']) ?>
+                  </td>
+                  <td>
+                    <?= mostrarDato($usuario['apellidos']) ?>
+                  </td>
+                  <td>
+                    <?= mostrarDato($usuario['hora_entrada']) ?>
+                  </td>
+                  <td>
+                    <?= mostrarDato($usuario['hora_salida']) ?>
+                  </td>
+                  <td>
+                    <?= mostrarDato($perfilUsuario['perfil'] ?? null) ?>
+                  </td>
+                  <td>
+                    <?= mostrarDato($usuario['observacion']) ?>
+                  </td>
+                  <td>
+                    <?= mostrarDato($usuario['fecha']) ?>
+                  </td>
+                </tr>
 
-if ($usuarios->num_rows > 0) {
-    while ($usuario = $usuarios->fetch_assoc()) {
-        $perfilUsuario = (new Usuarios())->obtenerPerfilUsuario($usuario['id']);
-        ?>
-        <tr onclick="mostrarModal(<?= $usuario['id'] ?>)">
-            <td><?= mostrarDato($usuario['numero_documento']) ?></td>
-            <td><?= mostrarDato($usuario['nombres']) ?></td>
-            <td><?= mostrarDato($usuario['apellidos']) ?></td>
-            <td><?= mostrarDato($usuario['hora_entrada']) ?></td>
-            <td><?= mostrarDato($usuario['hora_salida']) ?></td>
-            <td><?= mostrarDato($perfilUsuario['perfil'] ?? null) ?></td>
-            <td><?= mostrarDato($usuario['observacion']) ?></td>
-            <td><?= mostrarDato($usuario['fecha']) ?></td>
-        </tr>
-
-        <!-- Modal -->
-        <div class="modal" id="modal-<?= $usuario['id'] ?>">
-            <div class="modal-content">
-                <span class="modal-close" onclick="ocultarModal(<?= $usuario['id'] ?>)">&times;</span>
-                <div class="modal-header">
-                    <h2><?= mostrarDato($usuario['nombres']) ?> <?= mostrarDato($usuario['apellidos']) ?></h2>
-                    <div class="perfil">
-                        <p>Perfil: <?= mostrarDato($perfilUsuario['perfil']) ?></p>
+                <!-- Modal -->
+                <div class="modal" id="modal-<?= $usuario['id'] ?>">
+                  <div class="modal-content">
+                    <span class="modal-close" onclick="ocultarModal(<?= $usuario['id'] ?>)">&times;</span>
+                    <div class="modal-header">
+                      <h2>
+                        <?= mostrarDato($usuario['nombres']) ?>
+                        <?= mostrarDato($usuario['apellidos']) ?>
+                      </h2>
+                      <div class="perfil">
+                        <p>Perfil:
+                          <?= mostrarDato($perfilUsuario['perfil']) ?>
+                        </p>
+                      </div>
                     </div>
+                    <div class="modal-body">
+                      <p>Correo:
+                        <?= mostrarDato($usuario['email']) ?>
+                      </p>
+                      <p>Teléfono:
+                        <?= mostrarDato($usuario['telefono']) ?>
+                      </p>
+                      <p>EPS:
+                        <?= mostrarDato($usuario['eps']) ?>
+                      </p>
+                      <p>Enfermedades:
+                        <?= mostrarDato($usuario['enfermedades']) ?>
+                      </p>
+                      <p>Alergias:
+                        <?= mostrarDato($usuario['alergias']) ?>
+                      </p>
+                      <p>RH:
+                        <?= mostrarDato($usuario['rh']) ?>
+                      </p>
+                      <p>Contacto de emergencia:
+                        <?= mostrarDato($usuario['contacto_emergencia']) ?>
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <div class="modal-body">
-                    <p>Correo: <?= mostrarDato($usuario['email']) ?></p>
-                    <p>Teléfono: <?= mostrarDato($usuario['telefono']) ?></p>
-                    <p>EPS: <?= mostrarDato($usuario['eps']) ?></p>
-                    <p>Enfermedades: <?= mostrarDato($usuario['enfermedades']) ?></p>
-                    <p>Alergias: <?= mostrarDato($usuario['alergias']) ?></p>
-                    <p>RH: <?= mostrarDato($usuario['rh']) ?></p>
-                    <p>Contacto de emergencia: <?= mostrarDato($usuario['contacto_emergencia']) ?></p>
-                </div>
-            </div>
-        </div>
-    <?php
-    }
-} else {
-    echo "<tr><td colspan='7'>No se encontraron usuarios.</td></tr>";
-}
-?>
-</tbody>
-</table>
+                <?php
+              }
+            } else {
+              echo "<tr><td colspan='7'>No se encontraron usuarios.</td></tr>";
+            }
+            ?>
+          </tbody>
+        </table>
+          </div>
+    </main>
+  </div>
 
-      </main>
-    </div>
-
-    <script src="./js/funcionario/registros.js"></script>
-    <script>
+  <script src="./js/funcionario/registros.js"></script>
+  <script>
 
 
-    </script>
-  </body>
+  </script>
+</body>
+
 </html>

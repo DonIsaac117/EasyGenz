@@ -16,6 +16,10 @@ a {
     text-decoration: none;
 }
 
+button{
+    cursor: pointer;
+}
+
 .nav {
     position: sticky;
     flex: 1;
@@ -81,10 +85,6 @@ a {
     flex: 6;
 }
 
-.calendar {
-    width: 100%;
-    height: 98%;
-}
 
 .menu span {
     margin: -1px 5px;
@@ -159,7 +159,7 @@ a {
     transition: transform 0.5s ease, opacity 0.5s ease;
     opacity: 0;
     pointer-events: none;
-    /* Prevents interaction when hidden */
+  
 }
 
 .perfilMenu.show {
@@ -260,126 +260,115 @@ a {
     cursor: pointer;
 }
 
-.description {
-    flex: 1;
-    color: white;
-    height: 85%;
-    min-width: 16vw;
-    margin: 2.5% 0;
-    opacity: 0;
-    transform: translateX(100%);
-    transition: transform 0.8s ease-out, opacity 0.8s ease-out;
-}
-
-.description.show {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-.titleDescription {
-    background-color: #B92F2F;
+form{
+    margin: 2px 0.5%;
     display: flex;
-    height: 5.5%;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    letter-spacing: 1.2px;
-    font-size: clamp(9px, 0.85vw, 20px);
+    flex-direction: column;
+    width: 70vw;
+}
+
+.divInput{
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    margin-bottom: 0.8%;
+}
+
+.divInput label{
+    padding: 0 0.4%;
+    margin: 0 0.4%;
+    font-size: clamp(10px, 1vw, 22px);
+    font-weight: 600;
+    
+}
+
+.divInput input{
+    padding: 0.3% 0.6%;
+    border-radius: 8px;
+    border: 1px solid rgb(85, 84, 84);
+    box-shadow: 0 0 4px #279D2C;
 
 }
 
-.titleDescription h2::after {
-    content: "/";
+.divInput input[type="date"]{
+    cursor: pointer;
+}
 
+.divInput button{
+    background-color: #308b71;
+    padding: 0.5% 1.4%;
+    margin-left: 12px;
+    border-radius: 15px;
+    color: white;
+    font-weight: 600;
+    border: 0;
+    font-size: (12px 1.2vw, 22px);
+}
 
+.divInput button:hover {
+    background-color: #2ea583;
 }
 
 
-.mainDescription {
-    background: linear-gradient(180deg, #423F3F, #A8A2A2);
-    height: 100%;
-}
-
-.mainDescription h3 {
-    font-size: clamp(15px, 1.2vw, 27px);
-
-}
-
-.mainDescription h4 {
-    font-size: clamp(12px, 1.05vw, 24px);
-
-}
-
-.textDescription {
-    padding: 9% 8% 12.5% 8%;
-}
-
-.observacion {
-    padding: 20% 8% 8% 8%;
-}
-
-.observacion h3 {
-    letter-spacing: 1.5px;
-    text-align: center;
-    margin-bottom: 16px;
-}
-
-.observacion h5 {
-    color: orange;
-    line-height: 18px;
-    font-size: clamp(11px, 1vw, 22px);
-}
-
-/* Calendario */
-
-.fc-event-time {
-    order: 2;
-    font-size: clamp(8px, 0.9vw, 18px);
-}
-
-.fc-event-title {
-    order: 1;
-    font-size: clamp(8px, 0.9vw, 18px);
-}
-
-
+/* Transición suave para mostrar y ocultar el modal */
 .modal {
-    display: none; /* Ocultar el modal por defecto */
-    position: fixed; /* Fijar el modal en la pantalla */
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1000; /* Asegurar que esté sobre otros elementos */
-    background-color: white;
-    padding: 20px;
-    box-shadow: 0px 5px 15px rgba(0,0,0,0.3);
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4); /* Fondo oscuro */
+    transition: opacity 0.3s ease;
 }
 
 .modal-content {
-    position: relative;
-    z-index: 1001;
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px; /* Tamaño máximo del modal */
+    border-radius: 10px; /* Bordes redondeados */
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0; /* Inicialmente oculto */
+    transform: scale(0.7); /* Escalado inicial */
 }
 
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
+.modal-fade-in .modal-content {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.modal-fade-out .modal-content {
+    opacity: 0;
+    transform: scale(0.7);
+}
+
+/* Estilo para la tabla con scrollbar vertical */
+.table-container {
+    max-height: 75%; 
+    overflow-y: auto; /* Barra de desplazamiento vertical */
+    margin-top: 20px;
+    border: 1px solid #ddd; /* Borde para destacar la tabla */
+}
+
+table {
     width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-    display: none;
+    border-collapse: collapse;
 }
 
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
 }
 
-
-.modal-close {
-    cursor: pointer;
+th {
+    background-color: #f4f4f4;
+    position: sticky;
+    top: 0;
+    z-index: 2;
 }

@@ -1,21 +1,22 @@
+
 //Perfil
 
-var perfilSpan = document.querySelector(".perfil>span");
-var perfilMenu = document.querySelector(".perfilMenu");
+var perfilSpan = document.querySelector('.perfil>span');
+var perfilMenu = document.querySelector('.perfilMenu');
 
-perfilSpan.addEventListener("click", function (e) {
-  e.stopPropagation();
-  perfilMenu.classList.toggle("show");
+perfilSpan.addEventListener('click', function(e) {
+    e.stopPropagation();
+    perfilMenu.classList.toggle('show');
 });
 
-document.addEventListener("click", function (e) {
-  if (!perfilMenu.contains(e.target) && !perfilSpan.contains(e.target)) {
-    perfilMenu.classList.remove("show");
-  }
+document.addEventListener('click', function(e) {
+    if (!perfilMenu.contains(e.target) && !perfilSpan.contains(e.target)) {
+        perfilMenu.classList.remove('show');
+    }
 });
 
-perfilMenu.addEventListener("click", function (e) {
-  e.stopPropagation();
+perfilMenu.addEventListener('click', function(e) {
+    e.stopPropagation();
 });
 
 // Mostrar los elementos con animación después de cargar la página
@@ -86,12 +87,38 @@ document.querySelectorAll("th").forEach((header) => {
   });
 });
 
+// Función para mostrar el modal
 function mostrarModal(id) {
-  document.getElementById('modal-' + id).style.display = 'block';
-  document.querySelector('.modal-overlay').style.display = 'block'; 
+  const modal = document.getElementById(`modal-${id}`);
+  modal.style.display = "block";
+  modal.classList.add("modal-fade-in");
 }
 
+// Función para ocultar el modal
 function ocultarModal(id) {
-  document.getElementById('modal-' + id).style.display = 'none';
-  document.querySelector('.modal-overlay').style.display = 'none'; 
+  const modal = document.getElementById(`modal-${id}`);
+  modal.classList.remove("modal-fade-in");
+  modal.classList.add("modal-fade-out");
+  
+  // Esperar a que termine la transición antes de ocultar completamente el modal
+  setTimeout(() => {
+      modal.style.display = "none";
+      modal.classList.remove("modal-fade-out");
+  }, 300); // Duración de la transición en milisegundos
+}
+
+// Cerrar el modal al hacer clic fuera de él
+window.onclick = function(event) {
+  const modals = document.getElementsByClassName("modal");
+  for (let modal of modals) {
+      if (event.target == modal) {
+          modal.classList.remove("modal-fade-in");
+          modal.classList.add("modal-fade-out");
+          
+          setTimeout(() => {
+              modal.style.display = "none";
+              modal.classList.remove("modal-fade-out");
+          }, 300);
+      }
+  }
 }
