@@ -1,10 +1,12 @@
 <?php
 
-require_once("./config/ConectorBD.php");
-require_once("./models/Usuarios.php");
+require_once './config/ConexionBd.php';
+require_once './models/Usuarios.php';
+require_once './models/Registros.php';
 
 class UsuarioController {  
     private $usuarioModel;
+   
 
     public function __construct() {
         $this->usuarioModel = new Usuarios();
@@ -30,7 +32,7 @@ class UsuarioController {
             $this->usuarioModel->setAlergias($_POST['alergias']);
 
             $this->usuarioModel->insertar();
-            header('Location: index.php?vista=usuario/login');
+            header('Location: index.php?vista=usuario/registrar&error=usuario_registrado');
         } else {
             echo "Error: La solicitud no es de tipo POST.";
         }
@@ -130,7 +132,7 @@ class UsuarioController {
         $mail->Password = "aiwi lrnn dsto lmfa";
         $mail->SetFrom("easygenz45@gmail.com");
         $mail->Subject = "Restablecer Contraseña";
-        $mail->Body = 'Haz clic en este <a href="http://localhost/EasyGenz/index.php?vista=usuario/nuevaC">enlace</a> para restablecer tu contraseña.';
+        $mail->Body = 'Haz clic en este <a href="http://localhost/isaac/index.php?vista=usuario/nuevaC">enlace</a> para restablecer tu contraseña.';
         $mail->AddAddress($correo);
     
         if (!$mail->Send()) {
@@ -138,45 +140,56 @@ class UsuarioController {
         }
     }
 
-    public function redireccionNuevaC() {
-        session_start();
-        if (isset($_SESSION['reset_email'])) {
-            include "./views/usuario/nuevaC.php"; // mostra el formulario si la sesión esta bien
-        } else {
-            echo "<script>alert('Sesión no válida. Por favor, intente el proceso de recuperación nuevamente.');</script>";
-            echo '<script>window.location.href = "index.php?vista=usuario/login";</script>';
-        }
+public function redireccionNuevaC() {
+    session_start();
+    if (isset($_SESSION['reset_email'])) {
+        include "./views/usuario/nuevaC.php"; // mostra el formulario si la sesión esta bien
+    } else {
+        echo "<script>alert('Sesión no válida. Por favor, intente el proceso de recuperación nuevamente.');</script>";
+        echo '<script>window.location.href = "index.php?vista=usuario/login";</script>';
     }
+} 
 
-    public function nuevaContrasena() {
-        session_start(); // Inicia la sesión
-        if (isset($_SESSION['reset_email'])) {
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                $correo = $_SESSION['reset_email']; // Usa la sesión para obtener el correo
-                $nuevaContrasena = $_POST['contra'];
-                $nuevaContrasena2 = $_POST['contra2'];
-    
-                if ($nuevaContrasena !== $nuevaContrasena2) {
-                    echo "<script>alert('Las contraseñas no coinciden.'); window.history.back();</script>";
-                } else {
-                    $usuarioModel = new Usuarios();
-                    if ($usuarioModel->actualizarContrasena($correo, $nuevaContrasena)) {
-                        unset($_SESSION['reset_email']);
-                        echo "<script>alert('Contraseña actualizada exitosamente.'); window.location.href = 'index.php?vista=usuario/login';</script>";
-                    } else {
-                        echo "<script>alert('Error al actualizar la contraseña.'); window.history.back();</script>";
-                    }
-                }
+public function nuevaContrasena() {
+    session_start(); // Inicia la sesión
+    if (isset($_SESSION['reset_email'])) {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $correo = $_SESSION['reset_email']; // Usa la sesión para obtener el correo
+            $nuevaContrasena = $_POST['contra'];
+            $nuevaContrasena2 = $_POST['contra2'];
+
+            if ($nuevaContrasena !== $nuevaContrasena2) {
+                echo "<script>alert('Las contraseñas no coinciden.'); window.history.back();</script>";
             } else {
-                include "./views/usuario/nuevaC.php";
+                $usuarioModel = new Usuarios();
+                if ($usuarioModel->actualizarContrasena($correo, $nuevaContrasena)) {
+                    unset($_SESSION['reset_email']);
+                    echo "<script>alert('Contraseña actualizada exitosamente.'); window.location.href = 'index.php?vista=usuario/login';</script>";
+                } else {
+                    echo "<script>alert('Error al actualizar la contraseña.'); window.history.back();</script>";
+                }
             }
         } else {
-            echo "<script>alert('Sesión no válida. Por favor, intente el proceso de recuperación nuevamente.'); window.location.href = 'index.php?vista=usuario/login';</script>";
+            include "./views/usuario/nuevaC.php";
         }
+    } else {
+        echo "<script>alert('Sesión no válida. Por favor, intente el proceso de recuperación nuevamente.'); window.location.href = 'index.php?vista=usuario/login';</script>";
     }
-    
-    
+}
+public function obtenerPerfilUsuario($id) {
+    return $this->usuarioModel->obtenerUsuarioPorId($id);
+}
+
+
+public function listUsuarios($documento = null, $nombre = null, $apellido = null, $fechaDesde = null, $fechaHasta = null)
+{
+    $registro = new Registro();
+    $usuarios = $registro->getAll($documento, $nombre, $apellido, $fechaDesde, $fechaHasta);
+    return $usuarios;
+
     
 }
 
-?>
+}
+
+

@@ -1,6 +1,6 @@
 <?php
 
-require_once ("./config/ConectorBD.php");
+require_once ("./config/ConexionBd.php");
 
 class Programa
 {
@@ -12,7 +12,7 @@ class Programa
     //metodos - funciones
 
     public function __construct(){
-        $this->conectarse = new ConectorBD();
+        $this->conectarse = new ConexionBD();
     }
 
     //getter y setter
