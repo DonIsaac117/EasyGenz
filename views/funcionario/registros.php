@@ -19,13 +19,7 @@ $apellidos = explode(' ', $datosUsuario['apellidos']);
 $primerApellido = $apellidos[0];
 $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
 
-
-
 ?>
-
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -37,7 +31,6 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
   <title>Aprendiz</title>
   <link rel="stylesheet" href="./css/funcionario/registros.css" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Icons+Sharp" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js"></script>
 </head>
 
 <body>
@@ -88,76 +81,75 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
         <p>Control de Registro</p>
       </div>
       <div class="perfil">
-          <span class="material-icons-sharp" id="perfil">account_circle</span>
-          <div id="perfilMenu" class="perfilMenu">
-            <div class="perfilIcon">
-              <div>
-                <span class="material-icons-sharp">account_circle</span>
-                <button class="btnBlue">Cambiar foto</button>
-              </div>
+  <span class="material-icons-sharp" id="perfilIcon">account_circle</span>
+  <div id="perfilMenu" class="perfilMenu">
+    <div class="perfilIcon">
+      <div>
+        <span class="material-icons-sharp">account_circle</span>
+        <button class="btnBlue">Cambiar foto</button>
+      </div>
 
-              <div class="nameUser">
-                            <h2><?php echo $datosUsuario['nombres']; ?></h2>
-                            <h5><?php echo $datosUsuario['email']; ?></h5>
-                        </div>
-                    </div>
+      <div class="nameUser">
+        <h2><?php echo $datosUsuario['nombres']; ?></h2>
+        <h5><?php echo $datosUsuario['email']; ?></h5>
+      </div>
+    </div>
 
-                    <div class="userData">
-                        <div>
-                            <h4>Primer nombre</h4>
-                            <h5><?php echo $primerNombre; ?></h5>
-                        </div>
-                        <div>
-                            <h4>Segundo nombre</h4>
-                            <h5><?php echo $segundoNombre; ?></h5>
-                        </div>
-                        <div>
-                            <h4>Primer apellido</h4>
-                            <h5><?php echo $primerApellido; ?></h5>
-                        </div>
-                        <div>
-                            <h4>Segundo apellido</h4>
-                            <h5><?php echo $segundoApellido; ?></h5>
-                        </div>
-                        <div>
-                <h4>N°Documento</h4>
-                <h5><?php echo isset($datosUsuario['numero_documento']) ? $datosUsuario['numero_documento'] : 'N/A'; ?></h5>
-              </div>
-              <div>
-                <h4>Telefono</h4>
-                <h5><?php echo isset($datosUsuario['telefono']) ? $datosUsuario['telefono'] : 'N/A'; ?></h5>
-              </div>
-            </div>
-            <h3 style="text-align: center;">Datos Medicos</h3>
-            <div class="userData">
-              <div>
-                <h4>EPS</h4>
-                <h5><?php echo isset($datosUsuario['eps']) ? $datosUsuario['eps'] : 'N/A'; ?></h5>
-              </div>
-              <div>
-                <h4>RH</h4>
-                <h5><?php echo isset($datosUsuario['rh']) ? $datosUsuario['rh'] : 'N/A'; ?></h5>
-              </div>
-              <div>
-                <h4>Contacto de Emergencia</h4>
-                <h5><?php echo isset($datosUsuario['contacto_emergencia']) ? $datosUsuario['contacto_emergencia'] : 'N/A'; ?></h5>
-              </div>
-              <div>
-                <h4>Enfermedades</h4>
-                <h5><?php echo isset($datosUsuario['enfermedades']) ? $datosUsuario['enfermedades'] : 'N/A'; ?></h5>
-              </div>
-              <div>
-                <h4>Alergias</h4>
-                <h5><?php echo isset($datosUsuario['alergias']) ? $datosUsuario['alergias'] : 'N/A'; ?></h5>
-              </div>
-                    </div>
+    <div class="userData">
+      <div>
+        <h4>Primer nombre</h4>
+        <h5><?php echo $primerNombre; ?></h5>
+      </div>
+      <div>
+        <h4>Segundo nombre</h4>
+        <h5><?php echo $segundoNombre; ?></h5>
+      </div>
+      <div>
+        <h4>Primer apellido</h4>
+        <h5><?php echo $primerApellido; ?></h5>
+      </div>
+      <div>
+        <h4>Segundo apellido</h4>
+        <h5><?php echo $segundoApellido; ?></h5>
+      </div>
+      <div>
+        <h4>N°Documento</h4>
+        <h5><?php echo isset($datosUsuario['numero_documento']) ? $datosUsuario['numero_documento'] : 'N/A'; ?></h5>
+      </div>
+      <div>
+        <h4>Teléfono</h4>
+        <h5><?php echo isset($datosUsuario['telefono']) ? $datosUsuario['telefono'] : 'N/A'; ?></h5>
+      </div>
+    </div>
+    <h3 style="text-align: center;">Datos Médicos</h3>
+    <div class="userData">
+      <div>
+        <h4>EPS</h4>
+        <h5><?php echo isset($datosUsuario['eps']) ? $datosUsuario['eps'] : 'N/A'; ?></h5>
+      </div>
+      <div>
+        <h4>RH</h4>
+        <h5><?php echo isset($datosUsuario['rh']) ? $datosUsuario['rh'] : 'N/A'; ?></h5>
+      </div>
+      <div>
+        <h4>Contacto de Emergencia</h4>
+        <h5><?php echo isset($datosUsuario['contacto_emergencia']) ? $datosUsuario['contacto_emergencia'] : 'N/A'; ?></h5>
+      </div>
+      <div>
+        <h4>Enfermedades</h4>
+        <h5><?php echo isset($datosUsuario['enfermedades']) ? $datosUsuario['enfermedades'] : 'N/A'; ?></h5>
+      </div>
+      <div>
+        <h4>Alergias</h4>
+        <h5><?php echo isset($datosUsuario['alergias']) ? $datosUsuario['alergias'] : 'N/A'; ?></h5>
+      </div>
+    </div>
 
-            <div class="userEnd">
-              <button class="btnRed">Cerrar sesion</button>
-            </div>
-
-          </div>
-        </div>
+    <div class="userEnd">
+      <button class="btnRed">Cerrar sesión</button>
+    </div>
+  </div>
+</div>
     </header>
     <main class="main">
       <div class="mainLayout">
@@ -258,7 +250,7 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
                       </h2>
                       <div class="perfil">
                         <p>Perfil:
-                          <?= mostrarDato($perfilUsuario['perfil']) ?>
+                          <?= mostrarDato($perfilUsuario['perfil'] ?? null) ?>
                         </p>
                       </div>
                     </div>

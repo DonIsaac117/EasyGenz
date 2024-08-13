@@ -22,7 +22,7 @@ class Registro
                 FROM usuarios u
                 LEFT JOIN controlfuncionarios cf ON u.id = cf.id_usuario
                 LEFT JOIN ingresosalida_ficha isa ON u.id = isa.id_usuario
-                WHERE 1=1";
+                WHERE 1=1 ORDER BY fecha DESC";
 
         if ($documento) {
             $sql .= " AND u.numero_documento LIKE ?";

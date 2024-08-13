@@ -9,28 +9,19 @@
 body {
     display: flex;
     margin: 0;
-   overflow: hidden;
+    overflow: hidden;
 }
 
 a {
     text-decoration: none;
 }
 
-button{
-    cursor: pointer;
-}
-
 .nav {
-    position: sticky;
     flex: 1;
-    background: linear-gradient(360deg, #1FEF27, #279D2C);
-    min-height: 100vh;
+    background: linear-gradient(360deg,#1FEF27,#279D2C );
+    height: 100vh;
     display: flex;
     flex-direction: column;
-}
-
-.nav::-webkit-scrollbar{
-    overflow: hidden;
 }
 
 .sena {
@@ -85,13 +76,12 @@ button{
     flex: 6;
 }
 
-
 .menu span {
     margin: -1px 5px;
 }
 
 .sena img {
-    width: 24%;
+    width: 24%;  
     margin: 0.5%;
 }
 
@@ -103,11 +93,10 @@ button{
 }
 
 .header {
-    position: sticky;
     height: 8vh;
-    background: linear-gradient(-90deg, #1FEF27, #279D2C);
+    background: linear-gradient(-90deg,#1FEF27,#279D2C );
     display: flex;
-    padding: 0;
+    padding:  0;
     box-sizing: border-box;
     border-left: 0.4px solid black;
 }
@@ -128,14 +117,14 @@ button{
     margin: auto 15px;
 }
 
-.perfil>span {
+.perfil > span {
     color: white;
     font-size: clamp(36px, 3vw, 46px);
     cursor: pointer;
     padding-top: 5px;
 }
 
-.perfil>span:hover {
+.perfil > span:hover {
     color: rgb(0, 0, 0, 0.55);
 }
 
@@ -145,10 +134,10 @@ button{
 }
 
 .perfilMenu {
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.80), rgba(24, 63, 33, 0.80));
+    background: linear-gradient(180deg,rgba(0,0,0,0.80),rgba(24, 63, 33, 0.80));
     position: absolute;
-    top: 8vh;
-    right: 6px;
+    top: 8vh; 
+    right: 6px; 
     width: clamp(22vw, 28vw, 38vw);
     min-height: 60vh;
     max-height: 86vh;
@@ -158,15 +147,13 @@ button{
     transform: translateY(-100%);
     transition: transform 0.5s ease, opacity 0.5s ease;
     opacity: 0;
-    pointer-events: none;
-  
+    pointer-events: none; /* Prevents interaction when hidden */
 }
 
 .perfilMenu.show {
     transform: translateY(0);
     opacity: 1;
-    pointer-events: auto;
-    /* Allows interaction when shown */
+    pointer-events: auto; /* Allows interaction when shown */
 }
 
 .perfilIcon {
@@ -180,7 +167,7 @@ button{
     margin: 8px 8px 1.5px 9px;
 }
 
-.perfilIcon>div {
+.perfilIcon > div {
     display: flex;
     flex-direction: column;
 }
@@ -260,6 +247,7 @@ button{
     cursor: pointer;
 }
 
+
 form{
     margin: 2px 0.5%;
     display: flex;
@@ -310,54 +298,90 @@ form{
 }
 
 
-/* Transición suave para mostrar y ocultar el modal */
+/* Estilo básico para el modal */
 .modal {
     display: none;
     position: fixed;
-    z-index: 1;
+    z-index: 3;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4); /* Fondo oscuro */
-    transition: opacity 0.3s ease;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
 }
 
 .modal-content {
-    background-color: #fff;
+    background-color: white;
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
-    max-width: 500px; /* Tamaño máximo del modal */
-    border-radius: 10px; /* Bordes redondeados */
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    opacity: 0; /* Inicialmente oculto */
-    transform: scale(0.7); /* Escalado inicial */
+    max-width: 600px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.3s ease-in-out;
 }
 
-.modal-fade-in .modal-content {
-    opacity: 1;
-    transform: scale(1);
+.modal-close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
 }
 
-.modal-fade-out .modal-content {
-    opacity: 0;
-    transform: scale(0.7);
+.modal-close:hover,
+.modal-close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
 
-/* Estilo para la tabla con scrollbar vertical */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+}
+
+.fade-out {
+    animation: fadeOut 0.3s ease-in-out;
+}
+
+tr.selected {
+    background-color: #f0f0f0; 
+}
+
+
+
+
 .table-container {
-    max-height: 75%; 
-    overflow-y: auto; /* Barra de desplazamiento vertical */
+    max-height: 78%; 
+    overflow-y: auto; 
+    overflow-x: none;
     margin-top: 20px;
-    border: 1px solid #ddd; /* Borde para destacar la tabla */
+    
 }
 
 table {
-    width: 100%;
+    width: 98%;
     border-collapse: collapse;
+    margin: 0 0.5%;
 }
 
 th, td {
@@ -366,9 +390,14 @@ th, td {
     border-bottom: 1px solid #ddd;
 }
 
-th {
-    background-color: #f4f4f4;
-    position: sticky;
-    top: 0;
-    z-index: 2;
+th{
+    background-color: #20ca9a42;
+    position: relative;
 }
+
+th span{
+    cursor: pointer;
+    position: absolute;
+    top: 18%;
+}
+
