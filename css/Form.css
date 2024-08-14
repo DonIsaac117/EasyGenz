@@ -1,0 +1,282 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    background-image: url(../imagenes/form.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1{
+    justify-content: center;
+    text-align: center;
+    font-size: 9vh;
+    color: white;
+    text-shadow: 0 0 10px black;
+    margin: 2% 0 4% 0;
+    letter-spacing: 8px;
+}
+
+.columna{
+    display: flex; 
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    align-items: baseline;
+}
+
+.columna :nth-child(2){
+    align-self: center;
+}
+
+.col{
+    width: 33%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input, select{
+    padding: 2%;
+    margin: 3% 0 7% 0;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-size: 100%;
+    width: 70%;
+    }
+
+.btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 55%;
+    order: 4;
+}
+
+button{
+    justify-content: center;
+    align-items: center;
+    padding: 10px 30px;
+    border: 1px solid rgb(6, 73, 13);
+    background-color:rgb(6, 73, 13) ;
+    margin: 0;
+    border-radius: 55px;
+    font-size: 40px;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover{
+    background: rgb(1, 184, 20);
+}
+
+legend{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+label, legend{
+    letter-spacing: 0.2vh;
+    color: white;
+    font-size: 20px;
+    text-shadow: 0 0 10px black;
+}
+
+.labelr{
+    margin: 1% 0 0 0;
+    display: flex;
+    width: 50%;
+    flex-wrap: nowrap;
+}
+
+.labelr label{
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+}
+
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.radio{
+    display: flex;
+    border: 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    width: 100%;
+    flex-wrap: nowrap;
+}
+
+textarea{
+    padding: 2%;
+    margin: 4% 0 8% 0;
+    border-radius: 2vh;
+    border: 1px solid #ccc;
+    font-size: 20px;
+    width: 70%;
+    height: 120px;
+}
+
+.terminos{
+    display: flex;
+    flex-direction: row;
+    border: 1.5px solid white;
+    border-radius: 20px;
+    width: 50%;
+    height: 45px;
+    justify-content: center;
+    align-items: center;
+    margin: 0% 0 1% 0;
+}
+
+.terminos input{
+    display: flex;
+    margin: 0;
+    width: 10%;
+    justify-content: flex-start;
+}
+
+.terminos label{
+    display: flex;
+    justify-content: center;
+    width: 70%;
+}
+
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto;
+    font-size: 30px;
+    background-color: rgba(0,0,0,0.5); 
+}
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px; 
+    text-align: center;
+    border-radius: 8px;
+}
+
+/* Celular */
+@media (max-width: 900px){
+    body{
+         background-image: url(../imagenes/form2.jpg); 
+    }
+
+    .columna{
+        margin: 0;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    h1{
+        -webkit-text-stroke: 2px black;
+        font-size: 60px;
+        margin: 20% 0 15% 0;
+    }
+
+    label, legend{
+      font-size: 20px;
+    }
+
+    input, select{
+        width: 80%;
+    }
+
+    .btn{
+        margin: 0;
+    }
+
+    button{
+        margin: 0;
+        padding: 8px 20px;
+        font-weight: 400;
+        font-size: 30px;
+    }
+
+    .col{
+        width: 90%;
+        height: 33%;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .terminos {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 80%;
+        height: 80px;
+        margin: 4% 0 4% 0;
+    }
+
+    .terminos label{
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin: 0 0 15px;
+    }
+
+}
+
+@media (min-width: 901px) and (max-width: 1400px){
+    body{
+        background-image: url(../imagenes/form.png);
+        background-size: 100% 130%;
+        background-repeat: no-repeat;
+    }
+
+    .columna{
+        flex-direction: row;
+        align-items: baseline;
+        justify-content: center;
+    }
+
+    h1{
+        font-size: 58px;
+    }
+
+    .col{
+        align-items: center;
+    }
+
+    label, legend{
+        font-size: 18px;
+    }
+
+    input,select{
+        width: 80%;
+    }
+
+    button{
+        padding: 8px 16px;
+        font-weight: 400;
+        font-size: 36px;
+    }
+
+    textarea{
+        height: 95px;
+    }
+}
