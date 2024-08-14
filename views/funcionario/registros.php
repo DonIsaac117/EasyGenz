@@ -162,11 +162,11 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
             value="<?= htmlspecialchars($_GET['numero_documento'] ?? '') ?>">
           
 
-          <label for="nombres">Nombre:</label>
+          <label for="nombres">Nombres:</label>
           <input type="text" id="nombres" name="nombres" value="<?= htmlspecialchars($_GET['nombres'] ?? '') ?>">
        
 
-          <label for="apellidos">Apellido:</label>
+          <label for="apellidos">Apellidos:</label>
           <input type="text" id="apellidos" name="apellidos" value="<?= htmlspecialchars($_GET['apellidos'] ?? '') ?>">
           </div>
 
@@ -242,38 +242,40 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
                 <!-- Modal -->
                 <div class="modal" id="modal-<?= $usuario['id'] ?>">
                   <div class="modal-content">
-                    <span class="modal-close" onclick="ocultarModal(<?= $usuario['id'] ?>)">&times;</span>
+                    <span class="modal-close material-icons-sharp" onclick="ocultarModal(<?= $usuario['id'] ?>)">close</span>
                     <div class="modal-header">
-                      <h2>
+                    <div>
+                    <h2>
                         <?= mostrarDato($usuario['nombres']) ?>
                         <?= mostrarDato($usuario['apellidos']) ?>
                       </h2>
-                      <div class="perfil">
-                        <p>Perfil:
+                      </div>
+                      <div class="modal-perfil">
+                        <p><span class="negrita">Perfil:</span> 
                           <?= mostrarDato($perfilUsuario['perfil'] ?? null) ?>
                         </p>
                       </div>
                     </div>
                     <div class="modal-body">
-                      <p>Correo:
+                      <p class="modal-description"><span class="negrita">Correo:</span> 
                         <?= mostrarDato($usuario['email']) ?>
                       </p>
-                      <p>Teléfono:
+                      <p class="modal-description"><span class="negrita">Telefono:</span>
                         <?= mostrarDato($usuario['telefono']) ?>
                       </p>
-                      <p>EPS:
+                      <p class="modal-description"><span class="negrita">EPS:</span>
                         <?= mostrarDato($usuario['eps']) ?>
                       </p>
-                      <p>Enfermedades:
+                      <p class="modal-description"><span class="negrita">Enfermedades</span>
                         <?= mostrarDato($usuario['enfermedades']) ?>
                       </p>
-                      <p>Alergias:
+                      <p class="modal-description"><span class="negrita">Alergias</span>
                         <?= mostrarDato($usuario['alergias']) ?>
                       </p>
-                      <p>RH:
+                      <p class="modal-description"><span class="negrita">RH:</span>
                         <?= mostrarDato($usuario['rh']) ?>
                       </p>
-                      <p>Contacto de emergencia:
+                      <p class="modal-description"><span class="negrita">Contacto de emergencia:</span>
                         <?= mostrarDato($usuario['contacto_emergencia']) ?>
                       </p>
                     </div>

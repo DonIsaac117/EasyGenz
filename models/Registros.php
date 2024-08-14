@@ -44,7 +44,7 @@ class Registro
             FROM usuarios u
             LEFT JOIN controlfuncionarios cf ON u.id = cf.id_usuario
             LEFT JOIN ingresosalida_ficha isa ON u.id = isa.id_usuario
-            WHERE 1=1 ORDER BY fecha DESC";
+            WHERE 1=1";
 
         if ($documento) {
             $sql .= " AND u.numero_documento LIKE ?";
@@ -70,6 +70,8 @@ class Registro
             $sql .= " AND IFNULL(cf.fecha, isa.fecha) <= ?";
             $params[] = $fechaHasta;
         }
+
+        $sql .= " ORDER BY IFNULL(cf.fecha, isa.fecha) DESC";
 
         $stmt = $this->conectarse->conexion->prepare($sql);
         if ($stmt === false) {
