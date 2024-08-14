@@ -228,7 +228,7 @@ class Usuarios
 
     public function obtenerPerfilUsuario($id) {
         $conexion = $this->conectarse->conexion;
-        $sql= "SELECT p.perfil
+        $sql= "SELECT CONCAT(UPPER(SUBSTRING(p.perfil, 1, 1)), LOWER(SUBSTRING(p.perfil, 2))) as perfil
             FROM perfil p
             INNER JOIN usuario_perfil up ON p.id = up.id_perfil
             WHERE up.id_usuario = ?";

@@ -188,7 +188,7 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
       <div class="table-container">
         <table border="1">
           <thead>
-            <tr>
+            <tr class="sticky">
               <th id="colDocumento">Documento <span class="material-icons-sharp">arrow_drop_down</span></th>
               <th id="colNombre">Nombre <span class="material-icons-sharp">arrow_drop_down</span></th>
               <th id="colApellido">Apellido <span class="material-icons-sharp">arrow_drop_down</span></th>
