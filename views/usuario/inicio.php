@@ -1,5 +1,4 @@
 <?php
-
 $usuarioController = new UsuarioController();
 $listadoUsuarios = $usuarioController->listar();
 
@@ -24,13 +23,13 @@ $listadoUsuarios = $usuarioController->listar();
         <input type="number" name="id" id="id" required>
         
         <label for="nombre">Nombre(s)</label>
-        <input type="text" name="nombre" id="nombre" required>
+        <input type="text" name="nombre" id="nombre">
 
         <label for="apellidos">Apellidos(s)</label>
-        <input type="text" name="apellidos" id="apellidos" required>
+        <input type="text" name="apellidos" id="apellidos">
 
         <label for="tipo_doc">Tipo de Documento</label>
-        <select name="tipo_doc" id="tipo_doc" required>
+        <select name="tipo_doc" id="tipo_doc">
             <option value="ti">Targeta de identidad</option>
             <option value="cc">Cédula de ciudadania</option>
             <option value="ce">Cédula de extranjeria</option>
@@ -39,10 +38,10 @@ $listadoUsuarios = $usuarioController->listar();
         </select>
 
         <label for="num_doc">Numero de Documento</label>
-        <input type="number" name="num_doc" id="num_doc" required>
+        <input type="number" name="num_doc" id="num_doc">
 
         <label for="tipo_sangre">Tipo de Sangre</label>
-        <select name="tipo_sangre" id="tipo_sangre" required>
+        <select name="tipo_sangre" id="tipo_sangre">
             <option value="a+">A+</option>
             <option value="o+">O+</option>
             <option value="b+">B+</option>
@@ -54,19 +53,19 @@ $listadoUsuarios = $usuarioController->listar();
         </select>
 
         <label for="contrasena">Contraseña</label>
-        <input type="password" name="contrasena" id="contrasena" required>
+        <input type="password" name="contrasena" id="contrasena">
 
         <label for="telefono">Teléfono</label>
-        <input type="number" name="telefono" id="telefono" required>
+        <input type="number" name="telefono" id="telefono">
 
         <label for="email">E-mail</label>
-        <input type="email" name="email" id="email" required>
+        <input type="email" name="email" id="email">
 
         <label for="eps">EPS</label>
-        <input type="text" name="eps" id="eps" required>
+        <input type="text" name="eps" id="eps">
 
         <label for="contacto_emer">Contacto de Emergencia</label>
-        <input type="number" name="contacto_emer" id="contacto_emer" required>
+        <input type="number" name="contacto_emer" id="contacto_emer">
 
         <label for="enfermedades">Enfermedades</label>
         <textarea name="enfermedades" id="enfermedades" cols="30" rows="10"></textarea>

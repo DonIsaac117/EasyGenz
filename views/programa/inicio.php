@@ -2,14 +2,13 @@
 
 $programaController = new ProgramaController();
 $listadoProgramas = $programaController->listar();
-
 ?>
 <br><br>
 
 
 <form action="index.php?vista=programa/eliminar" method="POST">
     <label for="eliminar ">Ponga el id que quiere al que se lo borren</label>
-    <input type="number" name="eliminarp" id="eliminar" required>
+    <input type="number" name="eliminar" id="eliminar" required>
     <button type="submit">Eliminar</button>
 </form>
 <br><br>
@@ -17,7 +16,7 @@ $listadoProgramas = $programaController->listar();
 <h3 style="display:flex;justify-content: center;" >Registrar Programa</h3>
     <form action="index.php?vista=programa/registrar" method="post" style="display: flex; flex-direction: column; align-items: center;">
         <label for="id">ID del Programa</label>
-        <input type="number" name="idp" id="id" required>
+        <input type="number" name="id" id="id" required>
         
         <label for="nombre">Nombre(s)</label>
         <input type="text" name="nombre" id="nombre">

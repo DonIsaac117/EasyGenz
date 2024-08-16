@@ -1,0 +1,385 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Inter", sans-serif;
+}
+
+body {
+    display: flex;
+    margin: 0;
+   overflow: hidden;
+}
+
+a {
+    text-decoration: none;
+}
+
+.nav {
+    position: sticky;
+    flex: 1;
+    background: linear-gradient(360deg, #1FEF27, #279D2C);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.nav::-webkit-scrollbar{
+    overflow: hidden;
+}
+
+.sena {
+    max-width: 100%;
+    display: flex;
+    font-size: clamp(16px, 1.4vw, 24px);
+    font-weight: 700;
+    color: white;
+    align-items: center;
+    border-bottom: 2px solid white;
+    margin-right: 1.5%;
+}
+
+.menu {
+    height: 8%;
+    border-bottom: 1.5px white solid;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.menu div {
+    color: white;
+    font-size: clamp(11px, 1.25vw, 22px);
+    font-weight: 700;
+    display: flex;
+    padding: 4% 0;
+}
+
+.menu div:hover {
+    background: rgb(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.main {
+    display: flex;
+    flex: 16 1 auto;
+    height: clamp(85vh, 90vh, 92vh);
+    opacity: 0;
+    transform: translateX(-100%);
+    transition: transform 0.8s ease, opacity 0.8s ease;
+}
+
+.main.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.mainLayout {
+    height: 100%;
+    margin: 12px;
+    flex: 6;
+}
+
+.calendar {
+    width: 100%;
+    height: 98%;
+}
+
+.menu span {
+    margin: -1px 5px;
+}
+
+.sena img {
+    width: 24%;
+    margin: 0.5%;
+}
+
+.body {
+    flex: 8;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.header {
+    position: sticky;
+    height: 8vh;
+    background: linear-gradient(-90deg, #1FEF27, #279D2C);
+    display: flex;
+    padding: 0;
+    box-sizing: border-box;
+    border-left: 0.4px solid black;
+}
+
+.title {
+    flex: 12;
+    color: white;
+    font-size: clamp(30px, 2.8vw, 48px);
+    text-align: center;
+    margin: auto;
+    font-weight: 700;
+    margin-left: 15px;
+}
+
+.perfil {
+    flex: 1;
+    text-align: right;
+    margin: auto 15px;
+}
+
+.perfil>span {
+    color: white;
+    font-size: clamp(36px, 3vw, 46px);
+    cursor: pointer;
+    padding-top: 5px;
+}
+
+.perfil>span:hover {
+    color: rgb(0, 0, 0, 0.55);
+}
+
+.perfil {
+    flex: 1;
+    user-select: none;
+}
+
+.perfilMenu {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.80), rgba(24, 63, 33, 0.80));
+    position: absolute;
+    top: 8vh;
+    right: 6px;
+    width: clamp(22vw, 28vw, 38vw);
+    min-height: 60vh;
+    max-height: 86vh;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    color: white;
+    transform: translateY(-100%);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    opacity: 0;
+    pointer-events: none;
+    /* Prevents interaction when hidden */
+}
+
+.perfilMenu.show {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+    /* Allows interaction when shown */
+}
+
+.perfilIcon {
+    display: flex;
+    text-align: center;
+}
+
+.perfilIcon span {
+    color: white;
+    font-size: clamp(65px, 3vw, 85px);
+    margin: 8px 8px 1.5px 9px;
+}
+
+.perfilIcon>div {
+    display: flex;
+    flex-direction: column;
+}
+
+.btnBlue {
+    background-color: #20CA9A;
+    padding: 3.5% 10px;
+    margin-left: 5px;
+    border-radius: 20px;
+    color: white;
+    font-weight: 600;
+    border: 0;
+    font-size: (12px 1.2vw, 20px);
+}
+
+.btnBlue:hover {
+    background-color: #2ea583;
+    cursor: pointer;
+}
+
+.nameUser {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 5px 15px 5px;
+    font-size: clamp(12px, 1.2vw, 25px);
+}
+
+.nameUser h5 {
+    color: rgb(255, 255, 255, 0.5);
+    font-size: clamp(10px, 1.2vw, 23px);
+}
+
+.userData {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 1% 2.5%;
+}
+
+.userData div {
+    flex: 1 1 40%;
+    text-align: left;
+    margin: 1% 0.2%;
+    line-height: 22px;
+    font-size: clamp(14px, 1.1vw, 25px);
+}
+
+.userData div h5 {
+    color: rgb(255, 255, 255, 0.7);
+}
+
+.userEnd {
+    display: flex;
+    flex-direction: column;
+    width: clamp(40%, 15vw, 50%);
+    margin: 1% auto 1.5% auto;
+    align-items: center;
+}
+
+.btnRed {
+    background-color: #CA2020;
+    padding: 1% 10px;
+    margin: 5% 0 0 2.6%;
+    border-radius: 20px;
+    width: clamp(22%, 10vw, 45%);
+    color: white;
+    font-weight: 600;
+    border: 0;
+    position: absolute;
+    bottom: 2.3%;
+    right: 0.4%;
+}
+
+.btnRed:hover {
+    background-color: #aa2727;
+    cursor: pointer;
+}
+
+.description {
+    flex: 1;
+    color: white;
+    height: 85%;
+    min-width: 16vw;
+    margin: 2.5% 0;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+}
+
+.description.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.titleDescription {
+    background-color: #B92F2F;
+    display: flex;
+    height: 5.5%;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    letter-spacing: 1.2px;
+    font-size: clamp(9px, 0.85vw, 20px);
+
+}
+
+.titleDescription h2::after {
+    content: "/";
+
+
+}
+
+
+.mainDescription {
+    background: linear-gradient(180deg, #423F3F, #A8A2A2);
+    height: 100%;
+}
+
+.mainDescription h3 {
+    font-size: clamp(15px, 1.2vw, 27px);
+
+}
+
+.mainDescription h4 {
+    font-size: clamp(12px, 1.05vw, 24px);
+
+}
+
+.textDescription {
+    padding: 9% 8% 12.5% 8%;
+}
+
+.observacion {
+    padding: 20% 8% 8% 8%;
+}
+
+.observacion h3 {
+    letter-spacing: 1.5px;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.observacion h5 {
+    color: orange;
+    line-height: 18px;
+    font-size: clamp(11px, 1vw, 22px);
+}
+
+/* Calendario */
+
+.fc-event-time {
+    order: 2;
+    font-size: clamp(8px, 0.9vw, 18px);
+}
+
+.fc-event-title {
+    order: 1;
+    font-size: clamp(8px, 0.9vw, 18px);
+}
+
+
+.modal {
+    display: none; /* Ocultar el modal por defecto */
+    position: fixed; /* Fijar el modal en la pantalla */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000; /* Asegurar que esté sobre otros elementos */
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.3);
+}
+
+.modal-content {
+    position: relative;
+    z-index: 1001;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
+}
+
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+
+.modal-close {
+    cursor: pointer;
+}

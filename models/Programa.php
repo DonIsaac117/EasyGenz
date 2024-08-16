@@ -1,6 +1,6 @@
 <?php
 
-require_once ("./config/ConectorBD.php");
+require_once ("./config/ConexionBd.php");
 
 class Programa
 {
@@ -12,7 +12,7 @@ class Programa
     //metodos - funciones
 
     public function __construct(){
-        $this->conectarse = new ConectorBD();
+        $this->conectarse = new ConexionBD();
     }
 
     //getter y setter
@@ -49,7 +49,7 @@ class Programa
         $this->conectarse->consultaSinRetorno($cadenaSql);  
     }
 
-    public function eliminarp($id) {
+    public function eliminar($id) {
         $id = intval($id);
         $cadenaSql = "DELETE FROM programa WHERE id = $id";
         $this->conectarse->consultaSinRetorno($cadenaSql);

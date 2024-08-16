@@ -1,6 +1,6 @@
 <?php
 
-require_once("./config/ConectorBD.php");
+require_once("./config/ConexionBd.php");
 require_once("./models/Programa.php");
 
 class ProgramaController{
@@ -16,7 +16,7 @@ class ProgramaController{
 
     public function registrar() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->programaModel->setId($_POST['idp']);
+            $this->programaModel->setId($_POST['id']);
             $this->programaModel->setNombre($_POST['nombre']);
             $this->programaModel->setid_tipo_programa($_POST['tipo']);
             $this->programaModel->insertar();
@@ -26,10 +26,10 @@ class ProgramaController{
         }
     }
 
-    public function eliminarp() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminarp'])) {
-            $id = intval($_POST['eliminarp']);
-            $this->programaModel->eliminarp($id);
+    public function eliminar() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar'])) {
+            $id = intval($_POST['eliminar']);
+            $this->programaModel->eliminar($id);
             header("Location: index.php?vista=programa/inicio");
             exit();
         }
