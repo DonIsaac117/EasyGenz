@@ -1,0 +1,62 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+body{
+    background-image: url(../imagenes/login.png);
+    background-size: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+h1{
+    text-align: center;
+}
+
+.container{
+    max-width: 80vw;
+    max-height: 95vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: white;
+   
+}
+
+.Texto{
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: weight;
+    font-style: normal;
+    display: flex;
+    flex-direction: column;
+    margin: 1%;
+    background-color: rgb(255, 255, 255);
+    text-align: left;
+    justify-content: center;
+    align-items: center;
+    max-width: fit-content;
+    padding: 2% 5%;
+
+}
+
+button.boton{
+    background-color: #70c073;
+    color: white;
+    border: none;
+    padding: 1% 5%;
+
+    font-size: 100%;
+    margin: 3% 0;
+    cursor: pointer;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 20%;
+    
+}
+
+button:hover{
+    background-color: #45a049;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+

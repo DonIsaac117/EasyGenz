@@ -1,6 +1,28 @@
 
 //Perfil
 
+var perfilSpan = document.querySelector(".perfil>span");
+var perfilMenu = document.querySelector(".perfilMenu");
+
+perfilSpan.addEventListener("click", function (e) {
+  e.stopPropagation();
+  perfilMenu.classList.toggle("show");
+});
+
+document.addEventListener("click", function (e) {
+  if (!perfilMenu.contains(e.target) && !perfilSpan.contains(e.target)) {
+    perfilMenu.classList.remove("show");
+  }
+});
+
+perfilMenu.addEventListener("click", function (e) {
+  e.stopPropagation();
+});
+
+
+
+//Perfil
+
 var perfilSpan = document.querySelector('.perfil>span');
 var perfilMenu = document.querySelector('.perfilMenu');
 
@@ -27,10 +49,16 @@ perfilMenu.addEventListener('click', function(e) {
 });
   
   
+
 // Mostrar los elementos con animación después de cargar la página
 setTimeout(function () {
   document.querySelector(".main").classList.add("show");
 }, 100);
+
+
+setTimeout(function () {
+  document.querySelector(".description").classList.add("show");
+}, 700);
 
 
 function clearFilters() {
@@ -93,6 +121,15 @@ document.querySelectorAll("th").forEach((header) => {
 });
 
 function mostrarModal(id) {
+
+  document.getElementById('modal-' + id).style.display = 'block';
+  document.querySelector('.modal-overlay').style.display = 'block'; 
+}
+
+function ocultarModal(id) {
+  document.getElementById('modal-' + id).style.display = 'none';
+  document.querySelector('.modal-overlay').style.display = 'none'; 
+
   // Eliminar la clase seleccionada de cualquier fila previamente seleccionada
   const filas = document.querySelectorAll('tr.selected');
   filas.forEach(fila => fila.classList.remove('selected'));
@@ -135,4 +172,5 @@ window.onclick = function(event) {
           ocultarModal(modalId);
       }
   });
+
 }

@@ -1,8 +1,10 @@
+
 <!-- views/usuario/login.php -->
 <?php
 include_once './controllers/usuariosController.php';
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,6 +12,7 @@ include_once './controllers/usuariosController.php';
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+
     <link rel="stylesheet" href="./css/login.css">
   
     
@@ -27,6 +30,7 @@ include_once './controllers/usuariosController.php';
                     <a href="index.php?vista=usuario/recuperar"><h4>Olvide mi contraseña</h4></a>
                 </div>
                 <input type="submit" value="Ingresar">
+
         </form>
         
         <div class="registro"> 
@@ -38,5 +42,45 @@ include_once './controllers/usuariosController.php';
     </div>
 
 
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <?php
+            if (isset($_GET['error'])) {
+                $error = $_GET['error'];
+                if ($error == 'credenciales_incorrectas') {
+                    echo 'Credenciales incorrectas';
+                } elseif ($error == 'usuario_no_existe') {
+                    echo 'El usuario no existe en la base de datos';
+                } else {
+                    echo 'Error desconocido';
+                }
+            }
+            ?>
+            <span class="close">&times;</span>
+        </div>
+    </div>
+
+    <script>
+       document.addEventListener('DOMContentLoaded', function() {
+           var modal = document.getElementById('myModal');
+
+           <?php
+           if (isset($_GET['error'])) {
+               echo "modal.style.display = 'block';";
+           }
+           ?>
+
+            var closeBtn = document.querySelector('.close');
+            closeBtn.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+       });
+   </script>
 </body>
 </html>

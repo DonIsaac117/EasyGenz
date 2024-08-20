@@ -152,6 +152,7 @@ class Usuarios
     }
 
 
+
     public function verificarCredenciales($numero_documento, $contrasena) {
         $conexion = $this->conectarse->conexion;
         
@@ -216,6 +217,106 @@ class Usuarios
         return true;
     }
 
+
+    public function obtenerPerfilPorIdUsuario($id_usuario) {
+        $conexion = $this->conectarse->conexion;
+        $sql = "SELECT perfil FROM perfil 
+                INNER JOIN usuario_perfil ON perfil.id = usuario_perfil.id_perfil 
+                WHERE usuario_perfil.id_usuario = ?";
+        $stmt = $conexion->prepare($sql);
+        $stmt->bind_param('i', $id_usuario);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc()['perfil'];
+    }
+    
+
+    public function obtenerUsuarioPorContrasena($contrasena) {
+        $sql = "SELECT * FROM usuarios WHERE contrasena = ?";
+        $stmt = $this->conectarse->conexion->prepare($sql);
+        $stmt->bind_param("s", $contrasena);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
+        return $resultado->fetch_assoc();
+    }
+    
+    public function registrarEntrada($id_usuario) {
+        // Obtén el código del número de ficha relacionado con este usuario
+        $codigo_numeroficha = $this->obtenerCodigoFichaPorUsuario($id_usuario);
+        
+        // Establece la fecha y hora actuales
+        $fecha = date("Y-m-d");
+        $hora_entrada = date("H:i:s");
+    
+        // Inserta el registro de entrada en la tabla `ingresosalida_ficha`
+        $sql = "INSERT INTO ingresosalida_ficha (id_usuario, codigo_numeroficha, fecha, hora_entrada, observacion, estado) 
+                VALUES (?, ?, ?, ?, NULL, NULL)";
+        $stmt = $this->conectarse->conexion->prepare($sql);
+        $stmt->bind_param("isss", $id_usuario, $codigo_numeroficha, $fecha, $hora_entrada);
+        
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public function registrarSalida($id_usuario) {
+        // Obtén el código del número de ficha relacionado con este usuario
+        $codigo_numeroficha = $this->obtenerCodigoFichaPorUsuario($id_usuario);
+        
+        // Establece la fecha y hora actuales
+        $fecha = date("Y-m-d");
+        $hora_salida = date("H:i:s");
+    
+        // Actualiza el registro de salida en la tabla `ingresosalida_ficha`
+        $sql = "UPDATE ingresosalida_ficha SET hora_salida = ? 
+                WHERE id_usuario = ? AND codigo_numeroficha = ? AND fecha = ? AND hora_salida IS NULL";
+        $stmt = $this->conectarse->conexion->prepare($sql);
+        $stmt->bind_param("siss", $hora_salida, $id_usuario, $codigo_numeroficha, $fecha);
+        
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function registrarEntradaFuncionario($id_usuario, $observacion = null) {
+        $fecha = date('Y-m-d');
+        $hora_entrada = date('H:i:s');
+        $sql = "INSERT INTO controlfuncionarios (id_usuario, fecha, hora_entrada, observacion, estado) 
+                VALUES (?, ?, ?, ?, 'activo')";
+        $stmt = $this->conectarse->conexion->prepare($sql);
+        $stmt->bind_param('isss', $id_usuario, $fecha, $hora_entrada, $observacion);
+        return $stmt->execute();
+    }
+    
+    public function registrarSalidaFuncionario($id_usuario) {
+        $fecha = date('Y-m-d');
+        $hora_salida = date('H:i:s');
+        $sql = "UPDATE controlfuncionarios SET hora_salida = ?, estado = 'inactivo' 
+                WHERE id_usuario = ? AND fecha = ? AND hora_salida IS NULL";
+        $stmt = $this->conectarse->conexion->prepare($sql);
+        $stmt->bind_param('sis', $hora_salida, $id_usuario, $fecha);
+        return $stmt->execute();
+    }
+    
+    private function obtenerCodigoFichaPorUsuario($id_usuario) {
+        // Consulta el código del número de ficha desde la tabla `aprendiz`
+        $sql = "SELECT codigo_numeroficha FROM aprendiz WHERE id_usuario = ?";
+        $stmt = $this->conectarse->conexion->prepare($sql);
+        $stmt->bind_param("i", $id_usuario);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
+        $fila = $resultado->fetch_assoc();
+
+        return $fila['codigo_numeroficha'];
+    }
+    
+    
+
+
     public function obtenerUsuarioPorId($id) {
         $conexion = $this->conectarse->conexion;
         $sql = "SELECT * FROM usuarios WHERE id = ?";
@@ -228,6 +329,7 @@ class Usuarios
 
     public function obtenerPerfilUsuario($id) {
         $conexion = $this->conectarse->conexion;
+
         $sql= "SELECT CONCAT(UPPER(SUBSTRING(p.perfil, 1, 1)), LOWER(SUBSTRING(p.perfil, 2))) as perfil
             FROM perfil p
             INNER JOIN usuario_perfil up ON p.id = up.id_perfil
