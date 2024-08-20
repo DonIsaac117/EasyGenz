@@ -9,6 +9,7 @@ class Enrutador
         if ($carpetaArchivo[0] == "usuario") {
             switch ($carpetaArchivo[1]) {
                 case "recuperar":
+
                     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $usuarioController = new UsuarioController();
                         $usuarioController->recuperar();
@@ -23,6 +24,7 @@ class Enrutador
                     } else {
                        $usuarioController->redireccionNuevaC(); // Muestra el formulario de cambio de contraseña
                     }
+
                     break;
                 case "registrar":
                     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -41,6 +43,7 @@ class Enrutador
                     $usuarioController->actualizar();
                     break;
                 case "login":
+
                     $usuarioController = new UsuarioController();
                     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $numero_documento = $_POST['documento'];
@@ -67,11 +70,15 @@ class Enrutador
                     require_once ("./views/pageNotFound.php");
                     break;
 
+
             }
 
         } else if ($carpetaArchivo[0] == "programa") {
             switch ($carpetaArchivo[1]) {
                 case "inicio":
+
+                    echo $carpetaArchivo[1];
+
                     require_once ("./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php");
                     break;
                 case "registrar":

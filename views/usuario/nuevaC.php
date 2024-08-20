@@ -9,6 +9,7 @@
 </head>
 <body>
     <div class="formularrio">
+
         <form action="index.php?vista=usuario/nuevaC" method="post">
             <h1>Ingresa tu nueva contraseña</h1>
             <div class="formulario">
@@ -25,3 +26,4 @@
 
 </body>
 </html>
+

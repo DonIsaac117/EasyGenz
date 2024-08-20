@@ -152,24 +152,39 @@ class Usuarios
     }
 
 
-    public function verificarCredenciales() {
-        $cadenaSql = "SELECT * FROM usuarios WHERE numero_documento = '$this->numero_documento' AND contrasena = '$this->contrasena'";
-        $resultado = $this->conectarse->consultaConRetorno($cadenaSql);
-    
-        if ($resultado->num_rows > 0) {
-            return $resultado->fetch_assoc();
-        } else {
+
+    public function verificarCredenciales($numero_documento, $contrasena) {
+        $conexion = $this->conectarse->conexion;
+        
+        $sql = "SELECT * FROM usuarios WHERE numero_documento = ?";
+        $stmt = $conexion->prepare($sql);
+
+        if (!$stmt) {
+            echo "Error en la preparación: " . $conexion->error;
             return false;
         }
-    }
-    
-    public function existedocumento() {
-        $cadenaSql = "SELECT * FROM usuarios WHERE numero_documento = '$this->numero_documento'";
-        $resultado = $this->conectarse->consultaConRetorno($cadenaSql);
-    
-        if ($resultado->num_rows > 0) {
-            return $resultado->fetch_assoc();
+
+        $stmt->bind_param('s', $numero_documento);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if (!$result) {
+            echo "Error en la ejecución: " . $stmt->error;
+            return false;
+        }
+
+        $usuario = $result->fetch_assoc();
+
+        if ($usuario) {
+            if ($contrasena === $usuario['contrasena']) {
+                $this->id=$usuario['id'];
+                return true;
+            } else {
+                echo "Contraseña incorrecta";
+                return false;
+            }
         } else {
+            echo "Usuario no encontrado";
             return false;
         }
     }
@@ -201,6 +216,7 @@ class Usuarios
     
         return true;
     }
+
 
     public function obtenerPerfilPorIdUsuario($id_usuario) {
         $conexion = $this->conectarse->conexion;
@@ -300,6 +316,7 @@ class Usuarios
     
     
 
+
     public function obtenerUsuarioPorId($id) {
         $conexion = $this->conectarse->conexion;
         $sql = "SELECT * FROM usuarios WHERE id = ?";
@@ -312,7 +329,8 @@ class Usuarios
 
     public function obtenerPerfilUsuario($id) {
         $conexion = $this->conectarse->conexion;
-        $sql= "SELECT p.perfil
+
+        $sql= "SELECT CONCAT(UPPER(SUBSTRING(p.perfil, 1, 1)), LOWER(SUBSTRING(p.perfil, 2))) as perfil
             FROM perfil p
             INNER JOIN usuario_perfil up ON p.id = up.id_perfil
             WHERE up.id_usuario = ?";

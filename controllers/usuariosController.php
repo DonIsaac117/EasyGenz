@@ -32,7 +32,9 @@ class UsuarioController {
             $this->usuarioModel->setAlergias($_POST['alergias']);
 
             $this->usuarioModel->insertar();
+
             header('Location: index.php?vista=usuario/registrar&error=usuario_registrado');
+
         } else {
             echo "Error: La solicitud no es de tipo POST.";
         }
@@ -71,35 +73,46 @@ class UsuarioController {
         }
     }
 
-    public function login($numero_documento, $contraseña) {
+
+    public function login() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $numero_documento = $_POST['documento'];
+            $contrasena = $_POST['contrasena'];
+    
             $usuario = new Usuarios();
-            $usuario->setNumeroDocumento($numero_documento);
-            $usuario->setContraseña($contraseña);
-    
-            $user = $usuario->existedocumento();
-    
-            if ($user) {
-                $user = $usuario->verificarCredenciales();
-                if ($user) {
-                    session_start();
-                    $_SESSION['user_id'] = $user['id'];
-                    $_SESSION['user_name'] = $user['nombres'];
-                    header('Location: index.php?vista=funcionario/inicio');
-                    exit;
-                } else {
-                    header("Location: index.php?vista=usuario/login&error=credenciales_incorrectas");
-                    exit;
+            if ($usuario->verificarCredenciales($numero_documento, $contrasena)) {
+                session_start();
+                
+                $id_usuario= $usuario->getId();
+                $_SESSION['id_usuario']= $id_usuario;
+                
+                if(isset($_SESSION['id_usuario'])){
+                    echo "<script>
+                   
+                    window.location.href = 'index.php?vista=funcionario/inicio';
+                    ;
+                </script>";
+                }else{
+                    echo '<script>alert("La sesion no esta iniciada");</script>';
                 }
+                
+              
             } else {
-                header("Location: index.php?vista=usuario/login&error=usuario_no_existe");
-                exit;
+                echo "<script>
+                    console.log('Credenciales incorrectas');
+                    Swal.fire({
+                        title: 'Credenciales incorrectas',
+                        icon: 'error'
+                    }).then(function() {
+                        window.location.href = 'index.php?vista=usuario/login';
+                    });
+                </script>";
             }
+        } else {
+            include "./views/usuario/login.php";
         }
     }
 
-
-    
     
 
     public function recuperar() {
@@ -112,11 +125,13 @@ class UsuarioController {
             if ($usuario) {
                 $_SESSION['reset_email'] = $correo; // Configura la sesión aquí
                 $this->enviarCorreoRecuperacion($correo);
+
                 echo "<script>alert('Éxito', 'Mensaje enviado con éxito.', 'success');</script>";
             } else {
                 echo "<script>alert('Error', 'El correo $correo no existe en la base de datos.', 'error');</script>";
             }
         }
+
         include "./views/usuario/recuperar.php";
     }
 
@@ -142,6 +157,7 @@ class UsuarioController {
             echo "<script>alert('No se pudo enviar el correo.')</script>";
         }
     }
+
 
     public function redireccionNuevaC() {
         session_start();
@@ -227,7 +243,7 @@ class UsuarioController {
     
 
     
-    
+
 public function obtenerPerfilUsuario($id) {
     return $this->usuarioModel->obtenerUsuarioPorId($id);
 }

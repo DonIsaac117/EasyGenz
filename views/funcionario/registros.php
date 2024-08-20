@@ -19,8 +19,6 @@ $apellidos = explode(' ', $datosUsuario['apellidos']);
 $primerApellido = $apellidos[0];
 $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
 
-
-
 ?>
 
 
@@ -48,36 +46,41 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
       </div>
       <div class="menu">
         <a href="?vista=funcionario/inicio">
+
         <div>
           <span class="material-icons-sharp">home</span>
           <p>Calendario</p>
         </div>
-        </a>
 
-      </div>
-      <div class="menu">
-       <a href="?vista=funcionario/registros">
-       <div style="background: rgb(0, 0, 0, 0.32);">
+      </a>
+
+    </div>
+    <div class="menu">
+      <a href="?vista=funcionario/registros">
+        <div style="background: rgb(0, 0, 0, 0.32);">
           <span class="material-icons-sharp">description</span>
           <p>Registros</p>
         </div>
-      </div>
-       </a>
+    </div>
+    </a>
 
-      <div class="menu">
-       <a href="?vista=funcionario/soporte"> <div>
+    <div class="menu">
+      <a href="?vista=funcionario/soporte">
+        <div>
           <span class="material-icons-sharp">question_mark</span>
           <p>Soporte</p>
-        </div></a>
-      </div>
+        </div>
+      </a>
+    </div>
 
-      <div class="menu">
+    <div class="menu">
       <a href="?vista=funcionario/inicio">
-      <div>
+        <div>
           <span class="material-icons-sharp">supervisor_account</span>
           <p>Usuarios</p>
         </div>
       </a>
+
       </div>
 
     </nav>
@@ -264,3 +267,4 @@ if ($usuarios->num_rows > 0) {
     </script>
   </body>
 </html>
+

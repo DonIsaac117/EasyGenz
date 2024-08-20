@@ -8,6 +8,7 @@ class ConexionBd
     private $userBd = "root";
     private $passwordBd = "";
     private $database = "easygenz";
+
     public $conexion; 
 
     public function __construct()
