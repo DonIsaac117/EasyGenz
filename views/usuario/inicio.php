@@ -1,5 +1,4 @@
 <?php
-
 $usuarioController = new UsuarioController();
 $listadoUsuarios = $usuarioController->listar();
 
@@ -78,7 +77,7 @@ $listadoUsuarios = $usuarioController->listar();
     </form>
 
 <br>
-<h3>Listado de Usuarios</h3>
+<h3>Listado de Programas</h3>
 <table border="1">
     <thead>
         <tr>
