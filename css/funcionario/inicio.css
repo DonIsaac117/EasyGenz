@@ -115,7 +115,6 @@ a {
     font-weight: 700;
     margin-left: 15px;
 }
-
 .perfil {
     flex: 1;
     text-align: right;
@@ -131,6 +130,10 @@ a {
 
 .perfil > span:hover {
     color: rgb(0, 0, 0, 0.55);
+}
+
+.perfil > span.active {
+    color: rgb(0, 0, 0, 0.55); 
 }
 
 .perfil {
@@ -152,13 +155,13 @@ a {
     transform: translateY(-100%);
     transition: transform 0.5s ease, opacity 0.5s ease;
     opacity: 0;
-    pointer-events: none; /* Prevents interaction when hidden */
+    pointer-events: none; 
 }
 
 .perfilMenu.show {
     transform: translateY(0);
     opacity: 1;
-    pointer-events: auto; /* Allows interaction when shown */
+    pointer-events: auto; 
 }
 
 .perfilIcon {

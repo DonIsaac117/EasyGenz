@@ -10,9 +10,6 @@
 <body>
 
 <?php
-
-date_default_timezone_set('America/Bogota');
-
  
     require_once("./config/Enrutador.php");
     require_once("./controllers/usuariosController.php");
@@ -23,19 +20,14 @@ date_default_timezone_set('America/Bogota');
     if(isset($_GET["vista"])){
         $enrutador->CargarVista($_GET["vista"]);
     }else{
-
-        header("Location: index.php?vista=usuario/login");
+        echo "Me carga el index principal";
         ?>
-        <a href="index.php?vista=usuario/TYC">TYC</a> <br>
-        <a href="index.php?vista=usuario/Ingreso">Ingreso</a> <br>
-
         <a href="index.php?vista=usuario/inicio">inicio</a> <br>
         <a href="index.php?vista=usuario/login">Login</a> <br>
         <a href="index.php?vista=usuario/registrar">formulario</a> <br>
         <a href="index.php?vista=programa/inicio">Programa</a><br>
         <a href="index.php?vista=ingresoSalida/inicio">IngresoSalida</a><br>
-        <?php
-Facilito
+        <?php 
     }
 ?>
     

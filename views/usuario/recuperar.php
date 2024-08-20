@@ -5,13 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RECUPERAR_CONTRASEÑA</title>
-
-    <link rel="stylesheet" href="./css/recuperar.css">
+    <link rel="stylesheet" href="../css/recuperar.css">
 </head>
 <body>
     <div class="container">
-        <form action="index.php?vista=usuario/recuperar" method="post" id="miFormulario">
-
+        <form action="recuperar.php" method="post" id="miFormulario">
             <h1>¡Has olvidado tu contraseña!</h1>
             <h3>¡No te preocupes, te ayudaremos a recuperar tu cuenta!</h3>
             <div class="formulario">
@@ -93,5 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Cerrar la conexión a la base de datos
 mysqli_close($conn);
 ?>
+
+
 </body>
 </html>

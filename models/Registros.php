@@ -46,7 +46,6 @@ class Registro
             LEFT JOIN ingresosalida_ficha isa ON u.id = isa.id_usuario
             WHERE 1=1";
 
-
         if ($documento) {
             $sql .= " AND u.numero_documento LIKE ?";
             $params[] = "%$documento%";
@@ -72,9 +71,7 @@ class Registro
             $params[] = $fechaHasta;
         }
 
-
         $sql .= " ORDER BY IFNULL(cf.fecha, isa.fecha) DESC";
-
 
         $stmt = $this->conectarse->conexion->prepare($sql);
         if ($stmt === false) {
