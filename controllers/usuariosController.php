@@ -32,9 +32,7 @@ class UsuarioController {
             $this->usuarioModel->setAlergias($_POST['alergias']);
 
             $this->usuarioModel->insertar();
-
             header('Location: index.php?vista=usuario/registrar&error=usuario_registrado');
-
         } else {
             echo "Error: La solicitud no es de tipo POST.";
         }
@@ -73,46 +71,35 @@ class UsuarioController {
         }
     }
 
-
-    public function login() {
+    public function login($numero_documento, $contraseña) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $numero_documento = $_POST['documento'];
-            $contrasena = $_POST['contrasena'];
-    
             $usuario = new Usuarios();
-            if ($usuario->verificarCredenciales($numero_documento, $contrasena)) {
-                session_start();
-                
-                $id_usuario= $usuario->getId();
-                $_SESSION['id_usuario']= $id_usuario;
-                
-                if(isset($_SESSION['id_usuario'])){
-                    echo "<script>
-                   
-                    window.location.href = 'index.php?vista=funcionario/inicio';
-                    ;
-                </script>";
-                }else{
-                    echo '<script>alert("La sesion no esta iniciada");</script>';
+            $usuario->setNumeroDocumento($numero_documento);
+            $usuario->setContraseña($contraseña);
+    
+            $user = $usuario->existedocumento();
+    
+            if ($user) {
+                $user = $usuario->verificarCredenciales();
+                if ($user) {
+                    session_start();
+                    $_SESSION['user_id'] = $user['id'];
+                    $_SESSION['user_name'] = $user['nombres'];
+                    header('Location: index.php?vista=funcionario/inicio');
+                    exit;
+                } else {
+                    header("Location: index.php?vista=usuario/login&error=credenciales_incorrectas");
+                    exit;
                 }
-                
-              
             } else {
-                echo "<script>
-                    console.log('Credenciales incorrectas');
-                    Swal.fire({
-                        title: 'Credenciales incorrectas',
-                        icon: 'error'
-                    }).then(function() {
-                        window.location.href = 'index.php?vista=usuario/login';
-                    });
-                </script>";
+                header("Location: index.php?vista=usuario/login&error=usuario_no_existe");
+                exit;
             }
-        } else {
-            include "./views/usuario/login.php";
         }
     }
 
+
+    
     
 
     public function recuperar() {
@@ -125,13 +112,11 @@ class UsuarioController {
             if ($usuario) {
                 $_SESSION['reset_email'] = $correo; // Configura la sesión aquí
                 $this->enviarCorreoRecuperacion($correo);
-
                 echo "<script>alert('Éxito', 'Mensaje enviado con éxito.', 'success');</script>";
             } else {
                 echo "<script>alert('Error', 'El correo $correo no existe en la base de datos.', 'error');</script>";
             }
         }
-
         include "./views/usuario/recuperar.php";
     }
 
@@ -157,7 +142,6 @@ class UsuarioController {
             echo "<script>alert('No se pudo enviar el correo.')</script>";
         }
     }
-
 
     public function redireccionNuevaC() {
         session_start();
@@ -195,55 +179,72 @@ class UsuarioController {
             echo "<script>alert('Sesión no válida. Por favor, intente el proceso de recuperación nuevamente.'); window.location.href = 'index.php?vista=usuario/login';</script>";
         }
     }
-    public function manejarEntradaSalida() {
+    public function gestionarIngreso() {
         session_start();
-        
-        // Verificar si la sesión está iniciada y si el ID de usuario está presente
-        if (!isset($_SESSION['usuario_id'])) {
-            echo "<script>alert('Sesión no válida.'); window.location.href = 'index.php?vista=usuario/login';</script>";
-            return;
-        }
-    
         $usuarioModel = new Usuarios();
-        $usuarioId = $_SESSION['usuario_id'];
-        $perfil = $usuarioModel->obtenerPerfilPorIdUsuario($usuarioId);
     
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $contrasena = $_POST['contrasena'];
     
-            // Verificar la contraseña
-            $usuario = $usuarioModel->obtenerUsuarioPorId($usuarioId);
-            if (password_verify($contrasena, $usuario['contrasena'])) {
-                if (!isset($_SESSION['sesion_activa'])) {
-                    $_SESSION['sesion_activa'] = true;
+            // Verificar contraseña
+            $usuario = $usuarioModel->obtenerUsuarioPorContrasena($contrasena);
     
-                    if ($perfil === 'aprendiz' || $perfil === 'instructor') {
-                        $usuarioModel->registrarEntrada($usuarioId);
-                    } elseif ($perfil === 'funcionario') {
-                        $usuarioModel->registrarEntradaFuncionario($usuarioId, null);
+            if ($usuario) {
+                $idUsuario = $usuario['id'];
+                $_SESSION['ingreso_usuario'] = $idUsuario;
+    
+                // Obtener el perfil del usuario
+                $perfil = $usuarioModel->obtenerPerfilPorIdUsuario($idUsuario);
+    
+                // Verificar si ya hay una sesión activa
+                $sesionActiva = ($perfil === 3) 
+                    ? $usuarioModel->verificarSesionActivaFuncionario($idUsuario)
+                    : $usuarioModel->verificarSesionActiva($idUsuario);
+    
+                if ($sesionActiva) {
+                    // Registrar salida
+                    if ($perfil === 3) {
+                        if ($usuarioModel->registrarSalidaFuncionario($idUsuario)) {
+                            echo "<script>alert('Éxito, sesión cerrada.');</script>";
+                            unset($_SESSION['ingreso_usuario']);
+                        } else {
+                            echo "<script>alert('Error al registrar salida.');</script>";
+                        }
+                    } else {
+                        if ($usuarioModel->registrarSalida($idUsuario)) {
+                            echo "<script>alert('Éxito, sesión cerrada.');</script>";
+                            unset($_SESSION['ingreso_usuario']);
+                        } else {
+                            echo "<script>alert('Error al registrar salida.');</script>";
+                        }
                     }
-    
-                    echo "<script>alert('Sesión iniciada exitosamente.');</script>";
                 } else {
-                    if ($perfil === 'aprendiz' || $perfil === 'instructor') {
-                        $usuarioModel->registrarSalida($usuarioId);
-                    } elseif ($perfil === 'funcionario') {
-                        $usuarioModel->registrarSalidaFuncionario($usuarioId);
+                    // Registrar entrada
+                    if ($perfil === 3) {
+                        if ($usuarioModel->registrarEntradaFuncionario($idUsuario)) {
+                            echo "<script>alert('Éxito, sesión iniciada.');</script>";
+                        } else {
+                            echo "<script>alert('Error al registrar entrada.');</script>";
+                        }
+                    } else {
+                        if ($usuarioModel->registrarEntrada($idUsuario)) {
+                            echo "<script>alert('Éxito, sesión iniciada.');</script>";
+                        } else {
+                            echo "<script>alert('Error al registrar entrada.');</script>";
+                        }
                     }
-    
-                    unset($_SESSION['sesion_activa']);
-                    echo "<script>alert('Sesión cerrada.');</script>";
                 }
             } else {
-                echo "<script>alert('Contraseña incorrecta.'); window.history.back();</script>";
+                echo "<script>alert('Contraseña incorrecta.');</script>";
             }
         }
-        include "./views/usuario/entradaSalida.php";
+    
+        include "./views/usuario/Ingreso.php";
     }
     
 
     
-
+    
 public function obtenerPerfilUsuario($id) {
     return $this->usuarioModel->obtenerUsuarioPorId($id);
 }
