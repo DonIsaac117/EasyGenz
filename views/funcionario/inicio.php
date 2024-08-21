@@ -174,7 +174,8 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
             </div>
             <div class="observacion">
               <h3>OBSERVACIONES:</h3>
-              <h5></h5>
+              <h5 ><ul></ul></h5>
+             
             </div>
           </div>
 

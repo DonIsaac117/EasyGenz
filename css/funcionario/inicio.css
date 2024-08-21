@@ -325,6 +325,24 @@ a {
     font-size: clamp(11px, 1vw, 22px);
 }
 
+.observacion ul {
+    list-style-type: none; /* Elimina las viñetas predeterminadas */
+    padding-left: 0; /* Elimina el relleno izquierdo */
+    margin-left: 0; /* Elimina el margen izquierdo */
+}
+
+.observacion ul li {
+    display: flex;
+    align-items: center; /* Alinea verticalmente la viñeta con el texto */
+    margin-bottom: 0.5em; /* Espacio entre los elementos */
+}
+
+.observacion ul li::before {
+    content: '•'; /* Utiliza un punto como viñeta */
+    font-size: 1em; /* Tamaño de la viñeta */
+    color: rgb(255, 145, 0); /* Color de la viñeta */
+    margin-right: 1.7%;
+}
 /* Calendario */
 
 .fc-event-time {

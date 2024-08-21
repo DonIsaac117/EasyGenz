@@ -57,28 +57,32 @@ class CalendarController
         }
     
         $calendarEvents = [];
+        $allEvents = [];
+    
         foreach ($eventsByDate as $date => $events) {
             if (!empty($events['entrada'])) {
                 usort($events['entrada'], function($a, $b) {
                     return strcmp($a['start'], $b['start']);
                 });
                 $calendarEvents[] = $events['entrada'][0]; // Primera entrada
+                $allEvents = array_merge($allEvents, $events['entrada']); // Todas las entradas
             }
             if (!empty($events['salida'])) {
                 usort($events['salida'], function($a, $b) {
                     return strcmp($b['start'], $b['start']);
                 });
                 $calendarEvents[] = $events['salida'][count($events['salida']) - 1]; // Última salida
+                $allEvents = array_merge($allEvents, $events['salida']); // Todas las salidas
             }
         }
     
+        // Enviar tanto los eventos del calendario como todos los eventos para el div de descripción
         echo json_encode([
             'calendarEvents' => $calendarEvents,
-            'allEvents' => array_merge(...array_values($eventsByDate))
+            'allEvents' => $allEvents
         ]);
         exit();
     }
-    
     
 
 

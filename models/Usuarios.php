@@ -1,6 +1,6 @@
 <?php
 
-require_once './config/ConexionBd.php';
+require_once './config/ConectorBD.php';
 
 class Usuarios
 {
@@ -24,7 +24,7 @@ class Usuarios
     //metodos - funciones
 
     public function __construct(){
-        $this->conectarse = new ConexionBD();
+        $this->conectarse = new ConectorBD();
     }
 
     //getter y setter

@@ -302,7 +302,7 @@ textarea:focus {
     border-color: #007bff;
 }
 
-button {
+.boxSupport button {
     position: absolute;
     right: 1.5%;
     bottom: 0%;
@@ -315,10 +315,10 @@ button {
     font-size: 14px;
 }
 
-button:hover {
+.boxSupport button:hover {
     background-color: #0056b3;
 }
 
-button:focus {
+.boxSupport button:focus {
     outline: none;
 }
