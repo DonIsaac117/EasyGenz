@@ -2,131 +2,127 @@
 
 document.addEventListener('DOMContentLoaded', function() {
   var calendarEl = document.getElementById('calendar');
-  var titleDescriptionH2 = document.querySelector('.titleDescription h2');
-  var titleDescriptionH3 = document.querySelector('.titleDescription h3');
-  var textDescriptionEntradaH4 = document.querySelector('.textDescription:nth-child(1) h4');
-  var textDescriptionSalidaH4 = document.querySelector('.textDescription:nth-child(2) h4');
-  var observacionH5 = document.querySelector('.observacion h5');
   var calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: "dayGridMonth",  
-    initialDate: new Date(),
-    headerToolbar: {
-      left: 'title',
-     
-      right: 'today prev,next'
-  },
-      eventSources: {
-          url: './events/load_events.php',
-          method: 'POST',
-          failure: function() {
-            alert('Error intenta otro metodo');
-        },
+      initialView: 'dayGridMonth',
+      initialDate: new Date(),
+      headerToolbar: {
+          left: 'title',
+          right: 'today prev,next'
       },
-      buttonText: {
-        today: 'Hoy',
-        month: 'Mes',
-        week: 'Semana',
-        day: 'Día',
-        list: 'Lista',
-    },
+      eventSources: [
+          {
+              url: './events/load_events.php',
+              method: 'POST',
+              failure: function() {
+                  alert('Error al cargar eventos');
+              },
+              success: function(response) {
+                try {
+                    console.log('Datos recibidos:', response);
 
-      eventTimeFormat: {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true,
-        meridiem: 'short'
-       },
-      selectable:true,
-      locale: 'es',
-      
-    
-      dateClick: function(info) {
-        var date = info.dateStr;
-        titleDescriptionH2.textContent = info.date.toLocaleDateString('es-ES', { weekday: 'long' }).toUpperCase();
-        titleDescriptionH3.textContent =date;
-        textDescriptionEntradaH4.textContent = 'N/A';
-        textDescriptionSalidaH4.textContent = 'N/A';
-        observacionH5.textContent = 'N/A';
+                    if (response.error) {
+                        console.error('Error:', response.error);
+                        return;
+                    }
 
-        var selectedDateEvents = calendar.getEvents().filter(event => event.startStr.startsWith(date));
-        if (selectedDateEvents.length > 0) {
-            selectedDateEvents.forEach(event => {
-                if (event.classNames.includes('entrada')) {
-                    textDescriptionEntradaH4.textContent = event.start.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: true });
-                    observacionH5.textContent = event.extendedProps.observations || 'N/A';
-                } else if (event.classNames.includes('salida')) {
-                    textDescriptionSalidaH4.textContent = event.start.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: true });
-                    observacionH5.textContent = event.extendedProps.observations || 'N/A';
+                    if (!response.calendarEvents || !response.allEvents) {
+                        console.error('La respuesta no contiene los datos esperados.');
+                        return;
+                    }
+
+                  
+                    
+                    // Añadir eventos al calendario
+                    calendar.addEventSource(response.calendarEvents);
+                    
+                    // Actualiza el div de descripción
+                    updateDescription(new Date().toISOString().split('T')[0]);
+                } catch (e) {
+                    console.error('Error procesando la respuesta:', e);
                 }
-            });
-        }
-    },
-
+            }
+          }
+      ],
+      eventTimeFormat: {
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: true,
+          meridiem: 'short'
+      },
+      selectable: true,
+      locale: 'es',
+      dateClick: function(info) {
+          var date = info.dateStr;
+          updateDescription(date);
+      },
       eventDidMount: function(info) {
-        var eventDate = new Date(info.event.start);
-        var today = new Date();
-        if (eventDate.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0)) {
-          info.el.style.backgroundColor = 'lightgreen';
-        }
-        if (info.event.classNames.includes('entrada')) {
-          info.el.style.color = 'green';
-        }
-        if (info.event.classNames.includes('salida')) {
-          info.el.style.color = 'blue';
-        }
+          var eventDate = new Date(info.event.start);
+          var today = new Date();
+          if (eventDate.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0)) {
+              info.el.style.backgroundColor = 'lightgreen';
+          }
+          if (info.event.classNames.includes('entrada')) {
+              info.el.style.color = 'green';
+          }
+          if (info.event.classNames.includes('salida')) {
+              info.el.style.color = 'blue';
+          }
       }
-    });
- 
+  });
+
   calendar.render();
 
-  
-  var today = new Date();
-  var todayStr = today.toISOString().split('T')[0];
-  var todayEvents = calendar.getEvents().filter(event => event.startStr.startsWith(todayStr));
+  function updateDescription(date) {
+      var titleDescriptionH2 = document.querySelector('.titleDescription h2');
+      var titleDescriptionH3 = document.querySelector('.titleDescription h3');
+      var textDescriptionEntradaH4 = document.querySelector('.textDescription:nth-child(1) h4');
+      var textDescriptionSalidaH4 = document.querySelector('.textDescription:nth-child(2) h4');
+      var observacionH5 = document.querySelector('.observacion h5');
 
-  if (todayEvents.length > 0) {
-      var firstEvent = todayEvents[0];
-      
-      var date = firstEvent.start.toISOString().split('T')[0];
+      titleDescriptionH2.textContent = new Date(date).toLocaleDateString('es-ES', { weekday: 'long' }).toUpperCase();
+      titleDescriptionH3.textContent = date;
 
-      titleDescriptionH2.textContent = firstEvent.start.toLocaleDateString('es-ES', { weekday: 'long' }).toUpperCase();
-      titleDescriptionH3.textContent =date;
+      // Filtra los eventos del día seleccionado
+      var selectedDateEvents = calendar.getEvents().filter(event => event.startStr.startsWith(date));
+      console.log('Eventos seleccionados:', selectedDateEvents);
 
-      todayEvents.forEach(event => {
-          var title = event.title.split(': ');
-          var time = title[1];
-          var type = title[0];
+      var entradas = [];
+      var salidas = [];
+      var observaciones = [];
 
-          if (type === 'Entrada') {
-              textDescriptionEntradaH4.textContent = time;
-          } else if (type === 'Salida') {
-              textDescriptionSalidaH4.textContent = time;
+      selectedDateEvents.forEach(event => {
+          var time = event.start.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: true });
+          var type = event.classNames.includes('entrada') ? 'entrada' : 'salida';
+          var observation = event.extendedProps.observations || 'N/A';
+
+          if (type === 'entrada') {
+              entradas.push(time);
+          } else if (type === 'salida') {
+              salidas.push(time);
           }
+          observaciones.push(observation);
       });
 
-      observacionH5.textContent = event.extendedProps.observations || 'N/A';
-  } else {
-      titleDescriptionH2.textContent = today.toLocaleDateString('es-ES', { weekday: 'long' }).toUpperCase();
-      titleDescriptionH3.textContent =todayStr;
-      textDescriptionEntradaH4.textContent = 'N/A';
-      textDescriptionSalidaH4.textContent = 'N/A';
-      observacionH5.textContent = 'N/A';
-      observacionH5.textContent = 'N/A';
+      textDescriptionEntradaH4.innerHTML = entradas.length > 0 ? entradas.map(time => `<p>${time}</p>`).join('') : 'N/A';
+      textDescriptionSalidaH4.innerHTML = salidas.length > 0 ? salidas.map(time => `<p>${time}</p>`).join('') : 'N/A';
+      observacionH5.innerHTML = observaciones.length > 0 ? observaciones.map(obs => `<p>${obs}</p>`).join('') : 'N/A';
   }
-  document.querySelectorAll('.fc-prev-button, .fc-next-button').forEach(button => {
-    button.addEventListener('click', function() {
-        setTimeout(function() {
-            button.blur(); // Elimina el foco del botón para evitar que quede "presionado"
-        }, 100);
-    });
-  });
-  
- 
-      
+
+  // Configuración inicial para hoy
+  updateDescription(new Date().toISOString().split('T')[0]);
 });
 
 
 
+<<<<<<< Updated upstream
+=======
+
+
+
+
+
+
+>>>>>>> Stashed changes
 //Perfil
 
 var perfilSpan = document.querySelector('.perfil>span');

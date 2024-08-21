@@ -7,7 +7,7 @@ class ConexionBd
     private $host = "localhost";
     private $userBd = "root";
     private $passwordBd = "";
-    private $database = "proyectoez";
+    private $database = "proyecto";
     public $conexion; 
 
     public function __construct()
