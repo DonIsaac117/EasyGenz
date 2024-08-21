@@ -40,18 +40,19 @@ h1{
 
 }
 
-button.boton{
+a.boton{
+    text-decoration: none;
+    text-align: center;
     background-color: #70c073;
     color: white;
     border: none;
     padding: 1% 5%;
-
     font-size: 100%;
     margin: 3% 0;
     cursor: pointer;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 20%;
+    width: 7%;
     
 }
 

@@ -25,7 +25,7 @@
                 <span>Para consultas relacionadas con el manejo de datos personales, por favor contacte a nuestro delegado de protección de datos en <a href="#">isigenz@gmail.com</a>.</span>
             </ul>
         </p>
-        <a href="index.php?vista=usuario/registrar"><button>Entendidou</button></a>
+        <a class="boton" href="index.php?vista=usuario/registrar">ENTENDIDO</a>
     </div></div>
   
 
