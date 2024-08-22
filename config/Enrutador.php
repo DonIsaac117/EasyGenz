@@ -43,22 +43,41 @@ class Enrutador
                     $usuarioController->actualizar();
                     break;
                 case "login":
+
                     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $usuarioController = new UsuarioController();
                         $usuarioController->login();
                     } else {
+
                         include "./views/usuario/login.php";
                     }
                     break;
+                    case "Ingreso":
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                        $usuarioController = new UsuarioController();
+                        $usuarioController->manejarEntradaSalida();
+                    } else {
+                        include "./views/usuario/Ingreso.php";
+                    }
+                    break;
+                    
+                case "TYC":
+                    require_once ("./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php");
+                    break;
+
                 default:
                     require_once ("./views/pageNotFound.php");
                     break;
+
+
             }
 
         } else if ($carpetaArchivo[0] == "programa") {
             switch ($carpetaArchivo[1]) {
                 case "inicio":
+
                     echo $carpetaArchivo[1];
+
                     require_once ("./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php");
                     break;
                 case "registrar":

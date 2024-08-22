@@ -23,7 +23,6 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -40,11 +39,13 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
     </div>
     <div class="menu">
       <a href="?vista=funcionario/inicio">
+
         <div>
           <span class="material-icons-sharp">home</span>
           <p>Calendario</p>
         </div>
       </a>
+
 
     </div>
     <div class="menu">
@@ -72,7 +73,23 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
           <p>Usuarios</p>
         </div>
       </a>
-    </div>
+      </div>
+
+    </nav>
+    <div class="body">
+      <header class="header">
+        <div class="title">
+          <p>Control de Registro</p>
+        </div>
+        <div class="perfil">
+          <span class="material-icons-sharp" id="perfil">account_circle</span>
+          <div id="perfilMenu" class="perfilMenu">
+            <div class="perfilIcon">
+              <div>
+                <span class="material-icons-sharp">account_circle</span>
+                <button class="btnBlue">Cambiar foto</button>
+              </div>
+
 
   </nav>
   <div class="body">
@@ -301,3 +318,4 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
 </body>
 
 </html>
+

@@ -25,12 +25,14 @@ document.addEventListener('click', function(e) {
 perfilMenu.addEventListener('click', function(e) {
     e.stopPropagation();
 });
-  
-  
 // Mostrar los elementos con animación después de cargar la página
 setTimeout(function () {
   document.querySelector(".main").classList.add("show");
 }, 100);
+
+setTimeout(function () {
+  document.querySelector(".description").classList.add("show");
+}, 700);
 
 
 function clearFilters() {
@@ -93,6 +95,7 @@ document.querySelectorAll("th").forEach((header) => {
 });
 
 function mostrarModal(id) {
+
   // Eliminar la clase seleccionada de cualquier fila previamente seleccionada
   const filas = document.querySelectorAll('tr.selected');
   filas.forEach(fila => fila.classList.remove('selected'));
@@ -114,6 +117,7 @@ function mostrarModal(id) {
 }
 
 function ocultarModal(id) {
+
   const modal = document.getElementById(`modal-${id}`);
   modal.style.opacity = 0;
 
@@ -135,4 +139,5 @@ window.onclick = function(event) {
           ocultarModal(modalId);
       }
   });
+
 }
