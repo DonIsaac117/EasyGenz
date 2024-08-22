@@ -28,7 +28,7 @@ class CalendarController
         while ($row = $stmt->fetch_assoc()) {
             $fecha = $row['fecha'];
             $hora_entrada = date("H:i", strtotime($row['hora_entrada']));
-            $hora_salida = date("H:i", strtotime($row['hora_salida']));
+            $hora_salida = $row['hora_salida'] ? date("H:i", strtotime($row['hora_salida'])) : null;
             $observacion = $row['observacion'];
     
             if (!isset($eventsByDate[$fecha])) {
