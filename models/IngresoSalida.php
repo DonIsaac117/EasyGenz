@@ -1,6 +1,6 @@
 <?php
 
-require_once ("./config/ConexionBd.php");
+require_once ("./config/ConectorBD.php");
 
 class IngresoSalida
 {
@@ -18,7 +18,7 @@ class IngresoSalida
     //metodos - funciones
 
     public function __construct(){
-        $this->conectarse = new ConexionBd();
+        $this->conectarse = new ConectorBD();
     }
 
     //getter y setter
