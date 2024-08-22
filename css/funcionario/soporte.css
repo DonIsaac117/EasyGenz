@@ -1,0 +1,324 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Inter", sans-serif;
+}
+
+body {
+    display: flex;
+    margin: 0;
+    overflow: hidden;
+}
+
+a {
+    text-decoration: none;
+}
+
+.nav {
+    flex: 1;
+    background: linear-gradient(360deg,#1FEF27,#279D2C );
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.sena {
+    max-width: 100%;
+    display: flex;
+    font-size: clamp(16px, 1.4vw, 24px);
+    font-weight: 700;
+    color: white;
+    align-items: center;
+    border-bottom: 2px solid white;
+    margin-right: 1.5%;
+}
+
+.menu {
+    height: 8%;
+    border-bottom: 1.5px white solid;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.menu div {
+    color: white;
+    font-size: clamp(11px, 1.25vw, 22px);
+    font-weight: 700;
+    display: flex;
+    padding: 4% 0;
+}
+
+.menu div:hover {
+    background: rgb(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.main {
+    display: flex;
+    flex: 16 1 auto;
+    height: clamp(85vh, 90vh, 92vh);
+    opacity: 0;
+    transform: translateX(-100%);
+    transition: transform 0.8s ease, opacity 0.8s ease;
+}
+
+.main.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.mainLayout {
+    height: 100%;
+    margin: 12px;
+    flex: 6;
+}
+
+.menu span {
+    margin: -1px 5px;
+}
+
+.sena img {
+    width: 24%;  
+    margin: 0.5%;
+}
+
+.body {
+    flex: 8;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.header {
+    height: 8vh;
+    background: linear-gradient(-90deg,#1FEF27,#279D2C );
+    display: flex;
+    padding:  0;
+    box-sizing: border-box;
+    border-left: 0.4px solid black;
+}
+
+.title {
+    flex: 12;
+    color: white;
+    font-size: clamp(30px, 2.8vw, 48px);
+    text-align: center;
+    margin: auto;
+    font-weight: 700;
+    margin-left: 15px;
+}
+
+.perfil {
+    flex: 1;
+    text-align: right;
+    margin: auto 15px;
+}
+
+.perfil > span {
+    color: white;
+    font-size: clamp(36px, 3vw, 46px);
+    cursor: pointer;
+    padding-top: 5px;
+}
+
+.perfil > span:hover {
+    color: rgb(0, 0, 0, 0.55);
+}
+
+.perfil > span.active {
+    color: rgb(0, 0, 0, 0.55); 
+}
+
+.perfil {
+    flex: 1;
+    user-select: none;
+}
+
+.perfilMenu {
+    background: linear-gradient(180deg,rgba(0,0,0,0.80),rgba(24, 63, 33, 0.80));
+    position: absolute;
+    top: 8vh; 
+    right: 6px; 
+    width: clamp(22vw, 28vw, 38vw);
+    min-height: 60vh;
+    max-height: 86vh;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    color: white;
+    transform: translateY(-100%);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    opacity: 0;
+    pointer-events: none; 
+}
+
+.perfilMenu.show {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto; 
+}
+
+.perfilIcon {
+    display: flex;
+    text-align: center;
+}
+
+.perfilIcon span {
+    color: white;
+    font-size: clamp(65px, 3vw, 85px);
+    margin: 8px 8px 1.5px 9px;
+}
+
+.perfilIcon > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.btnBlue {
+    background-color: #20CA9A;
+    padding: 3.5% 10px;
+    margin-left: 5px;
+    border-radius: 20px;
+    color: white;
+    font-weight: 600;
+    border: 0;
+    font-size: (12px 1.2vw, 20px);
+}
+
+.btnBlue:hover {
+    background-color: #2ea583;
+    cursor: pointer;
+}
+
+.nameUser {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 5px 15px 5px;
+    font-size: clamp(12px, 1.2vw, 25px);
+}
+
+.nameUser h5 {
+    color: rgb(255, 255, 255, 0.5);
+    font-size: clamp(10px, 1.2vw, 23px);
+}
+
+.userData {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 1% 2.5%;
+}
+
+.userData div {
+    flex: 1 1 40%;
+    text-align: left;
+    margin: 1% 0.2%;
+    line-height: 22px;
+    font-size: clamp(14px, 1.1vw, 25px);
+}
+
+.userData div h5 {
+    color: rgb(255, 255, 255, 0.7);
+}
+
+.userEnd {
+    display: flex;
+    flex-direction: column;
+    width: clamp(40%, 15vw, 50%);
+    margin: 1% auto 1.5% auto;
+    align-items: center;
+}
+
+.btnRed {
+    background-color: #CA2020;
+    padding: 1% 10px;
+    margin: 5% 0 0 2.6%;
+    border-radius: 20px;
+    width: clamp(22%, 10vw, 45%);
+    color: white;
+    font-weight: 600;
+    border: 0;
+    position: absolute;
+    bottom: 2.3%;
+    right: 0.4%;
+}
+
+.btnRed:hover {
+    background-color: #aa2727;
+    cursor: pointer;
+}
+
+.boxSupport {
+    height: 25vh;
+    width: 25%;
+    background-color: #fff;
+    padding: 1%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.boxSupport h3 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.boxSupport select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.boxSupport form div {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    flex-grow: 1;
+}
+
+textarea {
+    margin: 0.2%;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    resize: none;
+    height: 100%;
+    overflow-y: auto;
+    background-color: #f9f9f9;
+    font-size: 14px;
+    line-height: 1.5;
+    box-sizing: border-box;
+    padding-bottom: 0;
+    color: black;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.boxSupport button {
+    position: absolute;
+    right: 1.5%;
+    bottom: 0%;
+    padding: 5px 10px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.boxSupport button:hover {
+    background-color: #0056b3;
+}
+
+.boxSupport button:focus {
+    outline: none;
+}

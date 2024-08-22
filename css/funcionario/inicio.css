@@ -115,7 +115,6 @@ a {
     font-weight: 700;
     margin-left: 15px;
 }
-
 .perfil {
     flex: 1;
     text-align: right;
@@ -131,6 +130,10 @@ a {
 
 .perfil > span:hover {
     color: rgb(0, 0, 0, 0.55);
+}
+
+.perfil > span.active {
+    color: rgb(0, 0, 0, 0.55); 
 }
 
 .perfil {
@@ -152,13 +155,13 @@ a {
     transform: translateY(-100%);
     transition: transform 0.5s ease, opacity 0.5s ease;
     opacity: 0;
-    pointer-events: none; /* Prevents interaction when hidden */
+    pointer-events: none; 
 }
 
 .perfilMenu.show {
     transform: translateY(0);
     opacity: 1;
-    pointer-events: auto; /* Allows interaction when shown */
+    pointer-events: auto; 
 }
 
 .perfilIcon {
@@ -322,6 +325,24 @@ a {
     font-size: clamp(11px, 1vw, 22px);
 }
 
+.observacion ul {
+    list-style-type: none; /* Elimina las viñetas predeterminadas */
+    padding-left: 0; /* Elimina el relleno izquierdo */
+    margin-left: 0; /* Elimina el margen izquierdo */
+}
+
+.observacion ul li {
+    display: flex;
+    align-items: center; /* Alinea verticalmente la viñeta con el texto */
+    margin-bottom: 0.5em; /* Espacio entre los elementos */
+}
+
+.observacion ul li::before {
+    content: '•'; /* Utiliza un punto como viñeta */
+    font-size: 1em; /* Tamaño de la viñeta */
+    color: rgb(255, 145, 0); /* Color de la viñeta */
+    margin-right: 1.7%;
+}
 /* Calendario */
 
 .fc-event-time {
