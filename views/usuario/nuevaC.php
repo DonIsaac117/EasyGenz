@@ -14,16 +14,17 @@
             <h1>Ingresa tu nueva contraseña</h1>
             <div class="formulario">
                 <h2>Nueva contraseña</h2>
-                <input type="password" name="contra" required>
+                <input type="text" required>
                 <h2>Repite la contraseña</h2>
-                <input type="password" name="contra2" required>
-                <div class="registro">
-                    <input type="submit" name="cambiar" value="Cambiar" class="boton-registrese">
-                </div>
+                <input type="password" required>
+        </form>
+            <div class="registro"> 
+                <a href="../../index.html" class="boton-registrese">Cambiar</a>
             </div>
-        </form>   
+               
+            </div>
     </div>
-
 </body>
 </html>
+
 

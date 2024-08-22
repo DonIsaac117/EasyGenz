@@ -1,6 +1,6 @@
 <?php
 
-require_once './config/ConexionBd.php';
+require_once './config/ConectorBD.php';
 
 class Registro
 {
@@ -8,7 +8,7 @@ class Registro
 
     public function __construct()
     {
-        $this->conectarse = new ConexionBd();
+        $this->conectarse = new ConectorBD();
     }
 
     public function getAll($documento = null, $nombre = null, $apellido = null, $fechaDesde = null, $fechaHasta = null)

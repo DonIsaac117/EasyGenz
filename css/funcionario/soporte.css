@@ -76,6 +76,16 @@ a {
     flex: 6;
 }
 
+.mainLayout h3{
+    font-size: clamp(18px, 1vw, 30px);
+}
+
+.mainLayout h4{
+    font-size: clamp(15px, 0.8vw, 27px);
+    font-weight: 600;
+}
+
+
 .menu span {
     margin: -1px 5px;
 }
@@ -252,49 +262,59 @@ a {
 }
 
 .boxSupport {
-    height: 25vh;
-    width: 25%;
+    margin-top: -0.4% ;
+    margin-bottom: 1%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 40%;
+    width: 32%;
     background-color: #fff;
-    padding: 1%;
+    padding: 0.8%;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 9px rgba(0, 0, 0, 0.1);
 }
 
 .boxSupport h3 {
-    margin-bottom: 15px;
+    margin-bottom: 1.4%;
+
     color: #333;
 }
 
 .boxSupport select {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
+
+    cursor: pointer;
+    padding: 1.4%;
+    margin-bottom: 1.2%;
     border-radius: 5px;
     border: 1px solid #ddd;
+    font-size: clamp(13px, 0.6vw, 17px);
 }
 
-.boxSupport form div {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    flex-grow: 1;
+.boxSupport form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 textarea {
+    flex-grow: 1;
     margin: 0.2%;
-    width: 100%;
-    padding: 10px;
+    padding: 1.5%;
     border-radius: 10px;
     border: 1px solid #ddd;
     resize: none;
-    height: 100%;
     overflow-y: auto;
     background-color: #f9f9f9;
-    font-size: 14px;
+    font-size: clamp(11.5px, 0.45vw, 15.5px);
     line-height: 1.5;
-    box-sizing: border-box;
-    padding-bottom: 0;
     color: black;
+    width: 97%; 
+    height: auto; 
+    min-height: 70px; 
+    max-height: 100%; 
+
 }
 
 textarea:focus {
@@ -303,16 +323,19 @@ textarea:focus {
 }
 
 .boxSupport button {
-    position: absolute;
-    right: 1.5%;
-    bottom: 0%;
-    padding: 5px 10px;
+    position: relative;
+    top: 1.5%;
+    left: 83.5%;
+    width: 17%;
+    padding: 1% 2%;
+
     border: none;
     background-color: #007bff;
     color: white;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: clamp(12px, 0.5vw, 16px);
+
 }
 
 .boxSupport button:hover {
@@ -322,3 +345,50 @@ textarea:focus {
 .boxSupport button:focus {
     outline: none;
 }
+
+.infoPdf img {
+    width: 2.5%;
+}
+
+
+.contacInfo img {
+    width: 2.2%;
+    margin-left: 2px;
+}
+
+h4 {
+    display: flex;
+    align-items: center; 
+    margin: 0.8% 0; 
+
+}
+
+.infoPdf h4{
+    cursor: pointer;
+}
+
+.organized {
+    margin: 1.1% 0.3%;
+}
+
+h4 img {
+    margin-right: 4px; 
+    margin-top: -1.3px;
+}
+
+.social {
+    position: absolute;
+    bottom: 0.2%;
+    right: 0.2%;
+}
+
+.social i {
+    cursor: pointer;
+}
+.char-limit-message {
+    font-size: 12px;
+    color: red;
+    margin-top: 5px;
+    display: none; 
+}
+

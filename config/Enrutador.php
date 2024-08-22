@@ -44,12 +44,11 @@ class Enrutador
                     break;
                 case "login":
 
-                    $usuarioController = new UsuarioController();
                     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                        $numero_documento = $_POST['documento'];
-                        $contraseña = $_POST['contrasena'];
-                        $usuarioController->login($numero_documento, $contraseña);
-                   } else {
+                        $usuarioController = new UsuarioController();
+                        $usuarioController->login();
+                    } else {
+
                         include "./views/usuario/login.php";
                     }
                     break;

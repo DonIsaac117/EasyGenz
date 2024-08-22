@@ -1,6 +1,6 @@
 <?php
 
-require_once './config/ConexionBd.php';
+require_once './config/ConectorBD.php';
 require_once './models/Usuarios.php';
 require_once './models/Registros.php';
 
@@ -74,6 +74,7 @@ class UsuarioController {
     }
 
 
+
     public function login() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Obtén los datos del formulario
@@ -106,7 +107,10 @@ class UsuarioController {
                     header("Location: index.php?vista=usuario/login&error=credenciales_incorrectas");
                     exit;
                 }
+                
+              
             } else {
+
                 // Redirige si el usuario no existe
                 header("Location: index.php?vista=usuario/login&error=usuario_no_existe");
                 exit;
@@ -126,10 +130,9 @@ class UsuarioController {
             if ($usuario) {
                 $_SESSION['reset_email'] = $correo; // Configura la sesión aquí
                 $this->enviarCorreoRecuperacion($correo);
-
                 echo "<script>alert('Éxito', 'Mensaje enviado con éxito.', 'success');</script>";
             } else {
-                echo "<script>alert('Error', 'El correo $correo no existe en la base de datos.', 'error');</script>";
+                echo "<script>Swal.fire('Error', 'El correo $correo no existe en la base de datos.', 'error');</script>";
             }
         }
 
@@ -158,6 +161,7 @@ class UsuarioController {
             echo "<script>alert('No se pudo enviar el correo.')</script>";
         }
     }
+
 
 
     public function redireccionNuevaC() {
@@ -244,6 +248,7 @@ class UsuarioController {
     
 
     
+
 
 public function obtenerPerfilUsuario($id) {
     return $this->usuarioModel->obtenerUsuarioPorId($id);

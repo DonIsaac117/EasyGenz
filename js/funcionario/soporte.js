@@ -30,18 +30,43 @@ setTimeout(function () {
     document.querySelector(".main").classList.add("show");
   }, 100);
 
-  const textarea = document.getElementById('reclamos');
-  const form = document.getElementById('pqr');
 
-  // Permitir el envío con la tecla Enter
-  textarea.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' && !e.shiftKey) {
-          e.preventDefault(); // Prevenir el salto de línea
-          form.submit(); // Enviar el formulario
-      }
-  });
+  document.addEventListener('DOMContentLoaded', function () {
+    const textarea = document.getElementById('reclamo');
+    const form = document.getElementById('pqrForm');
+    const charLimitMsg = document.getElementById('charLimitMsg');
+    const selectPqr = document.getElementById('pqr');
+    const maxLength = textarea.maxLength;
 
-  // Mantener el scroll en la parte inferior cuando el texto se expanda
-  textarea.addEventListener('input', function () {
-      textarea.scrollTop = textarea.scrollHeight;
-  });
+    // Mostrar mensaje de límite de caracteres
+    textarea.addEventListener('input', function () {
+        if (textarea.value.length >= maxLength) {
+            charLimitMsg.style.display = 'block';
+        } else {
+            charLimitMsg.style.display = 'none';
+        }
+    });
+
+    // Enviar formulario con Enter
+    textarea.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault();
+            enviarFormulario();
+        }
+    });
+
+    // Enviar formulario con botón
+    form.addEventListener('submit', function (event) {
+        event.preventDefault(); // Previene el envío por defecto
+        enviarFormulario();
+    });
+
+    function enviarFormulario() {
+        const tipoReclamo = selectPqr.value; // Obtener el valor seleccionado en el select
+        alert(`Su ${tipoReclamo} ha sido enviado. ¡Gracias por su comentario!`);
+        textarea.value = ''; // Limpia el textarea después de enviar
+        charLimitMsg.style.display = 'none'; // Resetea el mensaje de límite de caracteres
+        form.submit(); // Envía el formulario
+    }
+});
+

@@ -41,7 +41,6 @@ include_once './controllers/usuariosController.php';
         </div>
     </div>
 
-
     <div id="myModal" class="modal">
         <div class="modal-content">
             <?php
@@ -82,5 +81,6 @@ include_once './controllers/usuariosController.php';
             });
        });
    </script>
+
 </body>
 </html>

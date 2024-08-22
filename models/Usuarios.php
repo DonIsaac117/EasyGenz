@@ -1,6 +1,6 @@
 <?php
 
-require_once './config/ConexionBd.php';
+require_once './config/ConectorBD.php';
 
 class Usuarios
 {
@@ -24,7 +24,7 @@ class Usuarios
     //metodos - funciones
 
     public function __construct(){
-        $this->conectarse = new ConexionBD();
+        $this->conectarse = new ConectorBD();
     }
 
     //getter y setter
@@ -152,7 +152,6 @@ class Usuarios
     }
 
 
-
     public function verificarCredenciales($numero_documento, $contrasena) {
         $conexion = $this->conectarse->conexion;
         
@@ -161,6 +160,7 @@ class Usuarios
 
         if (!$stmt) {
             echo "Error en la preparación: " . $conexion->error;
+
             return false;
         }
 
@@ -183,18 +183,9 @@ class Usuarios
                 echo "Contraseña incorrecta";
                 return false;
             }
+
         } else {
             echo "Usuario no encontrado";
-            return false;
-        }
-    }
-    public function existedocumento() {
-        $cadenaSql = "SELECT * FROM usuarios WHERE numero_documento = '$this->numero_documento'";
-        $resultado = $this->conectarse->consultaConRetorno($cadenaSql);
-    
-        if ($resultado->num_rows > 0) {
-            return $resultado->fetch_assoc();
-        } else {
             return false;
         }
     }
