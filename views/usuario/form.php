@@ -1,10 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario</title>
-    <link rel="stylesheet" href="./css/form.css">
+    <link rel="stylesheet" type="text/css" href="./css/form.css?v=<?php echo time(); ?>">
+
 </head>
 <body>
     <h1>Registro</h1>
@@ -131,8 +133,8 @@
         </div>
 
         <div class="terminos">
-            <label for="condiciones">Aceptar terminos y condiciones -></label>
-            <input type="checkbox" id="condiciones">
+            <label for="condiciones">Aceptar <a href="index.php?vista=usuario/TYC"> terminos y condiciones</a></label>
+            <input type="checkbox" id="condiciones" required>
         </div>
     </form>
 
@@ -228,3 +230,4 @@ document.addEventListener('DOMContentLoaded', function() {
     </script>
 </body>
 </html>
+
