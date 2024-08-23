@@ -85,7 +85,6 @@ a {
     font-weight: 600;
 }
 
-
 .menu span {
     margin: -1px 5px;
 }
@@ -277,13 +276,11 @@ a {
 
 .boxSupport h3 {
     margin-bottom: 1.4%;
-
     color: #333;
 }
 
 .boxSupport select {
     width: 100%;
-
     cursor: pointer;
     padding: 1.4%;
     margin-bottom: 1.2%;
@@ -314,7 +311,6 @@ textarea {
     height: auto; 
     min-height: 70px; 
     max-height: 100%; 
-
 }
 
 textarea:focus {
@@ -328,14 +324,12 @@ textarea:focus {
     left: 83.5%;
     width: 17%;
     padding: 1% 2%;
-
     border: none;
     background-color: #007bff;
     color: white;
     border-radius: 5px;
     cursor: pointer;
     font-size: clamp(12px, 0.5vw, 16px);
-
 }
 
 .boxSupport button:hover {
@@ -348,27 +342,34 @@ textarea:focus {
 
 .infoPdf img {
     width: 2.5%;
+    cursor: pointer;
 }
 
 
-.contacInfo img {
-    width: 2.2%;
-    margin-left: 2px;
+
+.contacInfo i {
+    font-size: clamp(15px, 1.7vw, 26px);
+    margin: 0 0.32%;
+}
+
+.contacInfo a{
+    color: black;
+    display: flex;
+    margin: 0 0.32%;
+}
+
+.contacInfo a>i {
+    margin-right: 3.7%;
 }
 
 h4 {
     display: flex;
     align-items: center; 
-    margin: 0.8% 0; 
-
-}
-
-.infoPdf h4{
-    cursor: pointer;
+    margin: clamp(0.47%, 0.4vh, 0.8%) 0; 
 }
 
 .organized {
-    margin: 1.1% 0.3%;
+    margin: clamp(0.72%,0.6vh, 1.1%) 0.3%;
 }
 
 h4 img {
@@ -378,17 +379,20 @@ h4 img {
 
 .social {
     position: absolute;
-    bottom: 0.2%;
-    right: 0.2%;
+    bottom: 3%;
+    right: 3%;
+    text-align: center;
 }
 
 .social i {
     cursor: pointer;
+    font-size: clamp(18px, 2vw, 50px);
+    margin: 1.5% 0.8% 1.5% 0.6%;
 }
+
 .char-limit-message {
     font-size: 12px;
     color: red;
     margin-top: 5px;
     display: none; 
 }
-

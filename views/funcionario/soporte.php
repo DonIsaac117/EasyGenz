@@ -23,7 +23,6 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -197,11 +196,11 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
                 <div class="infoPdf">
                     <h3>Informacion</h3>
                     <div class="organized">
-                        <h4 title="Descargar pdf"> <img src="./imagenes/funcionario/pdf.png" alt="pdf">Preguntas
+                        <h4><img src="./imagenes/funcionario/pdf.png" alt="pdf" title="Descargar pdf">Preguntas
                             frecuentes</h4>
-                        <h4 title="Descargar pdf"><img src="./imagenes/funcionario/pdf.png" alt="pdf">Manual de usuario
+                        <h4><img src="./imagenes/funcionario/pdf.png" alt="pdf" title="Descargar pdf">Manual de usuario
                         </h4>
-                        <h4 title="Descargar pdf"><img src="./imagenes/funcionario/pdf.png" alt="pdf">Sobre nosotros
+                        <h4><img src="./imagenes/funcionario/pdf.png" alt="pdf" title="Descargar pdf">Sobre nosotros
                         </h4>
                     </div>
                 </div>
@@ -209,20 +208,22 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
                 <div class="contacInfo">
                     <h3>Informacion de Contacto</h3>
                     <div class="organized">
-                        <h4><i class="fa-solid fa-phone"></i> 122425123</h4>
-                        <h4><i class="fa-brands fa-whatsapp"></i> 31245332</h4>
-                        <h4><i class="fa-solid fa-location-dot"></i>Calle 2 No. 15</h4>
+                        <h4><i class="fa-solid fa-phone"></i>5978250 ext. 17374 </h4>
+                        <h4><i class="fa-brands fa-whatsapp"></i>+57 316 8760255</h4>
+                        <h4><i class="fa-solid fa-location-dot"></i>&nbsp;Cl. 2 #13 - 3, Villeta, Cundinamarca</h4>
+                        <h4><i class="fa-solid fa-envelope"></i> cdaecomunica@misena.edu.co</h4>
+                        <h4><a href="https://blogcentrofusagasuga.blogspot.com/" title="Ir al blog"><i class="fa-solid fa-globe"></i>Blogspot</a> </h4>
                     </div>
                 </div>
                 <div class="social">
                     <h3>Redes Sociales</h3>
-                    <i class="fab fa-facebook" style="color: #3b5998;"></i>
-                    <i class="fab fa-x-twitter" style="color: black"></i>
-                    <i class="fab fa-instagram" style="
+                    <a href="https://www.facebook.com/SENAVilletaOficial/"><i class="fab fa-facebook" style="color: #3b5998;"></i></a>
+                    <a href="https://twitter.com/SENACDAE"><i class="fab fa-x-twitter" style="color: black"></i></a> 
+                    <a href="https://www.instagram.com/senacundinamarca/?hl=es-la"><i class="fab fa-instagram" style="
                       background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
                       background-clip: text;
                       -webkit-text-fill-color: transparent;">
-                    </i>
+                    </i></a>
                 </div>
 
 
@@ -236,7 +237,6 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
 
 
     </script>
-
 </body>
 
 </html>

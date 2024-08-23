@@ -190,6 +190,17 @@ class Usuarios
         }
     }
 
+    public function existedocumento() {
+        $cadenaSql = "SELECT * FROM usuarios WHERE numero_documento = '$this->numero_documento'";
+        $resultado = $this->conectarse->consultaConRetorno($cadenaSql);
+    
+        if ($resultado->num_rows > 0) {
+            return $resultado->fetch_assoc();
+        } else {
+            return false;
+        }
+    }
+
 
     public function obtenerUsuarioPorCorreo($correo) {
         $sql = "SELECT * FROM usuarios WHERE email = ?";

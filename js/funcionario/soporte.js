@@ -30,7 +30,6 @@ setTimeout(function () {
     document.querySelector(".main").classList.add("show");
   }, 100);
 
-
   document.addEventListener('DOMContentLoaded', function () {
     const textarea = document.getElementById('reclamo');
     const form = document.getElementById('pqrForm');
@@ -69,4 +68,3 @@ setTimeout(function () {
         form.submit(); // Envía el formulario
     }
 });
-

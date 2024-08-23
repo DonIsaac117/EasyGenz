@@ -25,14 +25,12 @@ document.addEventListener('click', function(e) {
 perfilMenu.addEventListener('click', function(e) {
     e.stopPropagation();
 });
+  
+  
 // Mostrar los elementos con animación después de cargar la página
 setTimeout(function () {
   document.querySelector(".main").classList.add("show");
 }, 100);
-
-setTimeout(function () {
-  document.querySelector(".description").classList.add("show");
-}, 700);
 
 
 function clearFilters() {
@@ -95,7 +93,6 @@ document.querySelectorAll("th").forEach((header) => {
 });
 
 function mostrarModal(id) {
-
   // Eliminar la clase seleccionada de cualquier fila previamente seleccionada
   const filas = document.querySelectorAll('tr.selected');
   filas.forEach(fila => fila.classList.remove('selected'));
@@ -117,7 +114,6 @@ function mostrarModal(id) {
 }
 
 function ocultarModal(id) {
-
   const modal = document.getElementById(`modal-${id}`);
   modal.style.opacity = 0;
 
@@ -139,5 +135,64 @@ window.onclick = function(event) {
           ocultarModal(modalId);
       }
   });
+}
 
+//Descargar consultas sql en PDF
+async function generatePDF() {
+  // Verificar si hay filtros aplicados
+  const filters = document.querySelectorAll('.filter-input');
+  let hasFilters = false;
+
+  filters.forEach(filter => {
+      if (filter.value.trim() !== '') {
+          hasFilters = true;
+      }
+  });
+
+  // Si no hay filtros aplicados, mostrar una alerta y no generar el PDF
+  if (!hasFilters) {
+      alert('Por favor, aplica al menos un filtro antes de generar el PDF.');
+      return;
+  }
+
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF('landscape');
+
+  // Remover íconos dentro de los encabezados (th) temporalmente
+  const iconSpans = document.querySelectorAll('th span.material-icons-sharp');
+  let removedIcons = [];
+  
+  iconSpans.forEach(icon => {
+      removedIcons.push(icon.parentNode.removeChild(icon));
+  });
+
+  // Agregar título al PDF
+  pdf.setFontSize(16);
+  pdf.text('Registros de asistencia', 10, 10);
+
+  // Agregar la fecha actual en el lado derecho del título
+  const currentDate = new Date().toLocaleDateString();
+  pdf.text(`Fecha: ${currentDate}`, pdf.internal.pageSize.width - 60, 10); // Ajusta las coordenadas si es necesario
+
+  // Usar autoTable para generar la tabla en el PDF
+  pdf.autoTable({
+      head: [Array.from(document.querySelectorAll('#tabla thead th')).map(th => th.textContent.trim())],
+      body: Array.from(document.querySelectorAll('#tabla tbody tr')).map(tr => {
+          return Array.from(tr.querySelectorAll('td')).map(td => td.textContent.trim());
+      }),
+      startY: 20,
+      theme: 'grid',
+      headStyles: {
+          textColor: [0, 0, 0], // Color de texto negro
+      }
+  });
+
+  // Restaurar los íconos después de generar el PDF
+  const thElements = document.querySelectorAll('#tabla thead th');
+  removedIcons.forEach((icon, index) => {
+      thElements[index].appendChild(icon);
+  });
+
+  // Guardar el PDF
+  pdf.save('Tabla_registros.pdf');
 }
