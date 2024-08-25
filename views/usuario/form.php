@@ -1,3 +1,16 @@
+<?php
+$mensajeModal = '';
+if (isset($_GET['error'])) {
+    $error = $_GET['error'];
+    if ($error == 'usuario_registrado') {
+        $mensajeModal = 'Se ha registrado correctamente';
+    } else {
+        $mensajeModal = 'Error desconocido';
+    }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -137,12 +150,12 @@
         </div>
     </form>
 
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span id="mensaje-modal"></span><br>
-            <a href="../index.php">Ir al login</a>
-        </div>
+    <div id="myModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span id="mensaje-modal"><?php echo $mensajeModal; ?></span><br>
+        <a href="index.php?vista=usuario/login">Ir al login</a>
     </div>
+</div>
 
 
     <script>
@@ -184,7 +197,17 @@
 
 
 
-        document.getElementById('redireccionar').addEventListener('click', function() {
+        document.addEventListener('DOMContentLoaded', function() {
+    var modal = document.getElementById('myModal');
+    var mensajeModal = document.getElementById('mensaje-modal');
+
+    // Mostrar el modal solo si hay un mensaje
+    if (mensajeModal.textContent.trim() !== '') {
+        modal.style.display = 'block';
+    }
+});
+
+document.getElementById('redireccionar').addEventListener('click', function() {
     const nombre = document.getElementById('nombre').value.trim();
     const apellidos = document.getElementById('apellidos').value.trim();
     const tipo_doc = document.getElementById('tipo-doc').value.trim();
@@ -195,7 +218,6 @@
     const email = document.getElementById('email').value.trim();
     const eps = document.getElementById('eps').value.trim();
     const contacto_emer = document.getElementById('contacto_emer').value.trim();
-    // Aquí incluir el resto de campos
 
     if (nombre !== '' && apellidos !== '' && tipo_doc !== '' && num_doc !== '' && tipo_sangre !== '' && contrasena !== '' && telefono !== '' && email !== '' && eps !== '' && contacto_emer !== '') {
         var modal = document.getElementById('myModal');
@@ -209,23 +231,8 @@
         alert('Por favor, completa todos los campos.');
     }
 });
-
-document.addEventListener('DOMContentLoaded', function() {
-    var modal = document.getElementById('myModal');
-    var mensajeModal = document.getElementById('mensaje-modal');
-
-
-    // PHP para mostrar mensaje en el modal
-    <?php if (isset($_GET['error'])): ?>
-        <?php $error = $_GET['error']; ?>
-        <?php if ($error == 'usuario_registrado'): ?>
-            mensajeModal.textContent = 'Se ha registrado correctamente';
-        <?php else: ?>
-            mensajeModal.textContent = 'Error desconocido';
-        <?php endif; ?>
-        modal.style.display = 'block'; // Mostrar el modal
-    <?php endif; ?>
-});
     </script>
 </body>
 </html>
+
+

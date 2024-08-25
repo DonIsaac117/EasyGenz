@@ -158,26 +158,26 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
           <input type="hidden" name="vista" value="funcionario/registros">
          <div class="divInput">
           <label for="numero_documento">N°Documento:</label>
-          <input type="text" id="numero_documento" name="numero_documento"
+          <input type="text" id="numero_documento" class="filter-input" name="numero_documento"
             value="<?= htmlspecialchars($_GET['numero_documento'] ?? '') ?>">
           
 
           <label for="nombres">Nombres:</label>
-          <input type="text" id="nombres" name="nombres" value="<?= htmlspecialchars($_GET['nombres'] ?? '') ?>">
+          <input type="text" id="nombres" class="filter-input" name="nombres" value="<?= htmlspecialchars($_GET['nombres'] ?? '') ?>">
        
 
           <label for="apellidos">Apellidos:</label>
-          <input type="text" id="apellidos" name="apellidos" value="<?= htmlspecialchars($_GET['apellidos'] ?? '') ?>">
+          <input type="text" id="apellidos" class="filter-input" name="apellidos" value="<?= htmlspecialchars($_GET['apellidos'] ?? '') ?>">
           </div>
 
           <div class="divInput">
           <label for="fechaDesde">Fecha Desde:</label>
-          <input type="date" id="fechaDesde" name="fechaDesde"
+          <input type="date" id="fechaDesde" class="filter-input" name="fechaDesde"
             value="<?= htmlspecialchars($_GET['fechaDesde'] ?? '') ?>">
       
 
           <label for="fechaHasta">Fecha Hasta:</label>
-          <input type="date" id="fechaHasta" name="fechaHasta"
+          <input type="date" id="fechaHasta" class="filter-input" name="fechaHasta"
             value="<?= htmlspecialchars($_GET['fechaHasta'] ?? '') ?>">
          
 
@@ -185,8 +185,9 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
           <button type="button" onclick="clearFilters()">Limpiar</button>
           </div>
         </form>
+        <button id="downloadPDF" onclick="generatePDF()">Descargar PDF</button>
       <div class="table-container">
-        <table border="1">
+        <table border="1" id="tabla">
           <thead>
             <tr class="sticky">
               <th id="colDocumento">Documento <span class="material-icons-sharp">arrow_drop_down</span></th>
@@ -294,6 +295,8 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
   </div>
 
   <script src="./js/funcionario/registros.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
   <script>
 
 

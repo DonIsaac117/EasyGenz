@@ -413,6 +413,7 @@ th, td {
 th{
     background-color: #10e0a5;
     position: sticky;
+    color: black;
     top: 0;
     z-index: 1;
 }

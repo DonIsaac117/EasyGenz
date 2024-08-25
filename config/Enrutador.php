@@ -9,13 +9,22 @@ class Enrutador
         if ($carpetaArchivo[0] == "usuario") {
             switch ($carpetaArchivo[1]) {
                 case "recuperar":
-                    $usuarioController = new UsuarioController();
-                    $usuarioController->recuperar();
-                    break;
 
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                        $usuarioController = new UsuarioController();
+                        $usuarioController->recuperar();
+                    } else {
+                        include "./views/usuario/recuperar.php";
+                    }
+                    break;
                 case "nuevaC":
                     $usuarioController = new UsuarioController();
-                    $usuarioController->nuevaContrasena();
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                        $usuarioController->nuevaContrasena(); // Procesa el cambio de contraseña
+                    } else {
+                       $usuarioController->redireccionNuevaC(); // Muestra el formulario de cambio de contraseña
+                    }
+
                     break;
                 case "registrar":
                     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -34,26 +43,41 @@ class Enrutador
                     $usuarioController->actualizar();
                     break;
                 case "login":
+
                     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $usuarioController = new UsuarioController();
                         $usuarioController->login();
                     } else {
+
                         include "./views/usuario/login.php";
                     }
                     break;
                 case "ingreso":
-                    $usuarioController = new UsuarioController();
-                    $usuarioController->gestionarIngreso();
-                break;
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                        $usuarioController = new UsuarioController();
+                        $usuarioController->gestionarIngreso();
+                    } else {
+                        include "./views/usuario/ingreso.php";
+                    }
+                    break;
+                    
+                case "TYC":
+                    require_once ("./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php");
+                    break;
+
                 default:
                     require_once ("./views/pageNotFound.php");
                     break;
+
+
             }
 
         } else if ($carpetaArchivo[0] == "programa") {
             switch ($carpetaArchivo[1]) {
                 case "inicio":
+
                     echo $carpetaArchivo[1];
+
                     require_once ("./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php");
                     break;
                 case "registrar":
@@ -136,6 +160,15 @@ class Enrutador
                         break;
                         case "soporte":
                             require_once ("./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php");
+                            case "soporte":
+
+                                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                                    $usuarioController = new UsuarioController();
+                                    $usuarioController->soporte();
+                                } else {
+                                    include "./views/funcionario/soporte.php";
+                                }
+                                break;
                             break;
 
                 default:
