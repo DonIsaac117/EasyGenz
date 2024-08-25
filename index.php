@@ -21,13 +21,18 @@ if (isset($_GET["vista"])) {
     </head>
     <body>
     <main>
-            <h3>Seleccione el botón correspondiente para dirigirse al lugar que solicite</h3>
-            <label for="login">Login</label>
+        <div class="container">
+        <img src="./imagenes/easygenz.jpg" alt="Easygenz-logo">
+            <h3>Seleccione el botón correspondiente <br> para dirigirse al lugar que solicite</h3>
+            <label for="login">Login / funcionarios</label>
             <input type="button" id="login" value="Login" onclick="redireccionLogin()">
 
             <label for="ingreso">Ingreso y Salida de Usuarios</label>
             <input type="button" id="ingreso" value="Ingreso y Salida" onclick="redireccionIngreso()">
+        </div>
     </main>
+
+
 
     <script>
         function redireccionLogin() {
