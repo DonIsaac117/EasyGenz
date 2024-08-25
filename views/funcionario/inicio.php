@@ -26,7 +26,7 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Aprendiz</title>
+    <title>Calendario</title>
     <link rel="stylesheet" href="./css/funcionario/inicio.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Material+Icons+Sharp"
@@ -35,6 +35,8 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js"></script>
   </head>
   <body>
+
+  
     <nav class="nav">
       <div class="sena">
         <img src="./imagenes/funcionario/logoSena.png" />Funcionario
@@ -172,7 +174,8 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
             </div>
             <div class="observacion">
               <h3>OBSERVACIONES:</h3>
-              <h5></h5>
+              <h5 ><ul></ul></h5>
+             
             </div>
           </div>
 

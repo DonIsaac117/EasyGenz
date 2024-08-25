@@ -51,7 +51,7 @@ input, select{
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 55%;
+    width: 100%;
     order: 4;
 }
 
@@ -130,29 +130,42 @@ textarea{
     height: 120px;
 }
 
-.terminos{
+.terminos {
     display: flex;
     flex-direction: row;
     border: 1.5px solid white;
     border-radius: 20px;
-    width: 50%;
-    height: 45px;
+    width: 30vw;
+    height: 5vh;
     justify-content: center;
     align-items: center;
-    margin: 0% 0 1% 0;
+    margin: 0 0 1% 0;
+    
 }
 
-.terminos input{
+.terminos input {
     display: flex;
-    margin: 0;
+    margin: 0 3% 0 0;
+    /* Espacio entre el checkbox y el texto */
     width: 10%;
-    justify-content: flex-start;
 }
 
-.terminos label{
+.terminos label {
+    font-size: 1.3vw;
     display: flex;
     justify-content: center;
-    width: 70%;
+    align-items: center;
+    width: 90%;
+}
+
+.terminos a {
+    margin-left: 5px; /* Ajuste para que el enlace se separe del texto */
+    color: #00d9ff;
+    text-decoration: none;
+}
+
+.terminos a:hover {
+    text-decoration: underline;
 }
 
 .modal {
@@ -234,9 +247,8 @@ textarea{
 
     .terminos label{
         display: flex;
-        justify-content: center;
-        width: 100%;
         margin: 0 0 15px;
+        font-size: 2.2vh;
     }
 
 }
@@ -279,4 +291,11 @@ textarea{
     textarea{
         height: 95px;
     }
+
+    .terminos label{
+        font-size: 1.4vw;
+    }
 }
+
+
+

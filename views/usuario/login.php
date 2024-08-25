@@ -1,3 +1,10 @@
+
+<!-- views/usuario/login.php -->
+<?php
+include_once './controllers/usuariosController.php';
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,11 +12,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="./css/Login.css">
+
+    <link rel="stylesheet" href="./css/login.css">
+  
+    
 </head>
 <body>
     <div>
-        <form action="index.php?vista=usuario/login" method="post">
+        <form action="" method="post">
             <h1>Login</h1>
             <div class="formulario">
                 <h2>Documento</h2>
@@ -19,7 +29,8 @@
                 <div class="olvide">
                     <a href="index.php?vista=usuario/recuperar"><h4>Olvide mi contraseña</h4></a>
                 </div>
-                <input type="submit" name="login_submit" value="Ingresar">
+                <input type="submit" value="Ingresar">
+
         </form>
         
         <div class="registro"> 

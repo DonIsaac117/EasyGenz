@@ -1,39 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="">
-</head>
-<body>
-
 <?php
- 
-    require_once("./config/Enrutador.php");
-    require_once("./controllers/usuariosController.php");
-    require_once("./controllers/programasController.php");
-    require_once("./controllers/ingresoSalidaController.php");
+date_default_timezone_set('America/Bogota');
+require_once("./config/Enrutador.php");
+require_once("./controllers/usuariosController.php");
 
-    $enrutador = new Enrutador();
-    if(isset($_GET["vista"])){
-        $enrutador->CargarVista($_GET["vista"]);
-    }else{
-        echo "Me carga el index principal";
-        ?>
-        <a href="index.php?vista=usuario/inicio">inicio</a> <br>
-        <a href="index.php?vista=usuario/login">Login</a> <br>
-        <a href="index.php?vista=usuario/registrar">formulario</a> <br>
-        <a href="index.php?vista=programa/inicio">Programa</a><br>
-        <a href="index.php?vista=ingresoSalida/inicio">IngresoSalida</a><br>
-        <?php 
-    }
+$enrutador = new Enrutador();
+if (isset($_GET["vista"])) {
+    $enrutador->CargarVista($_GET["vista"]);
+    exit(); // Detiene cualquier salida adicional
+} else {
+    ?>
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>index</title>
+        <link rel="stylesheet" href="./css/index.css?v=<?php echo time(); ?>">
+    </head>
+    <body>
+    <main>
+            <h3>Seleccione el botón correspondiente para dirigirse al lugar que solicite</h3>
+            <label for="login">Login</label>
+            <input type="button" id="login" value="Login" onclick="redireccionLogin()">
+
+            <label for="ingreso">Ingreso y Salida de Usuarios</label>
+            <input type="button" id="ingreso" value="Ingreso y Salida" onclick="redireccionIngreso()">
+    </main>
+
+    <script>
+        function redireccionLogin() {
+            window.location.href = "index.php?vista=usuario/login";
+        }
+
+        function redireccionIngreso() {
+            window.location.href = "index.php?vista=usuario/ingreso";
+        }
+    </script>
+    </body>
+    </html>
+
+    <?php
+}
 ?>
-    
-</body>
-</html>
-
 
 
 

@@ -1,5 +1,5 @@
 <?php
-require_once './../config/ConexionBd.php';
+require_once './../config/ConectorBD.php';
 
 
 class Event
@@ -17,7 +17,7 @@ class Event
 
     public function __construct()
     {
-        $this->conectarse = new ConexionBd();
+        $this->conectarse = new ConectorBD();
     }
 
 
