@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 $id_usuario = $_SESSION['id_usuario'];
 require_once './controllers/usuariosController.php';
 

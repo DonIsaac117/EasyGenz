@@ -13,7 +13,7 @@ include_once './controllers/usuariosController.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
 
-    <link rel="stylesheet" href="./css/login.css">
+    <link rel="stylesheet" href="./css/login.css?v=<?php echo time(); ?>">
   
     
 </head>
@@ -39,6 +39,7 @@ include_once './controllers/usuariosController.php';
         </div>
 
         </div>
+            <button id="volver" onclick="volverIndex()">Volver</button>
     </div>
 
     <div id="myModal" class="modal">
@@ -60,6 +61,11 @@ include_once './controllers/usuariosController.php';
     </div>
 
     <script>
+
+    function volverIndex() {
+            window.location.href = "index.php";
+        }
+
        document.addEventListener('DOMContentLoaded', function() {
            var modal = document.getElementById('myModal');
 

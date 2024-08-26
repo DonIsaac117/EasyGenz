@@ -22,16 +22,21 @@
                 <label>
                     <input type="radio" name="observacionn" class="observacionn" value="no"> No
                 </label>
-            </div>
+            </div>  
             
             <label for="observacion">Observaciones</label>
             <textarea name="observacion" id="observacion" cols="30" rows="10" disabled></textarea> 
         </div>
         
         <button type="submit">Enviar</button>
+        <button id="volver" onclick="volverIndex()">Volver</button>
     </form>
 
     <script>
+
+    function volverIndex() {
+            window.location.href = "index.php";
+        }
         // Obtener los elementos del DOM para observaciones
         const radioObservacionSi = document.querySelector('input[name="observacionn"][value="si"]');
         const radioObservacionNo = document.querySelector('input[name="observacionn"][value="no"]');
