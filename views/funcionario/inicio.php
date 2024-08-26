@@ -67,7 +67,7 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
       </div>
 
       <div class="menu">
-      <a href="?vista=funcionario/inicio">
+      <a href="?vista=funcionario/usuariosData">
       <div>
           <span class="material-icons-sharp">supervisor_account</span>
           <p>Usuarios</p>

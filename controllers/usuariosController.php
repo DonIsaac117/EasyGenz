@@ -40,38 +40,38 @@ class UsuarioController {
         }
     }
 
-    public function eliminar() {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['eliminar'])) {
-            $id = intval($_POST['eliminar']);
-            $this->usuarioModel->eliminar($id);
-            header("Location: index.php?vista=usuario/inicio");
-            exit();
-        }
-    }
-
-
-    public function actualizar() {
+    public function actualizarUser() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->usuarioModel->setId($_POST['id']);
-            $this->usuarioModel->setNombres($_POST['nombre']);
+            $this->usuarioModel->setNombres($_POST['nombres']);
             $this->usuarioModel->setApellidos($_POST['apellidos']);
-            $this->usuarioModel->setTipoDocumento($_POST['tipo_doc']);
-            $this->usuarioModel->setNumeroDocumento($_POST['num_doc']);
+            $this->usuarioModel->setTipoDocumento($_POST['tipo_documento']);
+            $this->usuarioModel->setNumeroDocumento($_POST['numero_documento']);
             $this->usuarioModel->setTelefono($_POST['telefono']);
             $this->usuarioModel->setEmail($_POST['email']);
             $this->usuarioModel->setContraseña($_POST['contrasena']);
-            $this->usuarioModel->setRh($_POST['tipo_sangre']);
+            $this->usuarioModel->setRh($_POST['rh']);
             $this->usuarioModel->setEps($_POST['eps']);
-            $this->usuarioModel->setContactoEmergencia($_POST['contacto_emer']);
+            $this->usuarioModel->setContactoEmergencia($_POST['contacto_emergencia']);
             $this->usuarioModel->setEnfermedades($_POST['enfermedades']);
             $this->usuarioModel->setAlergias($_POST['alergias']);
     
             $this->usuarioModel->actualizar();
-            header('Location: index.php?vista=usuario/inicio');
+            header('Location: index.php?vista=funcionario/usuariosData');
         } else {
             echo "Error: La solicitud no es de tipo POST.";
         }
     }
+
+    public function eliminar() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['eliminar'])) {
+            $id = intval($_POST['eliminar']);
+            $this->usuarioModel->eliminar($id);
+            header("Location: index.php?vista=funcionario/usuariosData");
+            exit();
+        }
+    }
+
 
 
 
@@ -261,7 +261,22 @@ public function listUsuarios($documento = null, $nombre = null, $apellido = null
     $usuarios = $registro->getAll($documento, $nombre, $apellido, $fechaDesde, $fechaHasta);
     return $usuarios;
 
-    
+}
+
+
+  // Método para buscar usuarios
+  public function filtrarUsuarios($searchTerm) {
+    return $this->usuarioModel->search($searchTerm);
+}
+
+public function obtenerUsuarioPorId($id) {
+    return $this->usuarioModel->obtenerUsuarioPorId($id);
+}
+
+public function obtenerTodosLosUsuarios() {
+    return $this->usuarioModel->obtenerTodosLosUsuarios();
+}public function actualizarUsuario($id, $nombres, $apellidos, $tipo_documento, $numero_documento, $telefono, $email, $contrasena, $rh, $eps, $contacto_emergencia, $enfermedades, $alergias) {
+    return $this->usuarioModel->actualizarUsuario($id, $nombres, $apellidos, $tipo_documento, $numero_documento, $telefono, $email, $contrasena, $rh, $eps, $contacto_emergencia, $enfermedades, $alergias);
 }
 
 }

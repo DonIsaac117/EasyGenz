@@ -22,7 +22,7 @@ class Enrutador
                     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $usuarioController->nuevaContrasena(); // Procesa el cambio de contraseña
                     } else {
-                       $usuarioController->redireccionNuevaC(); // Muestra el formulario de cambio de contraseña
+                        $usuarioController->redireccionNuevaC(); // Muestra el formulario de cambio de contraseña
                     }
 
                     break;
@@ -40,7 +40,7 @@ class Enrutador
                     break;
                 case 'actualizar':
                     $usuarioController = new UsuarioController();
-                    $usuarioController->actualizar();
+                    $usuarioController->actualizarUser();
                     break;
                 case "login":
 
@@ -52,7 +52,7 @@ class Enrutador
                         include "./views/usuario/login.php";
                     }
                     break;
-                    case "Ingreso":
+                case "Ingreso":
                     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $usuarioController = new UsuarioController();
                         $usuarioController->manejarEntradaSalida();
@@ -60,15 +60,14 @@ class Enrutador
                         include "./views/usuario/Ingreso.php";
                     }
                     break;
-                    
+
                 case "TYC":
-                    require_once ("./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php");
+                    require_once "./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php";
                     break;
 
                 default:
-                    require_once ("./views/pageNotFound.php");
+                    require_once "./views/pageNotFound.php";
                     break;
-
 
             }
 
@@ -78,7 +77,7 @@ class Enrutador
 
                     echo $carpetaArchivo[1];
 
-                    require_once ("./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php");
+                    require_once "./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php";
                     break;
                 case "registrar":
                     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -97,13 +96,13 @@ class Enrutador
                     $programaController->actualizar();
                     break;
                 default:
-                    require_once ("./views/pageNotFound.php");
+                    require_once "./views/pageNotFound.php";
                     break;
             }
         } else if ($carpetaArchivo[0] == "ingresoSalida") {
             switch ($carpetaArchivo[1]) {
                 case "inicio":
-                    require_once ("./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php");
+                    require_once "./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php";
                     break;
                 case "registrar":
                     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -122,13 +121,13 @@ class Enrutador
                     $IngresoSalidaController->actualizar();
                     break;
                 default:
-                    require_once ("./views/pageNotFound.php");
+                    require_once "./views/pageNotFound.php";
                     break;
             }
         } else if ($carpetaArchivo[0] == "numeroFicha") {
             switch ($carpetaArchivo[1]) {
                 case "inicio":
-                    require_once ("./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php");
+                    require_once "./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php";
                     break;
                 case "registrar":
                     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -147,27 +146,28 @@ class Enrutador
                     $NumeroFichaController->actualizar();
                     break;
                 default:
-                    require_once ("./views/pageNotFound.php");
+                    require_once "./views/pageNotFound.php";
                     break;
             }
         } else if ($carpetaArchivo[0] == "funcionario") {
             switch ($carpetaArchivo[1]) {
                 case "inicio":
-                    require_once ("./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php");
+                    require_once "./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php";
                     break;
-                    case "registros":
-                        require_once ("./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php");
-                        break;
-                        case "soporte":
-                            require_once ("./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php");
-                            break;
+                case "registros":
+                    require_once "./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php";
+                    break;
+                case "soporte":
+                    require_once "./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php";
+                    break;
+                case "usuariosData":
+                    require_once "./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php";
+                    break;
 
                 default:
-                    require_once ("./views/pageNotFound.php");
+                    require_once "./views/pageNotFound.php";
                     break;
             }
         }
     }
 }
-
-

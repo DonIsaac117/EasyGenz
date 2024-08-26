@@ -127,31 +127,24 @@ class Usuarios
         $this->conectarse->consultaSinRetorno($cadenaSql);  
     }
 
-    public function eliminar($id) {
-        $id = intval($id);
-        $cadenaSql = "DELETE FROM usuarios WHERE id = $id";
-        $this->conectarse->consultaSinRetorno($cadenaSql);
-    }    
     
     public function actualizar() {
-        $cadenaSql = "UPDATE usuarios SET 
-                nombres = '$this->nombres',
-                apellidos = '$this->apellidos',
-                tipo_documento = '$this->tipo_documento',
-                numero_documento = '$this->numero_documento',
-                telefono = '$this->telefono',
-                email = '$this->email',
-                contrasena = '$this->contrasena',
-                rh = '$this->rh',
-                eps = '$this->eps',
-                contacto_emergencia = '$this->contacto_emergencia',
-                enfermedades = '$this->enfermedades',
-                alergias = '$this->alergias'
-                WHERE id = $this->id";
-        $this->conectarse->consultaSinRetorno($cadenaSql);
+        $conexion = $this->conectarse->conexion;
+        $sql = "UPDATE usuarios SET 
+                nombres = ?, apellidos = ?, tipo_documento = ?, numero_documento = ?, telefono = ?, email = ?, contrasena = ?, rh = ?, eps = ?, contacto_emergencia = ?, enfermedades = ?, alergias = ?
+                WHERE id = ?";
+        $stmt = $conexion->prepare($sql);
+        $stmt->bind_param('ssssssssssssi', $this->nombres, $this->apellidos, $this->tipo_documento, $this->numero_documento, $this->telefono, $this->email, $this->contrasena, $this->rh, $this->eps, $this->contacto_emergencia, $this->enfermedades, $this->alergias, $this->id);
+        $stmt->execute();
     }
 
-
+    public function eliminar($id) {
+        $conexion = $this->conectarse->conexion;
+        $sql = "DELETE FROM usuarios WHERE id = ?";
+        $stmt = $conexion->prepare($sql);
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+    }
     public function verificarCredenciales($numero_documento, $contrasena) {
         $conexion = $this->conectarse->conexion;
         
@@ -356,6 +349,35 @@ class Usuarios
         return $result->fetch_assoc();
         
     }
+
+    public function search($searchTerm) {
+        $conexion = $this->conectarse->conexion;
+        $cadenaSql = "SELECT *
+                   FROM usuarios 
+                      WHERE numero_documento LIKE ? 
+                      OR nombres LIKE ? 
+                      OR apellidos LIKE ?
+                      OR telefono LIKE ?
+                      OR email LIKE ?";
+        $stmt = $conexion->prepare($cadenaSql);
+        $searchTerm = "%$searchTerm%";
+        $stmt->bind_param('sssss', $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function obtenerTodosLosUsuarios() {
+        $sql = "SELECT * FROM usuarios";
+        $result = $this->conectarse->conexion->query($sql);
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }   
+     public function actualizarUsuario($id, $nombres, $apellidos, $tipo_documento, $numero_documento, $telefono, $email, $contrasena, $rh, $eps, $contacto_emergencia, $enfermedades, $alergias) {
+        $sql = "UPDATE usuarios SET nombres=?, apellidos=?, tipo_documento=?, numero_documento=?, telefono=?, email=?, contrasena=?, rh=?, eps=?, contacto_emergencia=?, enfermedades=?, alergias=? WHERE id=?";
+        $stmt = $this->conectarse->conexion->prepare($sql);
+        $stmt->bind_param('ssssssssssssi', $nombres, $apellidos, $tipo_documento, $numero_documento, $telefono, $email, $contrasena, $rh, $eps, $contacto_emergencia, $enfermedades, $alergias, $id);
+        return $stmt->execute();
+    }
+    
 }
     
 
