@@ -188,6 +188,17 @@ class Usuarios
         }
     }
 
+    public function existedocumento() {
+        $cadenaSql = "SELECT * FROM usuarios WHERE numero_documento = '$this->numero_documento'";
+        $resultado = $this->conectarse->consultaConRetorno($cadenaSql);
+    
+        if ($resultado->num_rows > 0) {
+            return $resultado->fetch_assoc();
+        } else {
+            return false;
+        }
+    }
+
     public function obtenerUsuarioPorCorreo($correo) {
         $sql = "SELECT * FROM usuarios WHERE email = ?";
         $stmt = $this->conectarse->conexion->prepare($sql);
@@ -218,6 +229,8 @@ class Usuarios
 
 
     
+   
+    //INGRESO Y SALIDA
     public function obtenerUsuarioPorContrasena($contrasena) {
         $sql = "SELECT * FROM usuarios WHERE contrasena = ?";
         $stmt = $this->conectarse->conexion->prepare($sql);
@@ -226,7 +239,7 @@ class Usuarios
         $resultado = $stmt->get_result();
         return $resultado->fetch_assoc();
     }
-
+    
     public function obtenerPerfilPorIdUsuario($idUsuario) {
         $sql = "SELECT perfil.id FROM usuario_perfil 
                 JOIN perfil ON usuario_perfil.id_perfil = perfil.id 
@@ -238,84 +251,54 @@ class Usuarios
         $perfil = $resultado->fetch_assoc();
         return $perfil['id'];
     }
-    public function registrarEntrada($idUsuario, $observacion = null) {
-        $codigoFicha = $this->obtenerCodigoFicha($idUsuario); // Obtén el código de ficha
-        $fecha = date('Y-m-d');
-        $horaEntrada = date('H:i:s');
     
-        $sql = "INSERT INTO ingresosalida_ficha (id_usuario, codigo_numeroficha, fecha, hora_entrada, observacion, estado) 
-                VALUES (?, ?, ?, ?, ?, 'activo')";
-        $stmt = $this->conectarse->conexion->prepare($sql);
-        $stmt->bind_param('issss', $idUsuario, $codigoFicha, $fecha, $horaEntrada, $observacion);
+public function gestionarEntradaSalida($idUsuario, $observacion = null) {
+    $fecha = date('Y-m-d');
+    $horaActual = date('H:i:s');
     
-        return $stmt->execute();
+    // Obtener perfil del usuario
+    $perfil = $this->obtenerPerfilPorIdUsuario($idUsuario);
+    
+    if ($perfil == 3) {
+        // Funcionario
+        $tabla = "controlfuncionarios";
+    } else {
+        // Aprendiz o Instructor
+        $tabla = "ingresosalida_ficha";
+        $codigoFicha = $this->obtenerCodigoFicha($idUsuario);
     }
     
-    public function registrarEntradaFuncionario($idUsuario, $observacion) {
-        $fecha = date('Y-m-d');
-        $horaEntrada = date('H:i:s');
-        $estado = 'activo';
+    // Verificar si ya hay una sesión activa
+    $sqlVerificar = "SELECT * FROM $tabla WHERE id_usuario = ? AND fecha = ? AND hora_salida IS NULL";
+    $stmtVerificar = $this->conectarse->conexion->prepare($sqlVerificar);
+    $stmtVerificar->bind_param('is', $idUsuario, $fecha);
+    $stmtVerificar->execute();
+    $resultado = $stmtVerificar->get_result();
     
-        $sql = "INSERT INTO controlfuncionarios (id_usuario, fecha, hora_entrada, observacion, estado) 
-                VALUES (?, ?, ?, ?, ?)";
-        $stmt = $this->conectarse->conexion->prepare($sql);
-        $stmt->bind_param('issss', $idUsuario, $fecha, $horaEntrada, $observacion, $estado);
-    
-        return $stmt->execute();
+    if ($resultado->num_rows > 0) {
+        // Registrar salida
+        $sqlSalida = "UPDATE $tabla SET hora_salida = ?, observacion = ?, estado = 'inactivo' 
+                      WHERE id_usuario = ? AND fecha = ? AND hora_salida IS NULL";
+        $stmtSalida = $this->conectarse->conexion->prepare($sqlSalida);
+        $stmtSalida->bind_param('ssis', $horaActual, $observacion, $idUsuario, $fecha);
+        return $stmtSalida->execute() ? 'salida' : false;
+    } else {
+        // Registrar entrada
+        if ($perfil == 3) {
+            $sqlEntrada = "INSERT INTO $tabla (id_usuario, fecha, hora_entrada, observacion, estado) 
+                           VALUES (?, ?, ?, ?, 'activo')";
+            $stmtEntrada = $this->conectarse->conexion->prepare($sqlEntrada);
+            $stmtEntrada->bind_param('isss', $idUsuario, $fecha, $horaActual, $observacion);
+        } else {
+            $sqlEntrada = "INSERT INTO $tabla (id_usuario, codigo_numeroficha, fecha, hora_entrada, observacion, estado) 
+                           VALUES (?, ?, ?, ?, ?, 'activo')";
+            $stmtEntrada = $this->conectarse->conexion->prepare($sqlEntrada);
+            $stmtEntrada->bind_param('issss', $idUsuario, $codigoFicha, $fecha, $horaActual, $observacion);
+        }
+        return $stmtEntrada->execute() ? 'entrada' : false;
     }
-    
-    public function registrarSalida($idUsuario, $observacion = null) {
-        $fecha = date('Y-m-d');
-        $horaSalida = date('H:i:s');
-    
-        $sql = "UPDATE ingresosalida_ficha SET hora_salida = ?, observacion = ?, estado = 'inactivo' 
-                WHERE id_usuario = ? AND fecha = ? AND hora_salida IS NULL";
-        $stmt = $this->conectarse->conexion->prepare($sql);
-        $stmt->bind_param('ssis', $horaSalida, $observacion, $idUsuario, $fecha);
-    
-        return $stmt->execute();
-    }
-    
-    
-    public function registrarSalidaFuncionario($idUsuario, $observacion) {
-        $fecha = date('Y-m-d');
-        $horaSalida = date('H:i:s');
-        $estado = 'inactivo';
-    
-        $sql = "UPDATE controlfuncionarios 
-                SET hora_salida = ?, observacion_salida = ?, estado = ? 
-                WHERE id_usuario = ? AND fecha = ? AND hora_salida IS NULL";
-        $stmt = $this->conectarse->conexion->prepare($sql);
-        $stmt->bind_param('sssis', $horaSalida, $observacion, $estado, $idUsuario, $fecha);
-    
-        return $stmt->execute();
-    }
+}
 
-    public function verificarSesionActiva($idUsuario) {
-        $fecha = date('Y-m-d');
-        
-        $sql = "SELECT * FROM ingresosalida_ficha 
-                WHERE id_usuario = ? AND fecha = ? AND hora_salida IS NULL";
-        $stmt = $this->conectarse->conexion->prepare($sql);
-        $stmt->bind_param('is', $idUsuario, $fecha);
-        $stmt->execute();
-        $resultado = $stmt->get_result();
-        
-        return $resultado->num_rows > 0;
-    }
-    
-    public function verificarSesionActivaFuncionario($idUsuario) {
-        $fecha = date('Y-m-d');
-        
-        $sql = "SELECT * FROM controlfuncionarios 
-                WHERE id_usuario = ? AND fecha = ? AND hora_salida IS NULL";
-        $stmt = $this->conectarse->conexion->prepare($sql);
-        $stmt->bind_param('is', $idUsuario, $fecha);
-        $stmt->execute();
-        $resultado = $stmt->get_result();
-        
-        return $resultado->num_rows > 0;
-    }
     
     public function obtenerCodigoFicha($idUsuario) {
         $sql = "SELECT codigo FROM numero_ficha 
@@ -325,8 +308,9 @@ class Usuarios
         $stmt->execute();
         $resultado = $stmt->get_result();
         $codigoFicha = $resultado->fetch_assoc();
-        return $codigoFicha['codigo'];
+        return $codigoFicha['codigo'] ?? null;
     }
+    
 
     public function obtenerUsuarioPorId($id) {
         $conexion = $this->conectarse->conexion;

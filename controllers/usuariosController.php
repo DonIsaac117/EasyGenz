@@ -99,24 +99,38 @@ class UsuarioController {
                     // Establece las variables de sesión
                     $_SESSION['id_usuario'] = $usuario->getId();
     
-                    // Redirige al usuario
-                    header('Location: index.php?vista=funcionario/inicio');
+                    // Obtener el perfil del usuario
+                    $perfil = $this->usuarioModel->obtenerPerfilUsuario($_SESSION['id_usuario']);
+    
+                    // Redirige al usuario según su perfil
+                    switch ($perfil['perfil']) {
+                        case 'Admin':
+                            header('Location: index.php?vista=admin/inicio');
+                            break;
+                        case 'Funcionario':
+                            header('Location: index.php?vista=funcionario/inicio');
+                            break;
+                        case 'Instructor':
+                            header('Location: index.php?vista=instructor/inicio');
+                            break;
+                        default:
+                            header('Location: index.php?vista=usuario/login&error=perfil_desconocido');
+                            break;
+                    }
                     exit;
                 } else {
                     // Redirige en caso de credenciales incorrectas
                     header("Location: index.php?vista=usuario/login&error=credenciales_incorrectas");
                     exit;
                 }
-                
-              
             } else {
-
                 // Redirige si el usuario no existe
                 header("Location: index.php?vista=usuario/login&error=usuario_no_existe");
                 exit;
             }
-        } 
+        }
     }
+    
 
     
 
@@ -173,7 +187,7 @@ class UsuarioController {
         $mail->SetFrom("easygenz45@gmail.com", "Soporte EasyGenz");
         $mail->Subject = $motivo;
         $mail->Body = "Correo del Usuario: $userEmail<br>Tipo de Reclamo: $motivo<br>Reclamo: $asunto";
-        $mail->AddAddress("juandavid24sa@gmail.com");
+        $mail->AddAddress("javierbasto28@gmail.com");
 
         return $mail->Send();
     }
@@ -247,47 +261,30 @@ class UsuarioController {
                 $idUsuario = $usuario['id'];
                 $_SESSION['ingreso_usuario'] = $idUsuario;
     
-                // Obtener el perfil del usuario
-                $perfil = $usuarioModel->obtenerPerfilPorIdUsuario($idUsuario);
+                // Registrar entrada o salida
+                $resultado = $usuarioModel->gestionarEntradaSalida($idUsuario, $observacion);
     
-                // Verificar si ya hay una sesión activa
-                $sesionActiva = ($perfil === 3) 
-                    ? $usuarioModel->verificarSesionActivaFuncionario($idUsuario)
-                    : $usuarioModel->verificarSesionActiva($idUsuario);
-    
-                if ($sesionActiva) {
-                    $observacion = isset($_POST['observacion']) ? $_POST['observacion'] : null;
-                
+                if ($resultado === 'entrada') {
+                    $perfil = $usuarioModel->obtenerPerfilPorIdUsuario($idUsuario);
                     if ($perfil === 3) {
-                        if ($usuarioModel->registrarSalidaFuncionario($idUsuario, $observacion)) {
-                            echo "<script>alert('Éxito, sesión del funcionario cerrada.');</script>";
-                            unset($_SESSION['ingreso_usuario']);
-                        } else {
-                            echo "<script>alert('Error al registrar salida.');</script>";
-                        }
+                        echo "<script>alert('Éxito, sesión del funcionario iniciada.');</script>";
+                    } elseif ($perfil === 2) {
+                        echo "<script>alert('Éxito, sesión del instructor iniciada.');</script>";
                     } else {
-                        if ($usuarioModel->registrarSalida($idUsuario, $observacion)) {
-                            echo "<script>alert('Éxito, sesión cerrada.');</script>";
-                            unset($_SESSION['ingreso_usuario']);
-                        } else {
-                            echo "<script>alert('Error al registrar salida.');</script>";
-                        }
-                        }
-                    } else {
-                    // Registrar entrada
-                    if ($perfil === 3) {
-                        if ($usuarioModel->registrarEntradaFuncionario($idUsuario, $observacion)) {
-                            echo "<script>alert('Éxito, sesión del funcionario iniciada.');</script>";
-                        } else {
-                            echo "<script>alert('Error al registrar entrada.');</script>";
-                        }
-                    } else {
-                        if ($usuarioModel->registrarEntrada($idUsuario, $observacion)) {
-                            echo "<script>alert('Éxito, sesión iniciada.');</script>";
-                        } else {
-                            echo "<script>alert('Error al registrar entrada.');</script>";
-                        }
+                        echo "<script>alert('Éxito, sesión del aprendiz iniciada.');</script>";
                     }
+                } elseif ($resultado === 'salida') {
+                    $perfil = $usuarioModel->obtenerPerfilPorIdUsuario($idUsuario);
+                    if ($perfil === 3) {
+                        echo "<script>alert('Éxito, sesión del funcionario cerrada.');</script>";
+                    } elseif ($perfil === 2) {
+                        echo "<script>alert('Éxito, sesión del instructor cerrada.');</script>";
+                    } else {
+                        echo "<script>alert('Éxito, sesión del aprendiz cerrada.');</script>";
+                    }
+                    unset($_SESSION['ingreso_usuario']);
+                } else {
+                    echo "<script>alert('Error al registrar entrada/salida.');</script>";
                 }
             } else {
                 echo "<script>alert('Contraseña incorrecta.');</script>";
@@ -311,6 +308,14 @@ public function listUsuarios($documento = null, $nombre = null, $apellido = null
     return $usuarios;
 
     
+}
+
+public function funcionario($idUsuario) {
+    $perfiles = $this->usuarioModel->obtenerPerfilUsuario($idUsuario);
+        if ($perfiles['perfil'] === 'Funcionario') {
+            return true;
+        }
+    return false;
 }
 
 }

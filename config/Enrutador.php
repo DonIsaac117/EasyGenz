@@ -48,7 +48,6 @@ class Enrutador
                         $usuarioController = new UsuarioController();
                         $usuarioController->login();
                     } else {
-
                         include "./views/usuario/login.php";
                     }
                     break;
@@ -125,7 +124,27 @@ class Enrutador
                     require_once ("./views/pageNotFound.php");
                     break;
             }
-        } else if ($carpetaArchivo[0] == "numeroFicha") {
+        }else if ($carpetaArchivo[0] == "instructor") {
+            switch ($carpetaArchivo[1]) {
+                case "inicio":
+                    require_once ("./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php");
+                    break;
+                case "ficha":
+                    require_once ("./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php");
+                        break;
+                case "soporte":
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                        $usuarioController = new UsuarioController();
+                        $usuarioController->soporte();
+                    } else {
+                        include "./views/instructor/soporte.php";
+                    }
+                    break;
+                default:
+                    require_once ("./views/pageNotFound.php");
+                    break;
+            }
+         } else if ($carpetaArchivo[0] == "numeroFicha") {
             switch ($carpetaArchivo[1]) {
                 case "inicio":
                     require_once ("./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php");
@@ -158,19 +177,15 @@ class Enrutador
                     case "registros":
                         require_once ("./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php");
                         break;
-                        case "soporte":
-                            require_once ("./views/" . $carpetaArchivo[0] . "/" . $carpetaArchivo[1] . ".php");
-                            case "soporte":
+                    case "soporte":
 
-                                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                                    $usuarioController = new UsuarioController();
-                                    $usuarioController->soporte();
-                                } else {
-                                    include "./views/funcionario/soporte.php";
-                                }
-                                break;
-                            break;
-
+                        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                            $usuarioController = new UsuarioController();
+                            $usuarioController->soporte();
+                        } else {
+                            include "./views/funcionario/soporte.php";
+                        }
+                        break;
                 default:
                     require_once ("./views/pageNotFound.php");
                     break;
