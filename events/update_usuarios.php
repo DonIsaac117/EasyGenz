@@ -1,5 +1,5 @@
 <?php
-require_once './controllers/usuariosController.php';
+require_once './../controllers/usuariosController.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $controller = new UsuarioController();
@@ -20,5 +20,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $controller->actualizarUsuario($id, $nombres, $apellidos, $tipo_documento, $numero_documento, $telefono, $email, $contrasena, $rh, $eps, $contacto_emergencia, $enfermedades, $alergias);
 
-    header("Location: index.php?vista=funcionario/usuariosData");
+    header('Location: ../index.php?vista=funcionario/usuariosData');
 }

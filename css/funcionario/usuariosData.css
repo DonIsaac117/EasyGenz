@@ -260,104 +260,160 @@ a {
     cursor: pointer;
 }
 
-/* Estilos para el modal */
 .modal {
-    display: none;
+    display: none; /* Oculto por defecto */
     position: fixed;
-    z-index: 1;
+    z-index: 1000;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
-    background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0,0.4);
-    padding-top: 60px;
+    background-color: rgba(0, 0, 0, 0.5); 
+    opacity: 0;
+    pointer-events: none; /* Evita que el modal capture clics cuando está oculto */
+    transition: opacity 0.3s ease-in-out; 
+}
+
+.modal.show {
+    display: block; /* Mostrar el modal */
+    opacity: 1;
+    pointer-events: auto; /* Permite la interacción cuando se muestra */
 }
 
 .modal-content {
-    background-color: #fefefe;
-    margin: 5% auto;
-    padding: 20px;
+    background-color: white;
+    margin: 4% auto;
+    padding: 2%;
     border: 1px solid #888;
     width: 80%;
+    overflow-y: auto;
+    max-height: clamp(30%, 60vh, 70%);
+    max-width: 40vw;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    transform: scale(1);
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
-.close {
-    color: #aaa;
+.modal.show .modal-content {
+    transform: scale(0.9);
+}
+
+.modal.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.modal.fade-out .modal-content {
+    transform: scale(0.9);
+}
+
+.modal-close {
+    color: rgb(112, 110, 110);
     float: right;
-    font-size: 28px;
-    font-weight: bold;
+    font-size: clamp(20px, 20%, 35px);
+    font-weight: bolder;
 }
 
-.close:hover,
-.close:focus {
+.modal-close:hover,
+.modal-close:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
 }
 
-/* Estilos para el modal */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.4);
-    padding-top: 60px;
-}
-
-.modal-content {
-    background-color: #fefefe;
-    margin: 5% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-}
-
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
+span{
     cursor: pointer;
 }
 
-#userTable {
+.deleteBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #f44336; }
+
+
+/* Botón para confirmar cambios */
+#saveChangesButton {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin-top: 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
     width: 100%;
+}
+
+#saveChangesButton:hover {
+    background-color: #45a049;
+}
+
+.search {
+    display: flex;
+    justify-content: end;
+    width: 98%;
+    position: relative;
+}
+/* Estilos para el formulario */
+label {
+    display: block;
+    margin-top: 1%;
+    font-weight: bold;
+}
+
+.search input {
+   
+    width: 45%;
+    padding: 0.75%;
+    margin-top: 0.2%;;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.search button{
+    background: none;
+    border: none;
+    position: absolute;
+    top: 23%;
+    right: 0.85%;
+}
+
+.table-container {
+    max-height: 87%; 
+    overflow-y: auto; 
+    overflow-x: hidden;
+    margin-top: 1.4%;
+    
+}
+
+.table{
+    width: 98%;
     border-collapse: collapse;
+    margin: 0 0.5%;
 }
 
-#userTable th, #userTable td {
-    border: 1px solid #ddd;
+.table th, .table td {
     padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
 }
 
-#userTable tr:nth-child(even) {
-    background-color: #f2f2f2;
+.table th{
+    background-color: #10e0a5;
+    position: sticky;
+    color: black;
+    top: 0;
+    z-index: 1;
 }
 
-#userTable tr:hover {
-    background-color: #ddd;
-}
-
-.selected {
-    background-color: #b3b3b3 !important;
-}
-
-.edit-icon {
+.table th span{
     cursor: pointer;
-    font-size: 1.2em;
-    color: #007bff;
-    margin-left: 10px;
+    position: absolute;
+    top: 18%;
 }
+
+.table button{
+    background: none;
+    border: none;
+}
+

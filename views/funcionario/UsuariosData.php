@@ -4,7 +4,6 @@ $id_usuario = $_SESSION['id_usuario'];
 require_once './controllers/usuariosController.php';
 require_once './models/Usuarios.php';
 
-
 $usuarioController = new UsuarioController();
 
 // Obtener los datos del usuario
@@ -18,6 +17,15 @@ $segundoNombre = isset($nombres[1]) ? $nombres[1] : 'N/A';
 $apellidos = explode(' ', $datosUsuario['apellidos']);
 $primerApellido = $apellidos[0];
 $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
+    $eliminar = $_POST['delete_id'];
+    $usuarioController->eliminar($eliminar);
+
+    // Redirigir después de la eliminación para evitar resubmisión del formulario
+    header("Location: ?vista=funcionario/usuariosData");
+    exit();
+}
 
 $usuarios = [];
 
@@ -66,40 +74,6 @@ if ($userId) {
     <title>Soporte</title>
     <link rel="stylesheet" href="./css/funcionario/usuariosData.css" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Icons+Sharp" rel="stylesheet" />
-    <style>
-        /* Estilo básico para el modal */
-        .modal {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgb(0,0,0);
-        background-color: rgba(0,0,0,0.4);
-    }
-    .modal-content {
-        background-color: #fefefe;
-        margin: 15% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%;
-    }
-    .close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-    }
-    .close:hover,
-    .close:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-    }
-    </style>
 </head>
 
 <body>
@@ -248,86 +222,109 @@ if ($userId) {
         </header>
         <main class="main">
             <div class="mainLayout">
-            <h1>Lista de Usuarios</h1>
+                <form method="GET" action="">
+                    <div class="search">
 
-<form method="GET" action="">
-<input type="hidden" name="vista" value="funcionario/usuariosData">
-    <input type="text" name="search" placeholder="Buscar por nombre, apellido, documento, teléfono o email" value="<?php echo htmlspecialchars($_GET['search'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
-    <button type="submit">Buscar</button>
-</form>
+                        <input type="hidden" name="vista" value="funcionario/usuariosData">
+                        <input type="text" id="searchInput" name="search"
+                            placeholder="Buscar por nombre, apellido, documento, teléfono o email"
+                            value="<?php echo htmlspecialchars($_GET['search'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+                        <button type="submit"><span class="material-icons-sharp">search</span></button>
+                    </div>
+                </form>
+                <div class="table-container">
+                    <table border="1" id="tabla" class="table">
+                        <thead>
+                            <tr>
+                                <th>Número de Documento<span class="material-icons-sharp">arrow_drop_down</span></th>
+                                <th>Nombres<span class="material-icons-sharp">arrow_drop_down</span></th>
+                                <th>Apellidos<span class="material-icons-sharp">arrow_drop_down</span></th>
+                                <th>Email<span class="material-icons-sharp">arrow_drop_down</span></th>
+                                <th>Teléfono<span class="material-icons-sharp">arrow_drop_down</span></th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($usuarios as $usuario): ?>
+                            <tr>
+                                <td>
+                                    <?php echo htmlspecialchars($usuario['numero_documento']); ?>
+                                </td>
+                                <td>
+                                    <?php echo htmlspecialchars($usuario['nombres']); ?>
+                                </td>
+                                <td>
+                                    <?php echo htmlspecialchars($usuario['apellidos']); ?>
+                                </td>
+                                <td>
+                                    <?php echo htmlspecialchars($usuario['email']); ?>
+                                </td>
+                                <td>
+                                    <?php echo htmlspecialchars($usuario['telefono']); ?>
+                                </td>
+                                <td class="actions">
+                                    <button class="editBtn" data-id="<?php echo htmlspecialchars($usuario['id']); ?>" >
+                                        <span class="material-icons-sharp">edit</span>
+                                    </button>
 
-<table>
-    <thead>
-        <tr>
-            <th>Número de Documento</th>
-            <th>Nombres</th>
-            <th>Apellidos</th>
-            <th>Email</th>
-            <th>Teléfono</th>
-            <th>Acción</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($usuarios as $usuario): ?>
-        <tr>
-            <td><?php echo htmlspecialchars($usuario['numero_documento']); ?></td>
-            <td><?php echo htmlspecialchars($usuario['nombres']); ?></td>
-            <td><?php echo htmlspecialchars($usuario['apellidos']); ?></td>
-            <td><?php echo htmlspecialchars($usuario['email']); ?></td>
-            <td><?php echo htmlspecialchars($usuario['telefono']); ?></td>
-            <td>
-                <button class="editBtn" data-id="<?php echo htmlspecialchars($usuario['id']); ?>">
-                    <span class="material-icons-sharp">edit</span>
-                </button>
-            </td>
-        </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+                                    <form method="POST" action="" style="display:inline;">
+                                        <input type="hidden" name="delete_id"
+                                            value="<?php echo htmlspecialchars($usuario['id']); ?>">
+                                        <button type="submit" class="deleteBtn" data-id="<?=$usuario['id'];?>"
+                                            data-nombre="<?=$usuario['nombres'];?>"
+                                            data-apellido="<?=$usuario['apellidos'];?>">
+                                            <i class="material-icons-sharp">delete</i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <?php endforeach;?>
+                        </tbody>
+                    </table>
+                </div>
 
-<!-- Modal -->
-<div id="myModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <form id="userForm" method="POST" action="usuariosData.php">
-            <input type="hidden" name="userId" id="modalUserId">
-            <label for="nombres">Nombres:</label>
-            <input type="text" name="nombres" id="modalNombres" readonly>
-            <label for="apellidos">Apellidos:</label>
-            <input type="text" name="apellidos" id="modalApellidos" readonly>
-            <label for="tipo_documento">Tipo de Documento:</label>
-            <input type="text" name="tipo_documento" id="modalTipoDocumento" readonly>
-            <label for="numero_documento">Número de Documento:</label>
-            <input type="text" name="numero_documento" id="modalNumeroDocumento" readonly>
-            <label for="telefono">Teléfono:</label>
-            <input type="text" name="telefono" id="modalTelefono" readonly>
-            <label for="email">Email:</label>
-            <input type="email" name="email" id="modalEmail" readonly>
-            <label for="contrasena">Contraseña:</label>
-            <input type="password" name="contrasena" id="modalContrasena" readonly>
-            <label for="rh">RH:</label>
-            <input type="text" name="rh" id="modalRh" readonly>
-            <label for="eps">EPS:</label>
-            <input type="text" name="eps" id="modalEps" readonly>
-            <label for="contacto_emergencia">Contacto de Emergencia:</label>
-            <input type="text" name="contacto_emergencia" id="modalContactoEmergencia" readonly>
-            <label for="enfermedades">Enfermedades:</label>
-            <input type="text" name="enfermedades" id="modalEnfermedades" readonly>
-            <label for="alergias">Alergias:</label>
-            <input type="text" name="alergias" id="modalAlergias" readonly>
-        </form>
-    </div>
+                <!-- Modal -->
+                <div id="myModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <form id="userForm" method="POST" action="./events/update_usuarios.php">
+                            <input type="hidden" name="userId" id="modalUserId">
+                            <label for="nombres">Nombres:</label>
+                            <input type="text" name="nombres" id="modalNombres" required>
+                            <label for="apellidos">Apellidos:</label>
+                            <input type="text" name="apellidos" id="modalApellidos" required>
+                            <label for="tipo_documento">Tipo de Documento:</label>
+                            <input type="text" name="tipo_documento" id="modalTipoDocumento" required>
+                            <label for="numero_documento">Número de Documento:</label>
+                            <input type="text" name="numero_documento" id="modalNumeroDocumento" required>
+                            <label for="telefono">Teléfono:</label>
+                            <input type="text" name="telefono" id="modalTelefono">
+                            <label for="email">Email:</label>
+                            <input type="email" name="email" id="modalEmail">
+                            <label for="contrasena">Contraseña:</label>
+                            <input type="password" name="contrasena" id="modalContrasena" required>
+                            <label for="rh">RH:</label>
+                            <input type="text" name="rh" id="modalRh" required>
+                            <label for="eps">EPS:</label>
+                            <input type="text" name="eps" id="modalEps">
+                            <label for="contacto_emergencia">Contacto de Emergencia:</label>
+                            <input type="text" name="contacto_emergencia" id="modalContactoEmergencia">
+                            <label for="enfermedades">Enfermedades:</label>
+                            <input type="text" name="enfermedades" id="modalEnfermedades">
+                            <label for="alergias">Alergias:</label>
+                            <input type="text" name="alergias" id="modalAlergias">
+                            <button type="submit" id="saveChangesButton">Guardar Cambios</button>
+
+                        </form>
+                    </div>
 
 
-            </div>
+                </div>
         </main>
     </div>
 
     <script src="./js/funcionario/usuariosData.js"></script>
-    <script>
 
-
-    </script>
 </body>
 
 </html>

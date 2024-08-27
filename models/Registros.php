@@ -1,6 +1,7 @@
 <?php
 
-require_once './config/ConectorBD.php';
+require_once(__DIR__ . '/../config/ConectorBD.php');
+
 
 class Registro
 {
