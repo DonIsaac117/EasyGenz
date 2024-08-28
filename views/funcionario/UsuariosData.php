@@ -40,8 +40,7 @@ if (isset($_GET['search'])) {
 $userId = $_POST['userId'] ?? null;
 
 if ($userId) {
-    $usuarioModel = new Usuarios();
-    $usuario = $usuarioModel->obtenerUsuarioPorId($userId);
+    $usuario = $usuarioController->obtenerUsuarioPorId($userId);
 
     // Muestra los datos del usuario
     // Aquí puedes incluir HTML para mostrar los datos en el modal
@@ -251,10 +250,10 @@ if ($userId) {
                                     <?php echo htmlspecialchars($usuario['numero_documento']); ?>
                                 </td>
                                 <td>
-                                    <?php echo htmlspecialchars($usuario['nombres']); ?>
+                                    <?php echo htmlspecialchars(ucwords(strtolower($usuario['nombres']))); ?>
                                 </td>
                                 <td>
-                                    <?php echo htmlspecialchars($usuario['apellidos']); ?>
+                                    <?php echo htmlspecialchars(ucwords(strtolower($usuario['apellidos']))); ?>
                                 </td>
                                 <td>
                                     <?php echo htmlspecialchars($usuario['email']); ?>
@@ -263,19 +262,19 @@ if ($userId) {
                                     <?php echo htmlspecialchars($usuario['telefono']); ?>
                                 </td>
                                 <td class="actions">
-                                    <button class="editBtn" data-id="<?php echo htmlspecialchars($usuario['id']); ?>" >
+                                    <button class="editBtn" data-id="<?php echo htmlspecialchars($usuario['id']); ?>">
                                         <span class="material-icons-sharp">edit</span>
                                     </button>
 
-                                    <form method="POST" action="" style="display:inline;">
+                                    <form method="POST" action="" style="display:inline;"
+                                        onsubmit="return confirmDelete(event, '<?=htmlspecialchars($usuario['nombres']);?>', '<?=htmlspecialchars($usuario['apellidos']);?>')">
                                         <input type="hidden" name="delete_id"
-                                            value="<?php echo htmlspecialchars($usuario['id']); ?>">
-                                        <button type="submit" class="deleteBtn" data-id="<?=$usuario['id'];?>"
-                                            data-nombre="<?=$usuario['nombres'];?>"
-                                            data-apellido="<?=$usuario['apellidos'];?>">
+                                            value="<?=htmlspecialchars($usuario['id']);?>">
+                                        <button type="submit" class="deleteBtn" data-id="<?=$usuario['id'];?>">
                                             <i class="material-icons-sharp">delete</i>
                                         </button>
                                     </form>
+
                                 </td>
                             </tr>
                             <?php endforeach;?>
@@ -286,33 +285,70 @@ if ($userId) {
                 <!-- Modal -->
                 <div id="myModal" class="modal">
                     <div class="modal-content">
-                        <span class="close">&times;</span>
-                        <form id="userForm" method="POST" action="./events/update_usuarios.php">
+                        <span class="close material-icons-sharp">close</span>
+                        <form id="userForm" method="POST" action="./events/update_usuarios.php" class="formEdit">
+
                             <input type="hidden" name="userId" id="modalUserId">
-                            <label for="nombres">Nombres:</label>
-                            <input type="text" name="nombres" id="modalNombres" required>
-                            <label for="apellidos">Apellidos:</label>
-                            <input type="text" name="apellidos" id="modalApellidos" required>
-                            <label for="tipo_documento">Tipo de Documento:</label>
-                            <input type="text" name="tipo_documento" id="modalTipoDocumento" required>
-                            <label for="numero_documento">Número de Documento:</label>
-                            <input type="text" name="numero_documento" id="modalNumeroDocumento" required>
-                            <label for="telefono">Teléfono:</label>
-                            <input type="text" name="telefono" id="modalTelefono">
-                            <label for="email">Email:</label>
-                            <input type="email" name="email" id="modalEmail">
-                            <label for="contrasena">Contraseña:</label>
-                            <input type="password" name="contrasena" id="modalContrasena" required>
-                            <label for="rh">RH:</label>
-                            <input type="text" name="rh" id="modalRh" required>
-                            <label for="eps">EPS:</label>
-                            <input type="text" name="eps" id="modalEps">
-                            <label for="contacto_emergencia">Contacto de Emergencia:</label>
-                            <input type="text" name="contacto_emergencia" id="modalContactoEmergencia">
-                            <label for="enfermedades">Enfermedades:</label>
-                            <input type="text" name="enfermedades" id="modalEnfermedades">
-                            <label for="alergias">Alergias:</label>
-                            <input type="text" name="alergias" id="modalAlergias">
+
+                            <div class="modalOrganized">
+                                <label for="nombres">Nombres:</label>
+                                <input type="text" name="nombres" id="modalNombres" required>
+                            </div>
+                            <div class="modalOrganized">
+                                <label for="apellidos">Apellidos:</label>
+                                <input type="text" name="apellidos" id="modalApellidos" required>
+                            </div>
+                            <div class="modalOrganized">
+                                <label for="tipo_documento">Tipo de Documento:</label>
+                                <input type="text" name="tipo_documento" id="modalTipoDocumento" required>
+                            </div>
+
+                            <div class="modalOrganized">
+                                <label for="numero_documento">Número de Documento:</label>
+                                <input type="text" name="numero_documento" id="modalNumeroDocumento" required>
+                            </div>
+
+                            <div class="modalOrganized">
+                                <label for="telefono">Teléfono:</label>
+                                <input type="tel" name="telefono" id="modalTelefono">
+                            </div>
+
+                            <div class="modalOrganized">
+                                <label for="email">Email:</label>
+                                <input type="email" name="email" id="modalEmail">
+                            </div>
+
+                            <div class="modalOrganized">
+                                <label for="contrasena">Contraseña:</label>
+                                <input type="password" name="contrasena" id="modalContrasena" required>
+                            </div>
+
+                            <div class="modalOrganized">
+                                <label for="rh">RH:</label>
+                                <input type="text" name="rh" id="modalRh" required>
+                            </div>
+
+                            <div class="modalOrganized">
+                                <label for="eps">EPS:</label>
+                                <input type="text" name="eps" id="modalEps">
+                            </div>
+
+                            <div class="modalOrganized">
+                                <label for="contacto_emergencia">Contacto de Emergencia:</label>
+                                <input type="text" name="contacto_emergencia" id="modalContactoEmergencia">
+                            </div>
+
+                            <div class="modalOrganized">
+                                <label for="enfermedades">Enfermedades:</label>
+                                <input type="text" name="enfermedades" id="modalEnfermedades">
+                            </div>
+
+                            <div class="modalOrganized">
+                                <label for="alergias">Alergias:</label>
+                                <input type="text" name="alergias" id="modalAlergias">
+                            </div>
+
+
                             <button type="submit" id="saveChangesButton">Guardar Cambios</button>
 
                         </form>

@@ -282,12 +282,12 @@ a {
 
 .modal-content {
     background-color: white;
-    margin: 4% auto;
-    padding: 2%;
+    margin: 3.8% auto;
+    padding: 1.8%;
     border: 1px solid #888;
     width: 80%;
-    overflow-y: auto;
-    max-height: clamp(30%, 60vh, 70%);
+    overflow-y: none;
+    max-height: clamp(30%, 64vh, 76%);
     max-width: 40vw;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
     transform: scale(1);
@@ -336,12 +336,18 @@ span{
 #saveChangesButton {
     background-color: #4CAF50;
     color: white;
-    padding: 10px 20px;
-    margin-top: 20px;
+    padding: 1.6%;
+    margin-top: 1.8%;
     border: none;
     cursor: pointer;
     border-radius: 5px;
-    width: 100%;
+    width: 35%;
+    font-weight: 700;
+    font-size: 0.8vw; 
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+  
 }
 
 #saveChangesButton:hover {
@@ -383,6 +389,7 @@ label {
     overflow-y: auto; 
     overflow-x: hidden;
     margin-top: 1.4%;
+    position: relative;
     
 }
 
@@ -417,3 +424,37 @@ label {
     border: none;
 }
 
+.formEdit{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.modalOrganized{
+    flex: 1 1 40%;
+}
+
+.modalOrganized input{
+    width: 90%;
+    padding: 2%;
+    border-radius: 6px;
+    border: 0.9px solid rgb(85, 84, 84);
+    box-shadow: 0 0 3px #279D2C;
+    margin: 3% 0;
+
+
+}
+
+.modalOrganized label{
+    padding: 0 0.4%;
+    margin: 0 0.4%;
+    font-size: clamp(10px, 1vw, 22px);
+    font-weight: 600;
+    
+}
+
+.close{
+    position: absolute;
+    font-size: 1.5vw;
+    top: 2%;
+    right: 2%;
+}

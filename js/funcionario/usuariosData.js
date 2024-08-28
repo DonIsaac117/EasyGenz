@@ -141,35 +141,17 @@ window.addEventListener('click', function(event) {
   });
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-  const deleteButtons = document.querySelectorAll('.deleteBtn');
 
-  deleteButtons.forEach(button => {
-      button.addEventListener('click', function() {
-          const userId = this.getAttribute('data-id');
-          const userName = this.getAttribute('data-nombre');
-          const userApellido = this.getAttribute('data-apellido');
-          
-          const confirmDelete = confirm(`¿Estás seguro de que deseas eliminar al usuario ${userName} ${userApellido}?`);
-          
-          if (confirmDelete) {
-              // Crear un formulario temporal para enviar la solicitud POST
-              const form = document.createElement('form');
-              form.method = 'POST';
-              form.action = 'index.php?vista=funcionario/usuariosData';
 
-              // Crear un input oculto para enviar el ID del usuario
-              const input = document.createElement('input');
-              input.type = 'hidden';
-              input.name = 'eliminar';
-              input.value = userId;
-              form.appendChild(input);
+function confirmDelete(event, nombre, apellido) {
+  event.preventDefault(); // Previene el envío del formulario
 
-              // Agregar el formulario al cuerpo y enviarlo
-              document.body.appendChild(form);
-              form.submit();
-          }
-      });
-  });
-});
-
+  let confirmacion = confirm(`¿Estás seguro de que deseas eliminar a ${nombre} ${apellido}?`);
+  if (confirmacion) {
+      // Si el usuario confirma, envía el formulario manualmente
+      event.target.closest('form').submit();
+  } else {
+      // Si no confirma, no envía el formulario
+      return false;
+  }
+}

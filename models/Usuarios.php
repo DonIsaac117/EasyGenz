@@ -23,51 +23,131 @@ class Usuarios
 
     //metodos - funciones
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->conectarse = new ConectorBD();
     }
 
     //getter y setter
-    public function getId(){return $this->id;}
-    public function setId($id){$this ->id = $id;}
+    public function getId()
+    {
+        return $this->id;
+    }
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
 
-    public function getNombres() {return $this->nombres;}
-    public function setNombres($nombres) { $this->nombres = $nombres;}
+    public function getNombres()
+    {
+        return $this->nombres;
+    }
+    public function setNombres($nombres)
+    {
+        $this->nombres = $nombres;
+    }
 
-    public function getApellidos() {return $this->apellidos;}
-    public function setApellidos($apellidos) {$this->apellidos = $apellidos;}
+    public function getApellidos()
+    {
+        return $this->apellidos;
+    }
+    public function setApellidos($apellidos)
+    {
+        $this->apellidos = $apellidos;
+    }
 
-    public function getTipoDocumento() {return $this->tipo_documento;}
-    public function setTipoDocumento($tipo_documento) { $this->tipo_documento = $tipo_documento;}
+    public function getTipoDocumento()
+    {
+        return $this->tipo_documento;
+    }
+    public function setTipoDocumento($tipo_documento)
+    {
+        $this->tipo_documento = $tipo_documento;
+    }
 
-    public function getNumeroDocumento() {return $this->numero_documento;}
-    public function setNumeroDocumento($numero_documento) {$this->numero_documento = $numero_documento;}
+    public function getNumeroDocumento()
+    {
+        return $this->numero_documento;
+    }
+    public function setNumeroDocumento($numero_documento)
+    {
+        $this->numero_documento = $numero_documento;
+    }
 
-    public function getTelefono() {return $this->telefono; }
-    public function setTelefono($telefono) {$this->telefono = $telefono;}
+    public function getTelefono()
+    {
+        return $this->telefono;
+    }
+    public function setTelefono($telefono)
+    {
+        $this->telefono = $telefono;
+    }
 
-    public function getEmail() {return $this->email;}
-    public function setEmail($email) {$this->email = $email;}
+    public function getEmail()
+    {
+        return $this->email;
+    }
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
 
-    public function getContraseña() {return $this->contrasena;}
-    public function setContraseña($contrasena) {$this->contrasena = $contrasena;}
+    public function getContraseña()
+    {
+        return $this->contrasena;
+    }
+    public function setContraseña($contrasena)
+    {
+        $this->contrasena = $contrasena;
+    }
 
-    public function getRh() { return $this->rh; }
-    public function setRh($rh) { $this->rh = $rh; }
+    public function getRh()
+    {
+        return $this->rh;
+    }
+    public function setRh($rh)
+    {
+        $this->rh = $rh;
+    }
 
-    public function getEps() {return $this->eps;}
-    public function setEps($eps) {$this->eps = $eps;}
+    public function getEps()
+    {
+        return $this->eps;
+    }
+    public function setEps($eps)
+    {
+        $this->eps = $eps;
+    }
 
-    public function getContactoEmergencia() {return $this->contacto_emergencia;}
-    public function setContactoEmergencia($contacto_emergencia) { $this->contacto_emergencia = $contacto_emergencia;}
+    public function getContactoEmergencia()
+    {
+        return $this->contacto_emergencia;
+    }
+    public function setContactoEmergencia($contacto_emergencia)
+    {
+        $this->contacto_emergencia = $contacto_emergencia;
+    }
 
-    public function getEnfermedades() {return $this->enfermedades;}
-    public function setEnfermedades($enfermedades) {$this->enfermedades = $enfermedades;}
+    public function getEnfermedades()
+    {
+        return $this->enfermedades;
+    }
+    public function setEnfermedades($enfermedades)
+    {
+        $this->enfermedades = $enfermedades;
+    }
 
-    public function getAlergias() {return $this->alergias;}
-    public function setAlergias($alergias) { $this->alergias = $alergias;}
+    public function getAlergias()
+    {
+        return $this->alergias;
+    }
+    public function setAlergias($alergias)
+    {
+        $this->alergias = $alergias;
+    }
 
-    public function listAll(){
+    public function listAll()
+    {
         $cadenaSql = "SELECT * FROM usuarios";
         $resultado = $this->conectarse->consultaConRetorno($cadenaSql);
         $datos = $resultado->fetch_all();
@@ -93,11 +173,11 @@ class Usuarios
         return $resultado->fetch_all(MYSQLI_ASSOC);
     }
 
-    
+
     public function insertar()
     {
         $cadenaSql =
-        "INSERT INTO
+            "INSERT INTO
         usuarios(
          nombres,
          apellidos, 
@@ -124,11 +204,12 @@ class Usuarios
           '$this->contacto_emergencia', 
           '$this->enfermedades', 
           '$this->alergias')";
-        $this->conectarse->consultaSinRetorno($cadenaSql);  
+        $this->conectarse->consultaSinRetorno($cadenaSql);
     }
 
-    
-    public function actualizar() {
+
+    public function actualizar()
+    {
         $conexion = $this->conectarse->conexion;
         $sql = "UPDATE usuarios SET 
                 nombres = ?, apellidos = ?, tipo_documento = ?, numero_documento = ?, telefono = ?, email = ?, contrasena = ?, rh = ?, eps = ?, contacto_emergencia = ?, enfermedades = ?, alergias = ?
@@ -138,16 +219,18 @@ class Usuarios
         $stmt->execute();
     }
 
-    public function eliminar($id) {
+    public function eliminar($id)
+    {
         $conexion = $this->conectarse->conexion;
         $sql = "DELETE FROM usuarios WHERE id = ?";
         $stmt = $conexion->prepare($sql);
         $stmt->bind_param('i', $id);
         $stmt->execute();
     }
-    public function verificarCredenciales($numero_documento, $contrasena) {
+    public function verificarCredenciales($numero_documento, $contrasena)
+    {
         $conexion = $this->conectarse->conexion;
-        
+
         $sql = "SELECT * FROM usuarios WHERE numero_documento = ?";
         $stmt = $conexion->prepare($sql);
 
@@ -170,7 +253,7 @@ class Usuarios
 
         if ($usuario) {
             if ($contrasena === $usuario['contrasena']) {
-                $this->id=$usuario['id'];
+                $this->id = $usuario['id'];
                 return true;
             } else {
                 echo "Contraseña incorrecta";
@@ -183,10 +266,11 @@ class Usuarios
         }
     }
 
-    public function existedocumento() {
+    public function existedocumento()
+    {
         $cadenaSql = "SELECT * FROM usuarios WHERE numero_documento = '$this->numero_documento'";
         $resultado = $this->conectarse->consultaConRetorno($cadenaSql);
-    
+
         if ($resultado->num_rows > 0) {
             return $resultado->fetch_assoc();
         } else {
@@ -195,7 +279,8 @@ class Usuarios
     }
 
 
-    public function obtenerUsuarioPorCorreo($correo) {
+    public function obtenerUsuarioPorCorreo($correo)
+    {
         $sql = "SELECT * FROM usuarios WHERE email = ?";
         $stmt = $this->conectarse->conexion->prepare($sql);
         $stmt->bind_param("s", $correo);
@@ -204,27 +289,29 @@ class Usuarios
         return $resultado->fetch_assoc();
     }
 
-    public function actualizarContrasena($email, $nuevaContrasena) {
+    public function actualizarContrasena($email, $nuevaContrasena)
+    {
         $sql = "UPDATE usuarios SET contrasena = ? WHERE email = ?";
         $stmt = $this->conectarse->conexion->prepare($sql);
-    
+
         if (!$stmt) {
             echo "Error en la preparación: " . $this->conectarse->conexion->error;
             return false;
         }
-    
+
         $stmt->bind_param("ss", $nuevaContrasena, $email);
-        
+
         if (!$stmt->execute()) {
             echo "Error en la ejecución: " . $stmt->error;
             return false;
         }
-    
+
         return true;
     }
 
 
-    public function obtenerPerfilPorIdUsuario($id_usuario) {
+    public function obtenerPerfilPorIdUsuario($id_usuario)
+    {
         $conexion = $this->conectarse->conexion;
         $sql = "SELECT perfil FROM perfil 
                 INNER JOIN usuario_perfil ON perfil.id = usuario_perfil.id_perfil 
@@ -235,9 +322,10 @@ class Usuarios
         $result = $stmt->get_result();
         return $result->fetch_assoc()['perfil'];
     }
-    
 
-    public function obtenerUsuarioPorContrasena($contrasena) {
+
+    public function obtenerUsuarioPorContrasena($contrasena)
+    {
         $sql = "SELECT * FROM usuarios WHERE contrasena = ?";
         $stmt = $this->conectarse->conexion->prepare($sql);
         $stmt->bind_param("s", $contrasena);
@@ -245,42 +333,22 @@ class Usuarios
         $resultado = $stmt->get_result();
         return $resultado->fetch_assoc();
     }
-    
-    public function registrarEntrada($id_usuario) {
+
+    public function registrarEntrada($id_usuario)
+    {
         // Obtén el código del número de ficha relacionado con este usuario
         $codigo_numeroficha = $this->obtenerCodigoFichaPorUsuario($id_usuario);
-        
+
         // Establece la fecha y hora actuales
         $fecha = date("Y-m-d");
         $hora_entrada = date("H:i:s");
-    
+
         // Inserta el registro de entrada en la tabla `ingresosalida_ficha`
         $sql = "INSERT INTO ingresosalida_ficha (id_usuario, codigo_numeroficha, fecha, hora_entrada, observacion, estado) 
                 VALUES (?, ?, ?, ?, NULL, NULL)";
         $stmt = $this->conectarse->conexion->prepare($sql);
         $stmt->bind_param("isss", $id_usuario, $codigo_numeroficha, $fecha, $hora_entrada);
-        
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
-    public function registrarSalida($id_usuario) {
-        // Obtén el código del número de ficha relacionado con este usuario
-        $codigo_numeroficha = $this->obtenerCodigoFichaPorUsuario($id_usuario);
-        
-        // Establece la fecha y hora actuales
-        $fecha = date("Y-m-d");
-        $hora_salida = date("H:i:s");
-    
-        // Actualiza el registro de salida en la tabla `ingresosalida_ficha`
-        $sql = "UPDATE ingresosalida_ficha SET hora_salida = ? 
-                WHERE id_usuario = ? AND codigo_numeroficha = ? AND fecha = ? AND hora_salida IS NULL";
-        $stmt = $this->conectarse->conexion->prepare($sql);
-        $stmt->bind_param("siss", $hora_salida, $id_usuario, $codigo_numeroficha, $fecha);
-        
+
         if ($stmt->execute()) {
             return true;
         } else {
@@ -288,7 +356,30 @@ class Usuarios
         }
     }
 
-    public function registrarEntradaFuncionario($id_usuario, $observacion = null) {
+    public function registrarSalida($id_usuario)
+    {
+        // Obtén el código del número de ficha relacionado con este usuario
+        $codigo_numeroficha = $this->obtenerCodigoFichaPorUsuario($id_usuario);
+
+        // Establece la fecha y hora actuales
+        $fecha = date("Y-m-d");
+        $hora_salida = date("H:i:s");
+
+        // Actualiza el registro de salida en la tabla `ingresosalida_ficha`
+        $sql = "UPDATE ingresosalida_ficha SET hora_salida = ? 
+                WHERE id_usuario = ? AND codigo_numeroficha = ? AND fecha = ? AND hora_salida IS NULL";
+        $stmt = $this->conectarse->conexion->prepare($sql);
+        $stmt->bind_param("siss", $hora_salida, $id_usuario, $codigo_numeroficha, $fecha);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function registrarEntradaFuncionario($id_usuario, $observacion = null)
+    {
         $fecha = date('Y-m-d');
         $hora_entrada = date('H:i:s');
         $sql = "INSERT INTO controlfuncionarios (id_usuario, fecha, hora_entrada, observacion, estado) 
@@ -297,8 +388,9 @@ class Usuarios
         $stmt->bind_param('isss', $id_usuario, $fecha, $hora_entrada, $observacion);
         return $stmt->execute();
     }
-    
-    public function registrarSalidaFuncionario($id_usuario) {
+
+    public function registrarSalidaFuncionario($id_usuario)
+    {
         $fecha = date('Y-m-d');
         $hora_salida = date('H:i:s');
         $sql = "UPDATE controlfuncionarios SET hora_salida = ?, estado = 'inactivo' 
@@ -307,8 +399,9 @@ class Usuarios
         $stmt->bind_param('sis', $hora_salida, $id_usuario, $fecha);
         return $stmt->execute();
     }
-    
-    private function obtenerCodigoFichaPorUsuario($id_usuario) {
+
+    private function obtenerCodigoFichaPorUsuario($id_usuario)
+    {
         // Consulta el código del número de ficha desde la tabla `aprendiz`
         $sql = "SELECT codigo_numeroficha FROM aprendiz WHERE id_usuario = ?";
         $stmt = $this->conectarse->conexion->prepare($sql);
@@ -319,13 +412,37 @@ class Usuarios
 
         return $fila['codigo_numeroficha'];
     }
-    
-    
 
 
-    public function obtenerUsuarioPorId($id) {
+
+
+    public function obtenerUsuarioPorId($id)
+    {
         $conexion = $this->conectarse->conexion;
-        $sql = "SELECT * FROM usuarios WHERE id = ?";
+        $sql = "SELECT id, email, UPPER(tipo_documento) as tipo_documento, contrasena, telefono, UPPER(rh) as rh, contacto_emergencia, numero_documento,
+        CONCAT(UPPER(SUBSTRING(alergias, 1, 1)), LOWER(SUBSTRING(alergias, 2))) AS alergias,
+        CONCAT(UPPER(SUBSTRING(enfermedades, 1, 1)), LOWER(SUBSTRING(enfermedades, 2))) AS enfermedades,
+        CONCAT(UPPER(SUBSTRING(eps, 1, 1)), LOWER(SUBSTRING(eps, 2))) AS eps,
+        CONCAT(
+            UPPER(LEFT(SUBSTRING_INDEX(nombres, ' ', 1), 1)),
+            LOWER(SUBSTRING(SUBSTRING_INDEX(nombres, ' ', 1), 2)),
+            IF(
+                LOCATE(' ', nombres) > 0,
+                CONCAT(' ', UPPER(LEFT(SUBSTRING_INDEX(nombres, ' ', -1), 1)), LOWER(SUBSTRING(SUBSTRING_INDEX(nombres, ' ', -1), 2))),
+                ''
+            )
+        ) AS nombres,
+        CONCAT(
+            UPPER(LEFT(SUBSTRING_INDEX(apellidos, ' ', 1), 1)),
+            LOWER(SUBSTRING(SUBSTRING_INDEX(apellidos, ' ', 1), 2)),
+            IF(
+                LOCATE(' ', apellidos) > 0,
+                CONCAT(' ', UPPER(LEFT(SUBSTRING_INDEX(apellidos, ' ', -1), 1)), LOWER(SUBSTRING(SUBSTRING_INDEX(apellidos, ' ', -1), 2))),
+                ''
+            )
+        ) AS apellidos
+        FROM usuarios
+        WHERE id = ?";
         $stmt = $conexion->prepare($sql);
         $stmt->bind_param('i', $id);
         $stmt->execute();
@@ -333,24 +450,26 @@ class Usuarios
         return $result->fetch_assoc();
     }
 
-    public function obtenerPerfilUsuario($id) {
+    public function obtenerPerfilUsuario($id)
+    {
         $conexion = $this->conectarse->conexion;
 
-        $sql= "SELECT CONCAT(UPPER(SUBSTRING(p.perfil, 1, 1)), LOWER(SUBSTRING(p.perfil, 2))) as perfil
+        $sql = "SELECT CONCAT(UPPER(SUBSTRING(p.perfil, 1, 1)), LOWER(SUBSTRING(p.perfil, 2))) as perfil
             FROM perfil p
             INNER JOIN usuario_perfil up ON p.id = up.id_perfil
             WHERE up.id_usuario = ?";
-            
-        
+
+
         $stmt = $conexion->prepare($sql);
         $stmt->bind_param('i', $id);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_assoc();
-        
+
     }
 
-    public function search($searchTerm) {
+    public function search($searchTerm)
+    {
         $conexion = $this->conectarse->conexion;
         $cadenaSql = "SELECT *
                    FROM usuarios 
@@ -366,19 +485,21 @@ class Usuarios
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function obtenerTodosLosUsuarios() {
+    public function obtenerTodosLosUsuarios()
+    {
         $sql = "SELECT * FROM usuarios";
         $result = $this->conectarse->conexion->query($sql);
         return $result->fetch_all(MYSQLI_ASSOC);
-    }   
-     public function actualizarUsuario($id, $nombres, $apellidos, $tipo_documento, $numero_documento, $telefono, $email, $contrasena, $rh, $eps, $contacto_emergencia, $enfermedades, $alergias) {
+    }
+    public function actualizarUsuario($id, $nombres, $apellidos, $tipo_documento, $numero_documento, $telefono, $email, $contrasena, $rh, $eps, $contacto_emergencia, $enfermedades, $alergias)
+    {
         $sql = "UPDATE usuarios SET nombres=?, apellidos=?, tipo_documento=?, numero_documento=?, telefono=?, email=?, contrasena=?, rh=?, eps=?, contacto_emergencia=?, enfermedades=?, alergias=? WHERE id=?";
         $stmt = $this->conectarse->conexion->prepare($sql);
         $stmt->bind_param('ssssssssssssi', $nombres, $apellidos, $tipo_documento, $numero_documento, $telefono, $email, $contrasena, $rh, $eps, $contacto_emergencia, $enfermedades, $alergias, $id);
         return $stmt->execute();
     }
-    
+
 }
-    
+
 
 

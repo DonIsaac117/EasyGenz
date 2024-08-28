@@ -196,12 +196,12 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
                 <div class="infoPdf">
                     <h3>Informacion</h3>
                     <div class="organized">
-                        <h4><img src="./imagenes/funcionario/pdf.png" alt="pdf" title="Descargar pdf">Preguntas
-                            frecuentes</h4>
-                        <h4><img src="./imagenes/funcionario/pdf.png" alt="pdf" title="Descargar pdf">Manual de usuario
-                        </h4>
-                        <h4><img src="./imagenes/funcionario/pdf.png" alt="pdf" title="Descargar pdf">Sobre nosotros
-                        </h4>
+                        <a href=https://drive.google.com/file/d/1JXsdG0gyxN0h_zRlVetGOpKzKyfymgAS/view style="color: black;"><h4><img src="./imagenes/funcionario/pdf.png" alt="pdf" title="Ver pdf">Preguntas
+                            frecuentes</h4></a>
+                       <a href="" style="color: black;"><h4><img src="./imagenes/funcionario/pdf.png" alt="pdf" title="Ver pdf">Manual de usuario
+                        </h4></a> 
+                        <a href="https://drive.google.com/file/d/1ueB-t2zp10jj9aEywd2Mlnq9IQdl8lLm/view?usp=drive_link" style="color: black;"><h4><img src="./imagenes/funcionario/pdf.png" alt="pdf" title="Ver pdf">Sobre nosotros
+                        </h4></a>
                     </div>
                 </div>
 

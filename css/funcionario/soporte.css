@@ -14,6 +14,7 @@ body {
 
 a {
     text-decoration: none;
+    
 }
 
 .nav {
@@ -345,7 +346,9 @@ textarea:focus {
     cursor: pointer;
 }
 
-
+.infoPdf a {
+    color: transparent;
+}
 
 .contacInfo i {
     font-size: clamp(15px, 1.7vw, 26px);

@@ -185,14 +185,14 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
           <button type="button" onclick="clearFilters()">Limpiar</button>
           </div>
         </form>
-        <button id="downloadPDF" onclick="generatePDF()">Descargar PDF</button>
+        <button id="downloadPDF" onclick="generatePDF()"><img src="./imagenes/funcionario/pdf.png" alt="pdf" title="Descargar pdf"></button>
       <div class="table-container">
         <table border="1" id="tabla">
           <thead>
             <tr class="sticky">
               <th id="colDocumento">Documento <span class="material-icons-sharp">arrow_drop_down</span></th>
-              <th id="colNombre">Nombre <span class="material-icons-sharp">arrow_drop_down</span></th>
-              <th id="colApellido">Apellido <span class="material-icons-sharp">arrow_drop_down</span></th>
+              <th id="colNombre">Nombres <span class="material-icons-sharp">arrow_drop_down</span></th>
+              <th id="colApellido">Apellidos <span class="material-icons-sharp">arrow_drop_down</span></th>
               <th id="colHoraEntrada">Hora Entrada <span class="material-icons-sharp">arrow_drop_down</span></th>
               <th id="colHoraSalida">Hora Salida <span class="material-icons-sharp">arrow_drop_down</span></th>
               <th id="colPerfil">Perfil</th>
@@ -213,7 +213,7 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
               while ($usuario = $usuarios->fetch_assoc()) {
                 $perfilUsuario = (new Usuarios())->obtenerPerfilUsuario($usuario['id']);
                 ?>
-                <tr onclick="mostrarModal(<?= $usuario['id'] ?>)">
+                <tr onclick="mostrarModal(<?= $usuario['id'] ?>)" data-user-id="<?= htmlspecialchars($usuario['id']) ?>">
                   <td>
                     <?= mostrarDato($usuario['numero_documento']) ?>
                   </td>

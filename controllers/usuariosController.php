@@ -268,10 +268,7 @@ class UsuarioController
         return $this->usuarioModel->obtenerUsuarioPorId($id);
     }
 
-    public function obtenerTodosLosUsuarios()
-    {
-        return $this->usuarioModel->obtenerTodosLosUsuarios();
-    }public function actualizarUsuario($id, $nombres, $apellidos, $tipo_documento, $numero_documento, $telefono, $email, $contrasena, $rh, $eps, $contacto_emergencia, $enfermedades, $alergias)
+    public function actualizarUsuario($id, $nombres, $apellidos, $tipo_documento, $numero_documento, $telefono, $email, $contrasena, $rh, $eps, $contacto_emergencia, $enfermedades, $alergias)
     {
         return $this->usuarioModel->actualizarUsuario($id, $nombres, $apellidos, $tipo_documento, $numero_documento, $telefono, $email, $contrasena, $rh, $eps, $contacto_emergencia, $enfermedades, $alergias);
     }

@@ -57,6 +57,7 @@ a {
 }
 
 .main {
+    position: relative;
     display: flex;
     flex: 16 1 auto;
     height: clamp(85vh, 90vh, 92vh);
@@ -423,3 +424,19 @@ th span{
     position: absolute;
     top: 18%;
 }
+
+#downloadPDF{
+    background: none;
+    border: none;
+    padding: 0;
+    position: absolute;
+    top: 1.5%;
+    right: 1.9%;
+}
+
+#downloadPDF img{
+    width: 86%;
+    cursor: pointer;
+}
+
+
