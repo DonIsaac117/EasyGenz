@@ -651,6 +651,9 @@ CREATE TRIGGER `eliminar_usuario_total` BEFORE DELETE ON `usuarios` FOR EACH ROW
     -- Eliminar registros relacionados en la tabla 'ingresosalida_ficha'
     DELETE FROM ingresosalida_ficha WHERE id_usuario = OLD.id;
 
+-- Eliminar registros relacionados en la tabla 'controlfuncionarios'
+    DELETE FROM controlfuncionarios WHERE id_usuario = OLD.id;
+
    -- Eliminar registros relacionados en la tabla 'usuario_perfil'
     DELETE FROM usuario_perfil WHERE id_usuario = OLD.id;
 
@@ -659,10 +662,7 @@ CREATE TRIGGER `eliminar_usuario_total` BEFORE DELETE ON `usuarios` FOR EACH ROW
     
     -- Eliminar registros relacionados en la tabla 'instructor'
     DELETE FROM instructor WHERE id_usuario = OLD.id;
-    
-    -- Eliminar registros relacionados en la tabla 'controlfuncionarios'
-    DELETE FROM controlfuncionarios WHERE id_usuario = OLD.id;
-    
+
     -- Eliminar registros relacionados en la tabla 'funcionario'
      
      DELETE FROM funcionario WHERE id_usuario = OLD.id;
