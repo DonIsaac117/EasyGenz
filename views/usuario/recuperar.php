@@ -11,7 +11,6 @@
 <body>
     <div class="container">
         <form action="index.php?vista=usuario/recuperar" method="post" id="miFormulario">
-
             <h1>¡Has olvidado tu contraseña!</h1>
             <h3>¡No te preocupes, te ayudaremos a recuperar tu cuenta!</h3>
             <div class="formulario">

@@ -14,7 +14,6 @@ body {
 
 a {
     text-decoration: none;
-    
 }
 
 .nav {
@@ -75,15 +74,6 @@ a {
     height: 100%;
     margin: 12px;
     flex: 6;
-}
-
-.mainLayout h3{
-    font-size: clamp(18px, 1vw, 30px);
-}
-
-.mainLayout h4{
-    font-size: clamp(15px, 0.8vw, 27px);
-    font-weight: 600;
 }
 
 .menu span {
@@ -261,141 +251,150 @@ a {
     cursor: pointer;
 }
 
-.boxSupport {
-    margin-top: -0.4% ;
-    margin-bottom: 1%;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    height: 40%;
-    width: 32%;
-    background-color: #fff;
-    padding: 0.8%;
-    border-radius: 10px;
-    box-shadow: 0 4px 9px rgba(0, 0, 0, 0.1);
+form {
+    max-width: 40%;
+    max-height: 90%;
+    margin: 2% 0;
+    padding: 20px;
+    background: rgb(223, 223, 223);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-left: 30px; /* Adjust this value as needed */
+    padding-top: 70px;
+    padding-left: 40px;
+    padding-right: 40px;
+    
+    
 }
 
-.boxSupport h3 {
-    margin-bottom: 1.4%;
-    color: #333;
+/* Grid Layout */
+.col1, .col2 {
+    float: left;
+    width: 48%;
+    margin-right: 4%;
 }
 
-.boxSupport select {
+.col2 {
+    margin-right: 0;
+}
+
+/* Clearfix for float */
+form::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Form Elements */
+label {
+    display: block;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+input[type="number"],
+input[type="text"],
+select {
     width: 100%;
-    cursor: pointer;
-    padding: 1.4%;
-    margin-bottom: 1.2%;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    font-size: clamp(13px, 0.6vw, 17px);
+    padding: 8px;
+    margin-bottom: 50px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
-.boxSupport form {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+input[type="text"] {
+    text-transform: capitalize; /* Automatically capitalizes first letter of each word */
+}
+.observacion {
+    margin: 0 auto; /* Centra el contenedor .observacion horizontalmente */
+    padding: 20px;
 }
 
-textarea {
-    flex-grow: 1;
-    margin: 0.2%;
-    padding: 1.5%;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-    resize: none;
-    overflow-y: auto;
-    background-color: #f9f9f9;
-    font-size: clamp(11.5px, 0.45vw, 15.5px);
-    line-height: 1.5;
-    color: black;
-    width: 97%; 
-    height: auto; 
-    min-height: 70px; 
-    max-height: 100%; 
+.observacion label {
+    display: block;
+    text-align: center; /* Centra el texto de la etiqueta */
+    margin-bottom: 10px;
+    font-weight: bold;
 }
 
-textarea:focus {
-    outline: none;
-    border-color: #007bff;
+textarea{
+    padding: 2%;
+    margin: 4% 0 2% 0;
+    border-radius: 2vh;
+    border: 1px solid #ccc;
+    font-size: 20px;
+    width: 100%;
+    height: 10vh;
 }
 
-.boxSupport button {
-    position: relative;
-    top: 1.5%;
-    left: 83.5%;
-    width: 17%;
-    padding: 1% 2%;
-    border: none;
-    background-color: #007bff;
+button[type="submit"] {
+    background-color: green;
     color: white;
-    border-radius: 5px;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 16px;
     cursor: pointer;
-    font-size: clamp(12px, 0.5vw, 16px);
+    transition: background-color 0.3s ease;
+    margin-left: 43%;
+    margin-top: 0;
+    
 }
 
-.boxSupport button:hover {
-    background-color: #0056b3;
+button[type="submit"]:hover {
+    background-color: rgb(16, 158, 16);
 }
 
-.boxSupport button:focus {
-    outline: none;
+@media (max-width: 768px) {
+    form {
+        margin-left: 10px; /* Reduce margin for smaller screens */
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .col1, .col2 {
+        width: 100%;
+        float: none;
+        margin-right: 0;
+    }
+
+    button[type="submit"] {
+        margin-left: 0;
+        width: 100%; /* Button takes full width */
+        padding: 10px;
+    }
+    textarea{
+        height: 95px;
+    }
 }
 
-.infoPdf img {
-    width: 2.5%;
-    cursor: pointer;
+@media (max-width: 480px) {
+    form {
+        margin-top: 50px; /* Adjust top margin for very small screens */
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-top: 50px; /* Adjust padding for better spacing */
+    }
+
+    label {
+        font-size: 14px; /* Smaller font size for labels */
+    }
+
+    input[type="number"],
+    input[type="text"],
+    select,
+    textarea{
+        height: 95px;
+    }
+    button[type="submit"] {
+        font-size: 14px; /* Smaller font size for the button */
+        padding: 8px 15px; /* Reduce padding for the button */
+    }
 }
 
-.infoPdf a {
-    color: transparent;
-}
-
-.contacInfo i {
-    font-size: clamp(15px, 1.7vw, 26px);
-    margin: 0 0.32%;
-}
-
-.contacInfo a{
-    color: black;
-    display: flex;
-    margin: 0 0.32%;
-}
-
-.contacInfo a>i {
-    margin-right: 3.7%;
-}
-
-h4 {
-    display: flex;
-    align-items: center; 
-    margin: clamp(0.47%, 0.4vh, 0.8%) 0; 
-}
-
-.organized {
-    margin: clamp(0.72%,0.6vh, 1.1%) 0.3%;
-}
-
-h4 img {
-    margin-right: 4px; 
-    margin-top: -1.3px;
-}
-
-.social {
-    position: absolute;
-    bottom: 3%;
-    right: 3%;
-    text-align: center;
-}
-
-.social i {
-    cursor: pointer;
-    font-size: clamp(18px, 2vw, 50px);
-    margin: 1.5% 0.8% 1.5% 0.6%;
-}
-
-.char-limit-message {
-    font-size: 12px;
-    color: red;
-    margin-top: 5px;
-    display: none; 
-}

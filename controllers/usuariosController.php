@@ -3,23 +3,23 @@
 require_once __DIR__ . '/../config/ConectorBD.php';
 require_once __DIR__ . '/../models/Usuarios.php';
 require_once __DIR__ . '/../models/Registros.php';
+require_once __DIR__ . '/../models/Programa.php';
+require_once __DIR__ . '/../models/NumeroFicha.php';
 
-class UsuarioController
-{
+
+class UsuarioController {  
     private $usuarioModel;
+   
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->usuarioModel = new Usuarios();
     }
-
-    public function listar()
-    {
+    
+    public function listar() {
         return $this->usuarioModel->listAll();
     }
 
-    public function registrar()
-    {
+    public function registrar() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->usuarioModel->setNombres($_POST['nombre']);
             $this->usuarioModel->setApellidos($_POST['apellidos']);
@@ -72,73 +72,128 @@ class UsuarioController
         return $this->usuarioModel->eliminar($id);
     }
 
-    public function login()
-    {
+
+
+    public function login() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Obtén los datos del formulario
             $numero_documento = $_POST['documento'] ?? null;
             $contrasena = $_POST['contrasena'] ?? null;
-
+    
             // Verifica que se hayan proporcionado ambos datos
             if ($numero_documento === null || $contrasena === null) {
                 header("Location: index.php?vista=usuario/login&error=datos_incompletos");
                 exit;
             }
-
+    
             $usuario = new Usuarios();
             $usuario->setNumeroDocumento($numero_documento);
-
+    
             // Verifica si el documento existe
             if ($usuario->existedocumento()) {
                 // Verifica las credenciales del usuario
                 if ($usuario->verificarCredenciales($numero_documento, $contrasena)) {
                     session_start();
-
+    
                     // Establece las variables de sesión
                     $_SESSION['id_usuario'] = $usuario->getId();
-
-                    // Redirige al usuario
-                    header('Location: index.php?vista=funcionario/inicio');
+    
+                    // Obtener el perfil del usuario
+                    $perfil = $this->usuarioModel->obtenerPerfilUsuario($_SESSION['id_usuario']);
+    
+                    // Redirige al usuario según su perfil
+                    switch ($perfil['perfil']) {
+                        case 'Admin':
+                            header('Location: index.php?vista=admin/inicio');
+                            break;
+                        case 'Funcionario':
+                            header('Location: index.php?vista=funcionario/inicio');
+                            break;
+                        case 'Instructor':
+                            header('Location: index.php?vista=instructor/inicio');
+                            break;
+                        default:
+                            header('Location: index.php?vista=usuario/login&error=perfil_desconocido');
+                            break;
+                    }
                     exit;
                 } else {
                     // Redirige en caso de credenciales incorrectas
                     header("Location: index.php?vista=usuario/login&error=credenciales_incorrectas");
                     exit;
                 }
-
             } else {
-
                 // Redirige si el usuario no existe
                 header("Location: index.php?vista=usuario/login&error=usuario_no_existe");
                 exit;
             }
         }
     }
+    
 
-    public function recuperar()
-    {
+    
+
+    public function recuperar() {
         session_start(); // Asegúrate de iniciar la sesión
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['email'])) {
             $correo = $_POST['email'];
             $usuarioModel = new Usuarios();
             $usuario = $usuarioModel->obtenerUsuarioPorCorreo($correo);
-
+    
             if ($usuario) {
                 $_SESSION['reset_email'] = $correo; // Configura la sesión aquí
-                $this->enviarCorreoRecuperacion($correo);
-                echo "<script>alert('Éxito', 'Mensaje enviado con éxito.', 'success');</script>";
+                if ($this->enviarCorreoRecuperacion($correo)) {
+                    echo "<script>alert('Mensaje enviado con éxito.');</script>";
+                } else {
+                    echo "<script>alert('No se pudo enviar el correo.');</script>";
+                }
             } else {
-                echo "<script>Swal.fire('Error', 'El correo $correo no existe en la base de datos.', 'error');</script>";
+                echo "<script>alert('El correo $correo no existe en la base de datos.');</script>";
             }
         }
 
         include "./views/usuario/recuperar.php";
     }
 
-    private function enviarCorreoRecuperacion($correo)
-    {
-        require "./PHPMailer-master/PHPMailer-master/src/PHPMailer.php";
-        require "./PHPMailer-master/PHPMailer-master/src/SMTP.php";
+    public function soporte() {
+        if (isset($_POST['pqr']) && isset($_POST['reclamo']) && isset($_POST["userEmail"]) && !empty($_POST['pqr'] ) && !empty($_POST['reclamo']) && !empty($_POST["userEmail"])) {
+            $motivo = $_POST['pqr'];
+            $asunto = $_POST['reclamo'];
+            $userEmail = $_POST["userEmail"];
+            if ($this->enviarCorreoSoporte($motivo, $asunto, $userEmail)) {
+                echo "<script>alert('Correo enviado correctamente.')</script>";
+            } else {
+                echo "<script>alert('No se pudo enviar el correo. Por favor, intenta de nuevo más tarde.')</script>";
+            }
+            include "./views/funcionario/soporte.php";
+        } else {
+            echo "<script>alert('Por favor, completa todos los campos del formulario.')</script>";
+        }
+    }
+    
+    private function enviarCorreoRecuperacion($correo) {
+        $mail = $this->configurarPHPMailer();
+        $mail->SetFrom("easygenz45@gmail.com", "Soporte EasyGenz");
+        $mail->Subject = "Restablecer Contraseña";
+        $mail->Body = 'Haz clic en este <a href="http://localhost/isaac/index.php?vista=usuario/nuevaC">enlace</a> para restablecer tu contraseña.';
+        $mail->AddAddress($correo);
+
+        return $mail->Send();
+    }
+
+    private function enviarCorreoSoporte($motivo, $asunto, $userEmail) {
+        $mail = $this->configurarPHPMailer();
+        $mail->SetFrom("easygenz45@gmail.com", "Soporte EasyGenz");
+        $mail->Subject = $motivo;
+        $mail->Body = "Correo del Usuario: $userEmail<br>Tipo de Reclamo: $motivo<br>Reclamo: $asunto";
+        $mail->AddAddress("easygenz45@gmail.com");
+
+        return $mail->Send();
+    }
+
+    private function configurarPHPMailer() {
+        require("./PHPMailer-master/PHPMailer-master/src/PHPMailer.php");
+        require("./PHPMailer-master/PHPMailer-master/src/SMTP.php");
 
         $mail = new PHPMailer\PHPMailer\PHPMailer();
         $mail->IsSMTP();
@@ -149,18 +204,12 @@ class UsuarioController
         $mail->IsHTML(true);
         $mail->Username = "easygenz45@gmail.com";
         $mail->Password = "aiwi lrnn dsto lmfa";
-        $mail->SetFrom("easygenz45@gmail.com");
-        $mail->Subject = "Restablecer Contraseña";
-        $mail->Body = 'Haz clic en este <a href="http://localhost/isaac/index.php?vista=usuario/nuevaC">enlace</a> para restablecer tu contraseña.';
-        $mail->AddAddress($correo);
 
-        if (!$mail->Send()) {
-            echo "<script>alert('No se pudo enviar el correo.')</script>";
-        }
+        return $mail;
     }
 
-    public function redireccionNuevaC()
-    {
+
+    public function redireccionNuevaC() {
         session_start();
         if (isset($_SESSION['reset_email'])) {
             include "./views/usuario/nuevaC.php"; // mostra el formulario si la sesión esta bien
@@ -168,10 +217,9 @@ class UsuarioController
             echo "<script>alert('Sesión no válida. Por favor, intente el proceso de recuperación nuevamente.');</script>";
             echo '<script>window.location.href = "index.php?vista=usuario/login";</script>';
         }
-    }
+    } 
 
-    public function nuevaContrasena()
-    {
+    public function nuevaContrasena() {
         session_start(); // Inicia la sesión
         if (isset($_SESSION['reset_email'])) {
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -197,80 +245,148 @@ class UsuarioController
             echo "<script>alert('Sesión no válida. Por favor, intente el proceso de recuperación nuevamente.'); window.location.href = 'index.php?vista=usuario/login';</script>";
         }
     }
-    public function manejarEntradaSalida()
-    {
+    public function gestionarIngreso() {
         session_start();
-
-        // Verificar si la sesión está iniciada y si el ID de usuario está presente
-        if (!isset($_SESSION['usuario_id'])) {
-            echo "<script>alert('Sesión no válida.'); window.location.href = 'index.php?vista=usuario/login';</script>";
-            return;
-        }
-
         $usuarioModel = new Usuarios();
-        $usuarioId = $_SESSION['usuario_id'];
-        $perfil = $usuarioModel->obtenerPerfilPorIdUsuario($usuarioId);
-
+    
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $contrasena = $_POST['contrasena'];
-
-            // Verificar la contraseña
-            $usuario = $usuarioModel->obtenerUsuarioPorId($usuarioId);
-            if (password_verify($contrasena, $usuario['contrasena'])) {
-                if (!isset($_SESSION['sesion_activa'])) {
-                    $_SESSION['sesion_activa'] = true;
-
-                    if ($perfil === 'aprendiz' || $perfil === 'instructor') {
-                        $usuarioModel->registrarEntrada($usuarioId);
-                    } elseif ($perfil === 'funcionario') {
-                        $usuarioModel->registrarEntradaFuncionario($usuarioId, null);
+            $observacion = isset($_POST['observacion']) ? $_POST['observacion'] : null;
+    
+            // Verificar contraseña
+            $usuario = $usuarioModel->obtenerUsuarioPorContrasena($contrasena);
+    
+            if ($usuario) {
+                $idUsuario = $usuario['id'];
+                $_SESSION['ingreso_usuario'] = $idUsuario;
+    
+                // Registrar entrada o salida
+                $resultado = $usuarioModel->gestionarEntradaSalida($idUsuario, $observacion);
+    
+                if ($resultado === 'entrada') {
+                    $perfil = $usuarioModel->obtenerPerfilPorIdUsuario($idUsuario);
+                    if ($perfil === 3) {
+                        echo "<script>alert('Éxito, sesión del funcionario iniciada.');</script>";
+                    } elseif ($perfil === 2) {
+                        echo "<script>alert('Éxito, sesión del instructor iniciada.');</script>";
+                    } else {
+                        echo "<script>alert('Éxito, sesión del aprendiz iniciada.');</script>";
                     }
-
-                    echo "<script>alert('Sesión iniciada exitosamente.');</script>";
+                } elseif ($resultado === 'salida') {
+                    $perfil = $usuarioModel->obtenerPerfilPorIdUsuario($idUsuario);
+                    if ($perfil === 3) {
+                        echo "<script>alert('Éxito, sesión del funcionario cerrada.');</script>";
+                    } elseif ($perfil === 2) {
+                        echo "<script>alert('Éxito, sesión del instructor cerrada.');</script>";
+                    } else {
+                        echo "<script>alert('Éxito, sesión del aprendiz cerrada.');</script>";
+                    }
+                    unset($_SESSION['ingreso_usuario']);
                 } else {
-                    if ($perfil === 'aprendiz' || $perfil === 'instructor') {
-                        $usuarioModel->registrarSalida($usuarioId);
-                    } elseif ($perfil === 'funcionario') {
-                        $usuarioModel->registrarSalidaFuncionario($usuarioId);
-                    }
-
-                    unset($_SESSION['sesion_activa']);
-                    echo "<script>alert('Sesión cerrada.');</script>";
+                    echo "<script>alert('Error al registrar entrada/salida.');</script>";
                 }
             } else {
-                echo "<script>alert('Contraseña incorrecta.'); window.history.back();</script>";
+                echo "<script>alert('Contraseña incorrecta.');</script>";
             }
         }
-        include "./views/usuario/entradaSalida.php";
+    
+        include "./views/usuario/ingreso.php";
+    }
+    
+
+
+public function obtenerPerfilUsuario($id) {
+    return $this->usuarioModel->obtenerUsuarioPorId($id);
+}
+
+
+public function listUsuarios($documento = null, $nombre = null, $apellido = null, $fechaDesde = null, $fechaHasta = null)
+{
+    $registro = new Registro();
+    $usuarios = $registro->getAll($documento, $nombre, $apellido, $fechaDesde, $fechaHasta);
+    return $usuarios;
+
+    
+}
+
+public function funcionario($idUsuario) {
+    $perfiles = $this->usuarioModel->obtenerPerfilUsuario($idUsuario);
+        if ($perfiles['perfil'] === 'Funcionario') {
+            return true;
+        }
+    return false;
+}
+public function filtrarUsuarios($searchTerm)
+{
+    return $this->usuarioModel->search($searchTerm);
+}
+
+public function obtenerUsuarioPorId($id)
+{
+    return $this->usuarioModel->obtenerUsuarioPorId($id);
+}
+
+public function actualizarUsuario($id, $nombres, $apellidos, $tipo_documento, $numero_documento, $telefono, $email, $contrasena, $rh, $eps, $contacto_emergencia, $enfermedades, $alergias)
+{
+    return $this->usuarioModel->actualizarUsuario($id, $nombres, $apellidos, $tipo_documento, $numero_documento, $telefono, $email, $contrasena, $rh, $eps, $contacto_emergencia, $enfermedades, $alergias);
+}
+}
+
+
+
+class ProgramaNumeroFichaController {
+    private $programaModel;
+    private $numeroFichaModel;
+
+    public function __construct() {
+        $this->programaModel = new Programa();
+        $this->numeroFichaModel = new NumeroFicha();
     }
 
-    public function obtenerPerfilUsuario($id)
-    {
-        return $this->usuarioModel->obtenerUsuarioPorId($id);
+    public function registrarPrograma() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $nombre_programa = $_POST['programa'] ?? null;
+            $tipo_programa = $_POST['tipo'] ?? null;
+
+            $this->programaModel->setNombre($nombre_programa);
+            $this->programaModel->setid_tipo_programa($tipo_programa);
+
+            if ($this->programaModel->existeprograma($nombre_programa)) {
+                $id = $this->programaModel->obteneridprograma();
+                return intval($id); // Devuelve el ID del programa existente
+            } else {
+                $this->programaModel->insertar();
+                $id = $this->programaModel->obteneridprograma();
+                return intval($id); // Devuelve el ID del nuevo programa
+            }
+        }
+        return null; // Retorna null si no se realiza la solicitud POST
     }
 
-    public function listUsuarios($documento = null, $nombre = null, $apellido = null, $fechaDesde = null, $fechaHasta = null)
-    {
-        $registro = new Registro();
-        $usuarios = $registro->getAll($documento, $nombre, $apellido, $fechaDesde, $fechaHasta);
-        return $usuarios;
+    public function registrarFicha($idPrograma) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $codigo = $_POST['ficha'] ?? null;
+            $jornada = $_POST['jornada'] ?? null;
+            $nombre = $_POST['programa'] ?? null;
+            $descripcion = $_POST['observacion'] ?? null;
 
-    }
+            $this->numeroFichaModel->setcodigo($codigo);
+            $this->numeroFichaModel->setjornada($jornada);
+            $this->numeroFichaModel->setnombre($nombre);
+            $this->numeroFichaModel->setdescripcion($descripcion);
+            $this->numeroFichaModel->setid_programa($idPrograma);
 
-    // Método para buscar usuarios
-    public function filtrarUsuarios($searchTerm)
-    {
-        return $this->usuarioModel->search($searchTerm);
-    }
-
-    public function obtenerUsuarioPorId($id)
-    {
-        return $this->usuarioModel->obtenerUsuarioPorId($id);
-    }
-
-    public function actualizarUsuario($id, $nombres, $apellidos, $tipo_documento, $numero_documento, $telefono, $email, $contrasena, $rh, $eps, $contacto_emergencia, $enfermedades, $alergias)
-    {
-        return $this->usuarioModel->actualizarUsuario($id, $nombres, $apellidos, $tipo_documento, $numero_documento, $telefono, $email, $contrasena, $rh, $eps, $contacto_emergencia, $enfermedades, $alergias);
+            $this->numeroFichaModel->insertar();
+        } else {
+            echo "Error: La solicitud no es de tipo POST.";
+        }
+        include "./views/instructor/ficha.php";
     }
 
 }
+
+
+
+        
+
+

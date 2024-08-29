@@ -1,6 +1,6 @@
 <?php
 
-require_once ("./config/ConectorBD.php");
+require_once(__DIR__ . '/../config/ConectorBD.php');
 
 class Programa
 {
@@ -32,35 +32,45 @@ class Programa
         return $datos;
     }
 
+    public function existeprograma() {
+        $cadenaSql = "SELECT * FROM programa WHERE nombre = '$this->nombre'";
+        $resultado = $this->conectarse->consultaConRetorno($cadenaSql);
+    
+        if ($resultado->num_rows > 0) {
+            return $resultado->fetch_assoc();
+        } else {
+            return false;
+        }
+    }
+
+    public function obteneridprograma() {
+        $cadenaSql = "SELECT id FROM programa WHERE nombre = ?";
+        $stmt = $this->conectarse->conexion->prepare($cadenaSql);
+        if ($stmt === false) {
+            throw new Exception("Error en la preparación de la consulta: " . $this->conectarse->conexion->error);
+        }
+        $stmt->bind_param('s', $this->nombre);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $stmt->close();
+        return $row ? $row['id'] : null;
+    }
+    
     
     public function insertar()
     {
         $cadenaSql =
         "INSERT INTO
         programa(
-        id,
         nombre, 
         id_tipo_programa
         )
         VALUES
-        ('$this->id',
-        '$this->nombre',
+        ('$this->nombre',
         '$this->id_tipo_programa')";
         $this->conectarse->consultaSinRetorno($cadenaSql);  
     }
 
-    public function eliminar($id) {
-        $id = intval($id);
-        $cadenaSql = "DELETE FROM programa WHERE id = $id";
-        $this->conectarse->consultaSinRetorno($cadenaSql);
-    }    
-    
-    public function actualizar() {
-        $cadenaSql = "UPDATE programa SET 
-                nombre = '$this->nombre',
-                id_tipo_programa = '$this->id_tipo_programa'
-                WHERE id = $this->id";
-        $this->conectarse->consultaSinRetorno($cadenaSql);
-    }
 
 }

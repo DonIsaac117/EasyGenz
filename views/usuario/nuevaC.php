@@ -9,22 +9,22 @@
 </head>
 <body>
     <div class="formularrio">
-
         <form action="index.php?vista=usuario/nuevaC" method="post">
             <h1>Ingresa tu nueva contraseña</h1>
             <div class="formulario">
                 <h2>Nueva contraseña</h2>
-                <input type="text" required>
+                <input type="password" name="contra" required>
                 <h2>Repite la contraseña</h2>
-                <input type="password" required>
-        </form>
-            <div class="registro"> 
-                <a href="../../index.html" class="boton-registrese">Cambiar</a>
+                <input type="password" name="contra2" required>
+                <div class="registro">
+                    <input type="submit" name="cambiar" value="Cambiar" class="boton-registrese">
+                </div>
             </div>
-               
-            </div>
+        </form>   
     </div>
+
 </body>
 </html>
+
 
 

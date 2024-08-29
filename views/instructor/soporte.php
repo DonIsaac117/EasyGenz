@@ -36,46 +36,37 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
 
 <body>
     <nav class="nav">
-        <div class="sena">
-            <img src="./imagenes/funcionario/logoSena.png" />Funcionario
-        </div>
-        <div class="menu">
-            <a href="?vista=funcionario/inicio">
-                <div>
-                    <span class="material-icons-sharp">home</span>
-                    <p>Calendario</p>
-                </div>
+            <div class="sena">
+                <img src="./imagenes/funcionario/logoSena.png" />Instructor
+            </div>
+            <div class="menu">
+                <a href="?vista=instructor/inicio">
+                    <div>
+                        <span class="material-icons-sharp">home</span>
+                        <p>Calendario</p>
+                    </div>
+                </a>
+
+            </div>
+            <div class="menu">
+                <a href="?vista=instructor/ficha">
+                    <div>
+                        <span class="material-icons-sharp">description</span>
+                        <p>Ficha</p>
+                    </div>
+            </div>
             </a>
 
-        </div>
-        <div class="menu">
-            <a href="?vista=funcionario/registros">
-                <div>
-                    <span class="material-icons-sharp">description</span>
-                    <p>Registros</p>
-                </div>
-        </div>
-        </a>
+            <div class="menu">
+                <a href="?vista=instructor/soporte">
+                    <div style="background: rgb(0, 0, 0, 0.32);">
+                        <span class="material-icons-sharp">question_mark</span>
+                        <p>Soporte</p>
+                    </div>
+                </a>
+            </div>
 
-        <div class="menu">
-            <a href="?vista=funcionario/soporte">
-                <div style="background: rgb(0, 0, 0, 0.32);">
-                    <span class="material-icons-sharp">question_mark</span>
-                    <p>Soporte</p>
-                </div>
-            </a>
-        </div>
-
-        <div class="menu">
-            <a href="?vista=funcionario/inicio">
-                <div>
-                    <span class="material-icons-sharp">supervisor_account</span>
-                    <p>Usuarios</p>
-                </div>
-            </a>
-        </div>
-
-    </nav>
+        </nav>
     <div class="body">
         <header class="header">
             <div class="title">
@@ -237,7 +228,7 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
         </main>
     </div>
 
-    <script src="./js/funcionario/soporte.js"></script>
+    <script src="./js/instructor/soporte.js"></script>
     <script>
 
 
