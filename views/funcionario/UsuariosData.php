@@ -1,6 +1,11 @@
 <?php
 session_start();
 $id_usuario = $_SESSION['id_usuario'];
+if (!isset($id_usuario)) {
+   
+    header("Location: ./index.php?vista=usuario/login");
+    exit();
+}
 require_once './controllers/usuariosController.php';
 require_once './models/Usuarios.php';
 
@@ -128,7 +133,7 @@ if ($userId) {
                     <div class="perfilIcon">
                         <div>
                             <span class="material-icons-sharp">account_circle</span>
-                            <button class="btnBlue">Cambiar foto</button>
+                        
                         </div>
 
                         <div class="nameUser">
@@ -214,7 +219,7 @@ if ($userId) {
                     </div>
 
                     <div class="userEnd">
-                        <button class="btnRed">Cerrar sesión</button>
+                    <a href="./events/cerrar_sesion.php"><button class="btnRed">Cerrar sesion</button></a> 
                     </div>
                 </div>
             </div>

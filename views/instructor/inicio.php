@@ -1,6 +1,11 @@
 <?php
 session_start();
 $id_usuario = $_SESSION['id_usuario'];
+if (!isset($id_usuario)) {
+   
+  header("Location: ./index.php?vista=usuario/login");
+  exit();
+}
 require_once './controllers/usuariosController.php';
 
 $usuarioController = new UsuarioController();
@@ -75,7 +80,7 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
             <div class="perfilIcon">
               <div>
                 <span class="material-icons-sharp">account_circle</span>
-                <button class="btnBlue">Cambiar foto</button>
+              
               </div>
 
               <div class="nameUser">
@@ -135,7 +140,7 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
                     </div>
 
             <div class="userEnd">
-              <button class="btnRed">Cerrar sesion</button>
+            <a href="./events/cerrar_sesion.php"><button class="btnRed">Cerrar sesion</button></a> 
             </div>
 
           </div>

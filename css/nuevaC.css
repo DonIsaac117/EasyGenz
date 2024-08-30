@@ -1,7 +1,6 @@
 body{
     background-image: url(../imagenes/nuevaC.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
+    background-size: 100% 120%; 
 }
 
 h1{
