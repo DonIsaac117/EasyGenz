@@ -1,6 +1,6 @@
 <?php
 
-require_once ("./config/ConectorBD.php");
+require_once(__DIR__ . '/../config/ConectorBD.php');
 
 class NumeroFicha
 {
@@ -59,20 +59,14 @@ class NumeroFicha
         $this->conectarse->consultaSinRetorno($cadenaSql);  
     }
 
-    public function eliminar($codigo) {
-        $id = intval($codigo);
-        $cadenaSql = "DELETE FROM numero_ficha WHERE codigo = $codigo";
-        $this->conectarse->consultaSinRetorno($cadenaSql);
-    }    
+    public function existeFicha(){
+        $cadenaSql = "SELECT * FROM numero_ficha WHERE codigo = '$this->codigo'";
+        $resultado = $this->conectarse->consultaConRetorno($cadenaSql);
     
-    public function actualizar() {
-        $cadenaSql = "UPDATE numero_ficha SET
-                jornada = '$this->jornada',
-                nombre = '$this->nombre',
-                descripcion = '$this->descripcion',
-                id_programa = '$this->id_programa'
-                WHERE codigo = $this->codigo";
-        $this->conectarse->consultaSinRetorno($cadenaSql);
-    }
-
+        if ($resultado->num_rows > 0) {
+            return $resultado->fetch_assoc();
+        } else {
+            return false;
+        }
+    } 
 }

@@ -715,6 +715,18 @@ END
 $$
 DELIMITER ;
 
+DELIMITER $$
+
+CREATE TRIGGER after_insert_usuario
+AFTER INSERT ON usuarios
+FOR EACH ROW
+BEGIN
+    INSERT INTO usuario_perfil (id_usuario, id_perfil)
+    VALUES (NEW.id,1);
+END
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --

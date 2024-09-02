@@ -1,31 +1,37 @@
+
 //Perfil
 
-var perfilSpan = document.querySelector(".perfil>span");
-var perfilMenu = document.querySelector(".perfilMenu");
+var perfilSpan = document.querySelector('.perfil>span');
+var perfilMenu = document.querySelector('.perfilMenu');
 
-perfilSpan.addEventListener("click", function (e) {
-  e.stopPropagation();
-  perfilMenu.classList.toggle("show");
+perfilSpan.addEventListener('click', function(e) {
+    e.stopPropagation();
+    perfilMenu.classList.toggle('show');
+    
+    if (perfilMenu.classList.contains('show')) {
+        perfilSpan.classList.add('active');
+    } else {
+        perfilSpan.classList.remove('active');
+    }
 });
 
-document.addEventListener("click", function (e) {
-  if (!perfilMenu.contains(e.target) && !perfilSpan.contains(e.target)) {
-    perfilMenu.classList.remove("show");
-  }
+document.addEventListener('click', function(e) {
+    if (!perfilMenu.contains(e.target) && !perfilSpan.contains(e.target)) {
+        perfilMenu.classList.remove('show');
+        perfilSpan.classList.remove('active');
+    }
 });
 
-perfilMenu.addEventListener("click", function (e) {
-  e.stopPropagation();
+perfilMenu.addEventListener('click', function(e) {
+    e.stopPropagation();
 });
-
+  
+  
 // Mostrar los elementos con animación después de cargar la página
 setTimeout(function () {
   document.querySelector(".main").classList.add("show");
 }, 100);
 
-setTimeout(function () {
-  document.querySelector(".description").classList.add("show");
-}, 700);
 
 function clearFilters() {
   const form = document.getElementById("filterForm");
@@ -87,11 +93,184 @@ document.querySelectorAll("th").forEach((header) => {
 });
 
 function mostrarModal(id) {
-  document.getElementById('modal-' + id).style.display = 'block';
-  document.querySelector('.modal-overlay').style.display = 'block'; 
+  // Eliminar la clase seleccionada de cualquier fila previamente seleccionada
+  const filas = document.querySelectorAll('tr.selected');
+  filas.forEach(fila => fila.classList.remove('selected'));
+
+  // Añadir la clase seleccionada a la fila actual
+  const fila = document.querySelector(`tr[onclick="mostrarModal(${id})"]`);
+  fila.classList.add('selected');
+
+  // Mostrar el modal
+  const modal = document.getElementById(`modal-${id}`);
+  modal.classList.remove('fade-out'); 
+  modal.style.display = 'block';
+  modal.style.opacity = 0;
+  
+ 
+  setTimeout(() => {
+      modal.style.opacity = 1;
+  }, 10);
 }
 
 function ocultarModal(id) {
-  document.getElementById('modal-' + id).style.display = 'none';
-  document.querySelector('.modal-overlay').style.display = 'none'; 
+  const modal = document.getElementById(`modal-${id}`);
+  modal.style.opacity = 0;
+
+ 
+  setTimeout(() => {
+      modal.classList.add('fade-out');
+      setTimeout(() => {
+          modal.style.display = 'none';
+      }, 300); 
+  }, 300); 
+}
+
+// Cerrar el modal al hacer clic fuera del mismo
+window.onclick = function(event) {
+  const modals = document.querySelectorAll('.modal');
+  modals.forEach(modal => {
+      if (event.target === modal) {
+          const modalId = modal.id.split('-')[1];
+          ocultarModal(modalId);
+      }
+  });
+}
+
+//Descargar consultas sql en PDF
+async function generatePDF() {
+  // Verificar si hay filtros aplicados
+  const filters = document.querySelectorAll('.filter-input');
+  let hasFilters = false;
+
+  filters.forEach(filter => {
+      if (filter.value.trim() !== '') {
+          hasFilters = true;
+      }
+  });
+
+  // Si no hay filtros aplicados, mostrar una alerta y no generar el PDF
+  if (!hasFilters) {
+      alert('Por favor, aplica al menos un filtro antes de generar el PDF.');
+      return;
+  }
+
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF('landscape');
+
+  // Remover íconos dentro de los encabezados (th) temporalmente
+  const iconSpans = document.querySelectorAll('th span.material-icons-sharp');
+  let removedIcons = [];
+  
+  iconSpans.forEach(icon => {
+      removedIcons.push(icon.parentNode.removeChild(icon));
+  });
+
+  // Agregar título al PDF
+  pdf.setFontSize(16);
+  pdf.text('Registros de asistencia', 10, 10);
+
+  // Agregar la fecha actual en el lado derecho del título
+  const currentDate = new Date().toLocaleDateString();
+  pdf.text(`Fecha: ${currentDate}`, pdf.internal.pageSize.width - 60, 10); // Ajusta las coordenadas si es necesario
+
+  // Usar autoTable para generar la tabla en el PDF
+  pdf.autoTable({
+      head: [Array.from(document.querySelectorAll('#tabla thead th')).map(th => th.textContent.trim())],
+      body: Array.from(document.querySelectorAll('#tabla tbody tr')).map(tr => {
+          return Array.from(tr.querySelectorAll('td')).map(td => td.textContent.trim());
+      }),
+      startY: 20,
+      theme: 'grid',
+      headStyles: {
+          textColor: [0, 0, 0], // Color de texto negro
+      }
+  });
+
+  // Restaurar los íconos después de generar el PDF
+  const thElements = document.querySelectorAll('#tabla thead th');
+  removedIcons.forEach((icon, index) => {
+      thElements[index].appendChild(icon);
+  });
+
+  // Guardar el PDF
+  pdf.save('Tabla_registros.pdf');
+}
+
+
+async function generatePDF() {
+  // Verificar si hay filtros aplicados
+  const filters = document.querySelectorAll('.filter-input');
+  let hasFilters = false;
+
+  filters.forEach(filter => {
+      if (filter.value.trim() !== '') {
+          hasFilters = true;
+      }
+  });
+
+  // Si no hay filtros aplicados, mostrar una alerta y no generar el PDF
+  if (!hasFilters) {
+      alert('Por favor, aplica al menos un filtro antes de generar el PDF.');
+      return;
+  }
+
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF('landscape');
+
+  // Remover íconos dentro de los encabezados (th) temporalmente
+  const iconSpans = document.querySelectorAll('th span.material-icons-sharp');
+  let removedIcons = [];
+  
+  iconSpans.forEach(icon => {
+      removedIcons.push(icon.parentNode.removeChild(icon));
+  });
+
+  // Determinar el nombre del archivo PDF
+  const rows = document.querySelectorAll('#tabla tbody tr');
+  const uniqueUsers = new Set();
+
+  rows.forEach(row => {
+    const userId = row.dataset.userId; // Asegúrate de tener un atributo data-user-id en tus filas
+    uniqueUsers.add(userId);
+  });
+
+  let pdfTitle = 'Tabla_registros.pdf';
+  
+  if (uniqueUsers.size === 1) {
+    // Obtener el nombre del único usuario
+    const firstRow = rows[0];
+    const nombreCompleto = firstRow.querySelector('td:nth-child(2)').textContent.trim(); // Suponiendo que el nombre está en la segunda columna
+    pdfTitle = `Registro_${nombreCompleto}.pdf`;
+  }
+
+  // Agregar título al PDF
+  pdf.setFontSize(16);
+  pdf.text('Registros de asistencia', 10, 10);
+
+  // Agregar la fecha actual en el lado derecho del título
+  const currentDate = new Date().toLocaleDateString();
+  pdf.text(`Fecha: ${currentDate}`, pdf.internal.pageSize.width - 60, 10); // Ajusta las coordenadas si es necesario
+
+  // Usar autoTable para generar la tabla en el PDF
+  pdf.autoTable({
+      head: [Array.from(document.querySelectorAll('#tabla thead th')).map(th => th.textContent.trim())],
+      body: Array.from(document.querySelectorAll('#tabla tbody tr')).map(tr => {
+          return Array.from(tr.querySelectorAll('td')).map(td => td.textContent.trim());
+      }),
+      startY: 20,
+      theme: 'grid',
+      headStyles: {
+          textColor: [0, 0, 0], // Color de texto negro
+      }
+  });
+
+  // Restaurar los íconos después de generar el PDF
+  const thElements = document.querySelectorAll('#tabla thead th');
+  removedIcons.forEach((icon, index) => {
+      thElements[index].appendChild(icon);
+  });
+
+  // Guardar el PDF
+  pdf.save(pdfTitle);
 }

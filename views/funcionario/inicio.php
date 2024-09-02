@@ -1,6 +1,10 @@
 <?php
 session_start();
 $id_usuario = $_SESSION['id_usuario'];
+if (!isset($id_usuario)){
+  header("Location: index.php?vista=usuario/login"); 
+  exit();
+}
 require_once './controllers/usuariosController.php';
 
 $usuarioController = new UsuarioController();
@@ -26,7 +30,7 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Aprendiz</title>
+    <title>Calendario</title>
     <link rel="stylesheet" href="./css/funcionario/inicio.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Material+Icons+Sharp"
@@ -35,6 +39,8 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js"></script>
   </head>
   <body>
+
+  
     <nav class="nav">
       <div class="sena">
         <img src="./imagenes/funcionario/logoSena.png" />Funcionario
@@ -65,7 +71,7 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
       </div>
 
       <div class="menu">
-      <a href="?vista=funcionario/inicio">
+      <a href="?vista=funcionario/usuariosData">
       <div>
           <span class="material-icons-sharp">supervisor_account</span>
           <p>Usuarios</p>
@@ -85,7 +91,7 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
             <div class="perfilIcon">
               <div>
                 <span class="material-icons-sharp">account_circle</span>
-                <button class="btnBlue">Cambiar foto</button>
+    
               </div>
 
               <div class="nameUser">
@@ -131,7 +137,7 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
                 <h5><?php echo isset($datosUsuario['rh']) ? $datosUsuario['rh'] : 'N/A'; ?></h5>
               </div>
               <div>
-                <h4>Contacto de Emergencia</h4>
+                <h4>Tel Emergencia</h4>
                 <h5><?php echo isset($datosUsuario['contacto_emergencia']) ? $datosUsuario['contacto_emergencia'] : 'N/A'; ?></h5>
               </div>
               <div>
@@ -145,7 +151,8 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
                     </div>
 
             <div class="userEnd">
-              <button class="btnRed">Cerrar sesion</button>
+            <a href="./events/cerrar_sesion.php"><button class="btnRed">Cerrar sesion</button></a>
+
             </div>
 
           </div>
@@ -172,7 +179,8 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
             </div>
             <div class="observacion">
               <h3>OBSERVACIONES:</h3>
-              <h5></h5>
+              <h5 ><ul></ul></h5>
+             
             </div>
           </div>
 

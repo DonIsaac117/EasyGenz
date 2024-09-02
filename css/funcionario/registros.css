@@ -9,7 +9,7 @@
 body {
     display: flex;
     margin: 0;
-   overflow: hidden;
+    overflow: hidden;
 }
 
 a {
@@ -17,16 +17,11 @@ a {
 }
 
 .nav {
-    position: sticky;
     flex: 1;
-    background: linear-gradient(360deg, #1FEF27, #279D2C);
-    min-height: 100vh;
+    background: linear-gradient(360deg,#1FEF27,#279D2C );
+    height: 100vh;
     display: flex;
     flex-direction: column;
-}
-
-.nav::-webkit-scrollbar{
-    overflow: hidden;
 }
 
 .sena {
@@ -62,6 +57,7 @@ a {
 }
 
 .main {
+    position: relative;
     display: flex;
     flex: 16 1 auto;
     height: clamp(85vh, 90vh, 92vh);
@@ -81,17 +77,12 @@ a {
     flex: 6;
 }
 
-.calendar {
-    width: 100%;
-    height: 98%;
-}
-
 .menu span {
     margin: -1px 5px;
 }
 
 .sena img {
-    width: 24%;
+    width: 24%;  
     margin: 0.5%;
 }
 
@@ -103,11 +94,10 @@ a {
 }
 
 .header {
-    position: sticky;
     height: 8vh;
-    background: linear-gradient(-90deg, #1FEF27, #279D2C);
+    background: linear-gradient(-90deg,#1FEF27,#279D2C );
     display: flex;
-    padding: 0;
+    padding:  0;
     box-sizing: border-box;
     border-left: 0.4px solid black;
 }
@@ -128,15 +118,19 @@ a {
     margin: auto 15px;
 }
 
-.perfil>span {
+.perfil > span {
     color: white;
     font-size: clamp(36px, 3vw, 46px);
     cursor: pointer;
     padding-top: 5px;
 }
 
-.perfil>span:hover {
+.perfil > span:hover {
     color: rgb(0, 0, 0, 0.55);
+}
+
+.perfil > span.active {
+    color: rgb(0, 0, 0, 0.55); 
 }
 
 .perfil {
@@ -145,10 +139,10 @@ a {
 }
 
 .perfilMenu {
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.80), rgba(24, 63, 33, 0.80));
+    background: linear-gradient(180deg,rgba(0,0,0,0.80),rgba(24, 63, 33, 0.80));
     position: absolute;
-    top: 8vh;
-    right: 6px;
+    top: 8vh; 
+    right: 6px; 
     width: clamp(22vw, 28vw, 38vw);
     min-height: 60vh;
     max-height: 86vh;
@@ -158,15 +152,13 @@ a {
     transform: translateY(-100%);
     transition: transform 0.5s ease, opacity 0.5s ease;
     opacity: 0;
-    pointer-events: none;
-    /* Prevents interaction when hidden */
+    pointer-events: none; 
 }
 
 .perfilMenu.show {
     transform: translateY(0);
     opacity: 1;
-    pointer-events: auto;
-    /* Allows interaction when shown */
+    pointer-events: auto; 
 }
 
 .perfilIcon {
@@ -180,7 +172,7 @@ a {
     margin: 8px 8px 1.5px 9px;
 }
 
-.perfilIcon>div {
+.perfilIcon > div {
     display: flex;
     flex-direction: column;
 }
@@ -260,126 +252,189 @@ a {
     cursor: pointer;
 }
 
-.description {
-    flex: 1;
-    color: white;
-    height: 85%;
-    min-width: 16vw;
-    margin: 2.5% 0;
-    opacity: 0;
-    transform: translateX(100%);
-    transition: transform 0.8s ease-out, opacity 0.8s ease-out;
-}
-
-.description.show {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-.titleDescription {
-    background-color: #B92F2F;
+form{
+    margin: 2px 0.5%;
     display: flex;
-    height: 5.5%;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    letter-spacing: 1.2px;
-    font-size: clamp(9px, 0.85vw, 20px);
+    flex-direction: column;
+    width: 70vw;
+}
+
+.divInput{
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    margin-bottom: 0.8%;
+}
+
+.divInput label{
+    padding: 0 0.4%;
+    margin: 0 0.4%;
+    font-size: clamp(10px, 1vw, 22px);
+    font-weight: 600;
+    
+}
+
+.divInput input{
+    padding: 0.3% 0.6%;
+    border-radius: 8px;
+    border: 1px solid rgb(85, 84, 84);
+    box-shadow: 0 0 4px #279D2C;
 
 }
 
-.titleDescription h2::after {
-    content: "/";
-
-
+.divInput input[type="date"]{
+    cursor: pointer;
 }
 
-
-.mainDescription {
-    background: linear-gradient(180deg, #423F3F, #A8A2A2);
-    height: 100%;
+.divInput button{
+    background-color: #308b71;
+    padding: 0.5% 1.4%;
+    margin-left: 12px;
+    border-radius: 15px;
+    color: white;
+    font-weight: 600;
+    border: 0;
+    font-size: (12px 1.2vw, 22px);
 }
 
-.mainDescription h3 {
-    font-size: clamp(15px, 1.2vw, 27px);
-
+.divInput button:hover {
+    background-color: #2ea583;
+    cursor: pointer;
 }
 
-.mainDescription h4 {
-    font-size: clamp(12px, 1.05vw, 24px);
-
-}
-
-.textDescription {
-    padding: 9% 8% 12.5% 8%;
-}
-
-.observacion {
-    padding: 20% 8% 8% 8%;
-}
-
-.observacion h3 {
-    letter-spacing: 1.5px;
-    text-align: center;
-    margin-bottom: 16px;
-}
-
-.observacion h5 {
-    color: orange;
-    line-height: 18px;
-    font-size: clamp(11px, 1vw, 22px);
-}
-
-/* Calendario */
-
-.fc-event-time {
-    order: 2;
-    font-size: clamp(8px, 0.9vw, 18px);
-}
-
-.fc-event-title {
-    order: 1;
-    font-size: clamp(8px, 0.9vw, 18px);
-}
-
-
+/* Estilo básico para el modal */
 .modal {
-    display: none; /* Ocultar el modal por defecto */
-    position: fixed; /* Fijar el modal en la pantalla */
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1000; /* Asegurar que esté sobre otros elementos */
-    background-color: white;
-    padding: 20px;
-    box-shadow: 0px 5px 15px rgba(0,0,0,0.3);
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5); 
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out; 
+    overflow: hidden;
 }
 
 .modal-content {
-    position: relative;
-    z-index: 1001;
+    background-color: white;
+    margin: 8% auto;
+    padding: 2%;
+    border: 1px solid #888;
+    width: 80%;
+    height: 60%;
+    max-height: clamp(30%, 27vh, 70%);
+    max-width: 40vw;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    transform: scale(0.9);
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-    display: none;
-}
-
-
-.modal-header {
+.modal-header{
     display: flex;
-    justify-content: space-between;
+    flex-direction: row;
     align-items: center;
-    margin-bottom: 10px;
+    justify-content: space-between;
+    margin-right: 7%;
+    font-size: clamp(17px, 26%, 37px)
 }
 
+
+.modal p{
+    font-size: clamp(12px, 2vh, 30px);
+}
+
+.negrita{
+    font-weight: bold;
+}
+
+.modal-perfil{
+    font-size: clamp(15px, 25%, 34px);
+}
+
+.modal-body{
+    margin: 1% 0;
+    display: flex;
+    flex-direction: column;
+
+    
+}
+
+.modal-description{
+    margin: clamp(0.1%, 0.3vh, 4%) 0;
+    flex: 1 1 auto;
+    
+}
+
+.modal.fade-out .modal-content {
+    transform: scale(0.9);
+    opacity: 0;
+}
 
 .modal-close {
+    color: rgb(112, 110, 110);
+    float: right;
+    font-size: clamp(20px, 20%, 35px);
+    font-weight: bolder;
+}
+
+.modal-close:hover,
+.modal-close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+tr.selected {
+    background-color: #10e0a51f; 
+}
+
+.table-container {
+    max-height: 78%; 
+    overflow-y: auto; 
+    overflow-x: hidden;
+    margin-top: 20px;
+    
+}
+
+table {
+    width: 98%;
+    border-collapse: collapse;
+    margin: 0 0.5%;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th{
+    background-color: #10e0a5;
+    position: sticky;
+    color: black;
+    top: 0;
+    z-index: 1;
+}
+
+th span{
+    cursor: pointer;
+    position: absolute;
+    top: 18%;
+}
+
+#downloadPDF{
+    background: none;
+    border: none;
+    padding: 0;
+    position: absolute;
+    top: 1.5%;
+    right: 1.9%;
+}
+
+#downloadPDF img{
+    width: 86%;
     cursor: pointer;
 }

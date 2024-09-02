@@ -1,0 +1,72 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-image: url(../imagenes/nuevaC.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+
+}
+
+main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;   
+    height: 100vh;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50vw;
+    height: 40vw;
+    background: rgba(8, 8, 8, 0.5);
+    color: white;
+    border: 8px white double;
+    border-radius: 15vh;
+}
+
+img{
+    width: 10vw;
+    border: 2px solid red;
+    border-radius: 100px;
+    box-shadow: 0 0 20px red;
+}
+
+h3{
+    text-align: center;
+    font-size: 1.5vw;
+    color: white;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;  
+    margin: 2vw 0 2vw 0;  
+}
+
+label{
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-shadow: 0 0 10px white;
+    font-size: 1.25vw;
+}
+
+input, button{
+    padding: 0.3vw 1.5vw;
+    margin-top: 0.5vw;
+    margin-bottom: 1.75vw;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-size: 1.25vw;
+    font-weight: 730;
+    background-color: rgb(17, 81, 8);
+    color: #fff;
+    cursor: pointer;
+}
+
+input:hover, button:hover{
+    background-color: rgb(39, 172, 24);
+}

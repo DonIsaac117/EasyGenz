@@ -1,0 +1,191 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-image: url(../imagenes/nuevaC.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 90vh;
+    width: 100vw;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    margin: 9vh 15vw 0 15vw;
+}
+
+form h1, input, label{
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1{
+    font-size: 3.5vw;
+    letter-spacing: 2px;
+    color: white;
+}
+
+label, legend{
+    color: white;
+    font-size: 2.5vw;
+    margin: 4% 0 1% 0;
+}
+
+input[type="password"] {
+    padding: 0.8vh;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    font-size: 1.6vw;
+    width: 50%;
+}
+
+
+.radio{
+    margin: 3% 0 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40%;
+}
+
+.labelr{
+    width: 25%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.labelr label{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    margin: 10% 50%;
+    font-size: 2vw;
+}
+
+.radio > label{
+    font-size: 2vw;
+    letter-spacing: 1px;
+    margin: 1vh 0 0 0;
+}
+
+button {
+    padding: 0.8vw 2vw;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    font-size: 2vw;
+    font-weight: 730;
+    background-color: rgb(17, 81, 8);
+    color: #fff;
+    cursor: pointer;
+}
+
+#volver{
+    position: fixed;
+    bottom: 10px;
+    left: 10px;  
+    padding: 5px 25px 5px 25px;
+    font-size: 1.25vw;
+}
+
+button:hover{
+    background-color: rgb(39, 172, 24);
+}
+
+textarea{
+    padding: 0.5vw;
+    margin: 2vh 0 3vh 0;
+    border-radius: 2vh;
+    border: 1px solid #ccc;
+    font-size: 20px;
+    width: 100%;
+    height: 12vh;
+    font-size: 2.5vh;
+}
+
+
+@media (max-width: 1100px){
+    body{
+        background-image: url(../imagenes/form2.jpg);
+    }
+
+    form{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-items: center;
+        margin: 10vh 0 0 0;
+    }
+    h1{
+        font-size: 4.5vw;
+        letter-spacing: 2px;
+        color: white;
+    }
+    
+    label{
+        color: white;
+        font-size: 3vw;
+    }
+    
+    input[type="password"] {
+        padding: 1vh;
+        margin-bottom: 0px;
+        border: 1px solid #ccc;
+        border-radius: 15px;
+        font-size: 2.5vw;
+        width: 50%;
+    }
+
+    button{
+        padding: 0.8vw 2vw;
+        border: 1px solid #ccc;
+        border-radius: 30px;
+        font-size: 2.5vw;
+    }
+
+    .radio{
+        margin: 2vh 0 0 0;
+    }
+
+}
+
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto;
+    font-size: 30px;
+    background-color: rgba(0,0,0,0.5); 
+}
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px; 
+    text-align: center;
+    border-radius: 8px;
+}
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}

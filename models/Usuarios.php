@@ -1,6 +1,6 @@
 <?php
 
-require_once './config/ConexionBd.php';
+require_once(__DIR__ . '/../config/ConectorBD.php');
 
 class Usuarios
 {
@@ -24,7 +24,7 @@ class Usuarios
     //metodos - funciones
 
     public function __construct(){
-        $this->conectarse = new ConexionBD();
+        $this->conectarse = new ConectorBD();
     }
 
     //getter y setter
@@ -127,42 +127,75 @@ class Usuarios
         $this->conectarse->consultaSinRetorno($cadenaSql);  
     }
 
-    public function eliminar($id) {
-        $id = intval($id);
-        $cadenaSql = "DELETE FROM usuarios WHERE id = $id";
-        $this->conectarse->consultaSinRetorno($cadenaSql);
-    }    
-    
-    public function actualizar() {
-        $cadenaSql = "UPDATE usuarios SET 
-                nombres = '$this->nombres',
-                apellidos = '$this->apellidos',
-                tipo_documento = '$this->tipo_documento',
-                numero_documento = '$this->numero_documento',
-                telefono = '$this->telefono',
-                email = '$this->email',
-                contrasena = '$this->contrasena',
-                rh = '$this->rh',
-                eps = '$this->eps',
-                contacto_emergencia = '$this->contacto_emergencia',
-                enfermedades = '$this->enfermedades',
-                alergias = '$this->alergias'
-                WHERE id = $this->id";
-        $this->conectarse->consultaSinRetorno($cadenaSql);
+    public function contraseñaExiste($contrasena) {
+        $conexion = $this->conectarse->conexion;
+        $sql = "SELECT COUNT(*) FROM usuarios WHERE contrasena = ?";
+        $stmt = $conexion->prepare($sql);
+        $stmt->bind_param('s', $contrasena);
+        $stmt->execute();
+        $stmt->bind_result($count);
+        $stmt->fetch();
+        $stmt->close();
+        return $count > 0;
+    }
+
+    public function actualizar()
+    {
+        $conexion = $this->conectarse->conexion;
+        $sql = "UPDATE usuarios SET 
+                nombres = ?, apellidos = ?, tipo_documento = ?, numero_documento = ?, telefono = ?, email = ?, contrasena = ?, rh = ?, eps = ?, contacto_emergencia = ?, enfermedades = ?, alergias = ?
+                WHERE id = ?";
+        $stmt = $conexion->prepare($sql);
+        $stmt->bind_param('ssssssssssssi', $this->nombres, $this->apellidos, $this->tipo_documento, $this->numero_documento, $this->telefono, $this->email, $this->contrasena, $this->rh, $this->eps, $this->contacto_emergencia, $this->enfermedades, $this->alergias, $this->id);
+        $stmt->execute();
+    }
+
+    public function eliminar($id)
+    {
+        $conexion = $this->conectarse->conexion;
+        $sql = "DELETE FROM usuarios WHERE id = ?";
+        $stmt = $conexion->prepare($sql);
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
     }
 
 
-    public function verificarCredenciales() {
-        $cadenaSql = "SELECT * FROM usuarios WHERE numero_documento = '$this->numero_documento' AND contrasena = '$this->contrasena'";
-        $resultado = $this->conectarse->consultaConRetorno($cadenaSql);
-    
-        if ($resultado->num_rows > 0) {
-            return $resultado->fetch_assoc();
+    public function verificarCredenciales($numero_documento, $contrasena) {
+        $conexion = $this->conectarse->conexion;
+        
+        $sql = "SELECT * FROM usuarios WHERE numero_documento = ?";
+        $stmt = $conexion->prepare($sql);
+
+        if (!$stmt) {
+            echo "Error en la preparación: " . $conexion->error;
+            return false;
+        }
+
+        $stmt->bind_param('s', $numero_documento);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if (!$result) {
+            echo "Error en la ejecución: " . $stmt->error;
+            return false;
+        }
+
+        $usuario = $result->fetch_assoc();
+
+        if ($usuario) {
+            if ($contrasena === $usuario['contrasena']) {
+                $this->id=$usuario['id'];
+                return true;
+            } else {
+                echo "Contraseña incorrecta";
+                return false;
+            }
         } else {
+            echo "Usuario no encontrado";
             return false;
         }
     }
-    
+
     public function existedocumento() {
         $cadenaSql = "SELECT * FROM usuarios WHERE numero_documento = '$this->numero_documento'";
         $resultado = $this->conectarse->consultaConRetorno($cadenaSql);
@@ -202,9 +235,118 @@ class Usuarios
         return true;
     }
 
-    public function obtenerUsuarioPorId($id) {
+
+    
+   
+    //INGRESO Y SALIDA
+    public function obtenerUsuarioPorContrasena($contrasena) {
+        $sql = "SELECT * FROM usuarios WHERE contrasena = ?";
+        $stmt = $this->conectarse->conexion->prepare($sql);
+        $stmt->bind_param('s', $contrasena);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
+        return $resultado->fetch_assoc();
+    }
+    
+    public function obtenerPerfilPorIdUsuario($idUsuario) {
+        $sql = "SELECT perfil.id FROM usuario_perfil 
+                JOIN perfil ON usuario_perfil.id_perfil = perfil.id 
+                WHERE usuario_perfil.id_usuario = ?";
+        $stmt = $this->conectarse->conexion->prepare($sql);
+        $stmt->bind_param('i', $idUsuario);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
+        $perfil = $resultado->fetch_assoc();
+        return $perfil['id'];
+    }
+    
+public function gestionarEntradaSalida($idUsuario, $observacion = null) {
+    $fecha = date('Y-m-d');
+    $horaActual = date('H:i:s');
+    
+    // Obtener perfil del usuario
+    $perfil = $this->obtenerPerfilPorIdUsuario($idUsuario);
+    
+    if ($perfil == 3) {
+        // Funcionario
+        $tabla = "controlfuncionarios";
+    } else {
+        // Aprendiz o Instructor
+        $tabla = "ingresosalida_ficha";
+        $codigoFicha = $this->obtenerCodigoFicha($idUsuario);
+    }
+    
+    // Verificar si ya hay una sesión activa
+    $sqlVerificar = "SELECT * FROM $tabla WHERE id_usuario = ? AND fecha = ? AND hora_salida IS NULL";
+    $stmtVerificar = $this->conectarse->conexion->prepare($sqlVerificar);
+    $stmtVerificar->bind_param('is', $idUsuario, $fecha);
+    $stmtVerificar->execute();
+    $resultado = $stmtVerificar->get_result();
+    
+    if ($resultado->num_rows > 0) {
+        // Registrar salida
+        $sqlSalida = "UPDATE $tabla SET hora_salida = ?, observacion = ?, estado = 'inactivo' 
+                      WHERE id_usuario = ? AND fecha = ? AND hora_salida IS NULL";
+        $stmtSalida = $this->conectarse->conexion->prepare($sqlSalida);
+        $stmtSalida->bind_param('ssis', $horaActual, $observacion, $idUsuario, $fecha);
+        return $stmtSalida->execute() ? 'salida' : false;
+    } else {
+        // Registrar entrada
+        if ($perfil == 3) {
+            $sqlEntrada = "INSERT INTO $tabla (id_usuario, fecha, hora_entrada, observacion, estado) 
+                           VALUES (?, ?, ?, ?, 'activo')";
+            $stmtEntrada = $this->conectarse->conexion->prepare($sqlEntrada);
+            $stmtEntrada->bind_param('isss', $idUsuario, $fecha, $horaActual, $observacion);
+        } else {
+            $sqlEntrada = "INSERT INTO $tabla (id_usuario, codigo_numeroficha, fecha, hora_entrada, observacion, estado) 
+                           VALUES (?, ?, ?, ?, ?, 'activo')";
+            $stmtEntrada = $this->conectarse->conexion->prepare($sqlEntrada);
+            $stmtEntrada->bind_param('issss', $idUsuario, $codigoFicha, $fecha, $horaActual, $observacion);
+        }
+        return $stmtEntrada->execute() ? 'entrada' : false;
+    }
+}
+
+    
+    public function obtenerCodigoFicha($idUsuario) {
+        $sql = "SELECT codigo FROM numero_ficha 
+                WHERE codigo IN (SELECT codigo_numeroficha FROM aprendiz WHERE id_usuario = ?)";
+        $stmt = $this->conectarse->conexion->prepare($sql);
+        $stmt->bind_param('i', $idUsuario);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
+        $codigoFicha = $resultado->fetch_assoc();
+        return $codigoFicha['codigo'] ?? null;
+    }
+    
+
+    public function obtenerUsuarioPorId($id)
+    {
         $conexion = $this->conectarse->conexion;
-        $sql = "SELECT * FROM usuarios WHERE id = ?";
+        $sql = "SELECT id, email, UPPER(tipo_documento) as tipo_documento, contrasena, telefono, UPPER(rh) as rh, contacto_emergencia, numero_documento,
+        CONCAT(UPPER(SUBSTRING(alergias, 1, 1)), LOWER(SUBSTRING(alergias, 2))) AS alergias,
+        CONCAT(UPPER(SUBSTRING(enfermedades, 1, 1)), LOWER(SUBSTRING(enfermedades, 2))) AS enfermedades,
+        CONCAT(UPPER(SUBSTRING(eps, 1, 1)), LOWER(SUBSTRING(eps, 2))) AS eps,
+        CONCAT(
+            UPPER(LEFT(SUBSTRING_INDEX(nombres, ' ', 1), 1)),
+            LOWER(SUBSTRING(SUBSTRING_INDEX(nombres, ' ', 1), 2)),
+            IF(
+                LOCATE(' ', nombres) > 0,
+                CONCAT(' ', UPPER(LEFT(SUBSTRING_INDEX(nombres, ' ', -1), 1)), LOWER(SUBSTRING(SUBSTRING_INDEX(nombres, ' ', -1), 2))),
+                ''
+            )
+        ) AS nombres,
+        CONCAT(
+            UPPER(LEFT(SUBSTRING_INDEX(apellidos, ' ', 1), 1)),
+            LOWER(SUBSTRING(SUBSTRING_INDEX(apellidos, ' ', 1), 2)),
+            IF(
+                LOCATE(' ', apellidos) > 0,
+                CONCAT(' ', UPPER(LEFT(SUBSTRING_INDEX(apellidos, ' ', -1), 1)), LOWER(SUBSTRING(SUBSTRING_INDEX(apellidos, ' ', -1), 2))),
+                ''
+            )
+        ) AS apellidos
+        FROM usuarios
+        WHERE id = ?";
         $stmt = $conexion->prepare($sql);
         $stmt->bind_param('i', $id);
         $stmt->execute();
@@ -214,11 +356,10 @@ class Usuarios
 
     public function obtenerPerfilUsuario($id) {
         $conexion = $this->conectarse->conexion;
-        $sql= "SELECT p.perfil
+        $sql= "SELECT CONCAT(UPPER(SUBSTRING(p.perfil, 1, 1)), LOWER(SUBSTRING(p.perfil, 2))) as perfil
             FROM perfil p
             INNER JOIN usuario_perfil up ON p.id = up.id_perfil
             WHERE up.id_usuario = ?";
-            
         
         $stmt = $conexion->prepare($sql);
         $stmt->bind_param('i', $id);
@@ -226,6 +367,74 @@ class Usuarios
         $result = $stmt->get_result();
         return $result->fetch_assoc();
         
+    }
+
+    public function search($searchTerm)
+    {
+        $conexion = $this->conectarse->conexion;
+        $cadenaSql = "SELECT *
+                   FROM usuarios 
+                      WHERE numero_documento LIKE ? 
+                      OR nombres LIKE ? 
+                      OR apellidos LIKE ?
+                      OR telefono LIKE ?
+                      OR email LIKE ?";
+        $stmt = $conexion->prepare($cadenaSql);
+        $searchTerm = "%$searchTerm%";
+        $stmt->bind_param('sssss', $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function actualizarUsuario($id, $nombres, $apellidos, $tipo_documento, $numero_documento, $telefono, $email, $contrasena, $rh, $eps, $contacto_emergencia, $enfermedades, $alergias)
+    {
+        $sql = "UPDATE usuarios SET nombres=?, apellidos=?, tipo_documento=?, numero_documento=?, telefono=?, email=?, contrasena=?, rh=?, eps=?, contacto_emergencia=?, enfermedades=?, alergias=? WHERE id=?";
+        $stmt = $this->conectarse->conexion->prepare($sql);
+        $stmt->bind_param('ssssssssssssi', $nombres, $apellidos, $tipo_documento, $numero_documento, $telefono, $email, $contrasena, $rh, $eps, $contacto_emergencia, $enfermedades, $alergias, $id);
+        return $stmt->execute();
+    }
+
+    public function registrarAprendiz($idUsuario, $numeroFicha) {
+        $sql = "INSERT INTO aprendiz (id_usuario, codigo_numeroficha) VALUES (?, ?)";
+        $stmt = $this->conectarse->conexion->prepare($sql);
+        $stmt->bind_param('ii', $idUsuario, $numeroFicha);
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function usuarioTieneFicha($idUsuario) {
+        $sql = "SELECT COUNT(*) as count FROM aprendiz WHERE id_usuario = ?";
+        $stmt = $this->conectarse->conexion->prepare($sql);
+        $stmt->bind_param('i', $idUsuario);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
+        $row = $resultado->fetch_assoc();
+        return $row['count'] > 0;
+    }
+
+    // Método para verificar si el número de ficha existe
+    public function fichaExiste($numeroFicha) {
+        // Consulta actualizada para la tabla `numero_ficha` y campo `codigo`
+        $sql = "SELECT COUNT(*) as count FROM numero_ficha WHERE codigo = ?";
+        $stmt = $this->conectarse->conexion->prepare($sql);
+        
+        if ($stmt === false) {
+            die("Error en la preparación: " . $this->conectarse->conexion->error);
+        }
+        
+        $stmt->bind_param('i', $numeroFicha);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
+        
+        if ($resultado === false) {
+            die("Error en la ejecución: " . $stmt->error);
+        }
+        
+        $row = $resultado->fetch_assoc();
+        return $row['count'] > 0;
     }
 }
     
