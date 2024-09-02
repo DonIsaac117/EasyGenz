@@ -18,8 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $enfermedades = $_POST['enfermedades'];
     $alergias = $_POST['alergias'];
 
-    $controller->actualizarUsuario($id, $nombres, $apellidos, $tipo_documento, $numero_documento, $telefono, $email, $contrasena, $rh, $eps, $contacto_emergencia, $enfermedades, $alergias);
-
-    header('Location: ../index.php?vista=funcionario/usuariosData');
+    if ($controller->verificarContrasena($contrasena, $id)) {
+        echo "<script>alert('La contraseña ya está en uso por otro usuario.'); window.history.back();</script>";
+    } else {
+        $controller->actualizarUsuario($id, $nombres, $apellidos, $tipo_documento, $numero_documento, $telefono, $email, $contrasena, $rh, $eps, $contacto_emergencia, $enfermedades, $alergias);
+        header('Location: ../index.php?vista=funcionario/usuariosData');
+    }
 }
-

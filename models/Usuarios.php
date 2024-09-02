@@ -383,6 +383,19 @@ public function gestionarEntradaSalida($idUsuario, $observacion = null) {
        
     }
 
+    // En UsuarioModel.php
+public function getUsuariosPorContrasena($contrasena) {
+    $conexion = $this->conectarse->conexion;
+
+    $cadenaSql = "SELECT id FROM usuarios WHERE contrasena = ?";
+    $stmt = $conexion->prepare($cadenaSql);
+    $stmt->bind_param("s", $contrasena);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+    return $resultado->fetch_assoc();
+}
+
+
     public function search($searchTerm)
     {
         $conexion = $this->conectarse->conexion;

@@ -73,6 +73,7 @@ setTimeout(function () {
     });
   });
 
+  
 
     // Obtener la URL actual
     const url = new URL(window.location.href);

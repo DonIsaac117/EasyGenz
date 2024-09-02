@@ -25,7 +25,7 @@ class UsuarioController {
     
             // Verificar si la contraseña ya existe
             if ($this->usuarioModel->contraseñaExiste($contrasena)) {
-                echo '<script>alert("Esta contraseña no es permitida. Por favor, elige otra."); window.location.href = "index.php?vista=usuario/registrar";</script>';
+                echo '<script>alert("La contraseña ya está en uso. Por favor, elige otra."); window.location.href = "index.php?vista=usuario/registrar";</script>';
                 exit();
             }
     
@@ -312,6 +312,16 @@ class UsuarioController {
 
 public function obtenerPerfilUsuario($id) {
     return $this->usuarioModel->obtenerUsuarioPorId($id);
+}
+
+public function verificarContrasena($contrasena, $usuarioId) {
+    $usuarios = $this->usuarioModel->getUsuariosPorContrasena($contrasena);
+    foreach ($usuarios as $usuario) {
+        if ($usuario['id'] != $usuarioId) {
+            return true; // La contraseña está en uso por otro usuario
+        }
+    }
+    return false; // La contraseña no está en uso
 }
 
 public function obtenerPerfil($id) {
