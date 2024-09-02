@@ -21,6 +21,15 @@ class UsuarioController {
 
     public function registrar() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $contrasena = $_POST['contrasena'];
+    
+            // Verificar si la contraseña ya existe
+            if ($this->usuarioModel->contraseñaExiste($contrasena)) {
+                echo '<script>alert("La contraseña ya está en uso. Por favor, elige otra."); window.location.href = "index.php?vista=usuario/registrar";</script>';
+                exit();
+            }
+    
+            // Si la contraseña no existe, proceder con el registro
             $this->usuarioModel->setNombres($_POST['nombre']);
             $this->usuarioModel->setApellidos($_POST['apellidos']);
             $this->usuarioModel->setTipoDocumento($_POST['tipo_doc']);
@@ -33,11 +42,10 @@ class UsuarioController {
             $this->usuarioModel->setContactoEmergencia($_POST['contacto-emer']);
             $this->usuarioModel->setEnfermedades($_POST['enfermedades']);
             $this->usuarioModel->setAlergias($_POST['alergias']);
-
+    
             $this->usuarioModel->insertar();
-
-            header('Location: index.php?vista=usuario/registrar&error=usuario_registrado');
-
+    
+            header('location: index.php?vista=usuario/registrar&error=usuario_registrado');
         } else {
             echo "Error: La solicitud no es de tipo POST.";
         }
@@ -266,27 +274,34 @@ class UsuarioController {
                 if ($resultado === 'entrada') {
                     $perfil = $usuarioModel->obtenerPerfilPorIdUsuario($idUsuario);
                     if ($perfil === 3) {
-                        echo "<script>alert('Éxito, sesión del funcionario iniciada.');</script>";
+                        header("Location: index.php?vista=usuario/ingreso&error=sesion_funcionario_activa");
+                    exit;
                     } elseif ($perfil === 2) {
-                        echo "<script>alert('Éxito, sesión del instructor iniciada.');</script>";
+                        header("Location: index.php?vista=usuario/ingreso&error=sesion_instructor_activa");
+                    exit;
                     } else {
-                        echo "<script>alert('Éxito, sesión del aprendiz iniciada.');</script>";
+                        header("Location: index.php?vista=usuario/ingreso&error=sesion_aprendiz_activa");
+                    exit;
                     }
                 } elseif ($resultado === 'salida') {
                     $perfil = $usuarioModel->obtenerPerfilPorIdUsuario($idUsuario);
                     if ($perfil === 3) {
-                        echo "<script>alert('Éxito, sesión del funcionario cerrada.');</script>";
+                        header("Location: index.php?vista=usuario/ingreso&error=sesion_funcionario_cerrada");
+                    exit;
                     } elseif ($perfil === 2) {
-                        echo "<script>alert('Éxito, sesión del instructor cerrada.');</script>";
+                        header("Location: index.php?vista=usuario/ingreso&error=sesion_instructor_cerrada");
+                    exit;
                     } else {
-                        echo "<script>alert('Éxito, sesión del aprendiz cerrada.');</script>";
+                        header("Location: index.php?vista=usuario/ingreso&error=sesion_aprendiz_cerrada");
+                    exit;
                     }
                     unset($_SESSION['ingreso_usuario']);
                 } else {
                     echo "<script>alert('Error al registrar entrada/salida.');</script>";
                 }
             } else {
-                echo "<script>alert('Contraseña incorrecta.');</script>";
+                header("Location: index.php?vista=usuario/ingreso&error=contrasena_incorrecta");
+                    exit;
             }
         }
     
@@ -297,6 +312,16 @@ class UsuarioController {
 
 public function obtenerPerfilUsuario($id) {
     return $this->usuarioModel->obtenerUsuarioPorId($id);
+}
+
+public function obtenerPerfil($id) {
+    return $this->usuarioModel->obtenerPerfilUsuario($id);
+}
+public function listAprendices($documento = null, $nombre = null, $apellido = null, $fechaDesde = null, $fechaHasta = null)
+{
+    $registro = new Registro();
+    $usuarios = $registro->getAprendices($documento, $nombre, $apellido, $fechaDesde, $fechaHasta);
+    return $usuarios;
 }
 
 
@@ -330,8 +355,65 @@ public function actualizarUsuario($id, $nombres, $apellidos, $tipo_documento, $n
 {
     return $this->usuarioModel->actualizarUsuario($id, $nombres, $apellidos, $tipo_documento, $numero_documento, $telefono, $email, $contrasena, $rh, $eps, $contacto_emergencia, $enfermedades, $alergias);
 }
+
+public function actualizarPerfilUsuario($id_usuario, $nuevo_perfil_id) {
+    $this->usuarioModel->actualizarPerfilUsuario($id_usuario, $nuevo_perfil_id);
 }
 
+public function asignarFichaAprendiz() {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $numeroFicha = $_POST['numeroFicha'] ?? null;
+        $usuariosSeleccionados = $_POST['usuariosSeleccionados'] ?? [];
+
+        // Verificar si se ha recibido un número de ficha y usuarios seleccionados
+        if ($numeroFicha && !empty($usuariosSeleccionados)) {
+            $usuarioModel = new Usuarios();
+            $errores = []; // Array para recopilar errores
+
+            // Verificar si la ficha existe
+            if (!$usuarioModel->fichaExiste($numeroFicha)) {
+                echo "<script>alert('El número de ficha no existe.');</script>";
+                include "./views/instructor/ficha.php";
+                return;
+            }
+
+            foreach ($usuariosSeleccionados as $idUsuario) {
+                // Verificar si el usuario ya tiene una ficha asignada
+                if ($usuarioModel->usuarioTieneFicha($idUsuario)) {
+                    $usuario = $usuarioModel->obtenerUsuarioPorId($idUsuario); // Obtener detalles del usuario para la alerta
+                    $documento = $usuario['numero_documento'] ?? 'Desconocido'; // Número de documento del usuario
+                    $errores[] = "El usuario con documento $documento ya tiene una ficha asignada.";
+                    continue; // Salta al siguiente usuario
+                }
+
+                // Intentar registrar el aprendiz
+                if (!$usuarioModel->registrarAprendiz($idUsuario, $numeroFicha)) {
+                    $usuario = $usuarioModel->obtenerUsuarioPorId($idUsuario); // Obtener detalles del usuario para la alerta
+                    $documento = $usuario['numero_documento'] ?? 'Desconocido'; // Número de documento del usuario
+                    $errores[] = "Error al ingresar el aprendiz con documento $documento.";
+                }
+            }
+
+            // Mostrar alertas consolidadas
+            if (!empty($errores)) {
+                $mensaje = implode('\n', $errores);
+                echo "<script>alert('$mensaje');</script>";
+            } else {
+                echo "<script>alert('Aprendices ingresados correctamente.');</script>";
+            }
+
+            include "./views/instructor/ficha.php";
+        } else {
+            echo "<script>alert('ERROR: Número de ficha o usuarios seleccionados no válidos.');</script>";
+            include "./views/instructor/ficha.php";
+        }
+    } else {
+        echo "<script>alert('Método de solicitud no válido.');</script>";
+        include "./views/instructor/ficha.php";
+    }
+}
+
+}
 
 
 class ProgramaNumeroFichaController {
@@ -369,17 +451,28 @@ class ProgramaNumeroFichaController {
             $jornada = $_POST['jornada'] ?? null;
             $nombre = $_POST['programa'] ?? null;
             $descripcion = $_POST['observacion'] ?? null;
-
+    
             $this->numeroFichaModel->setcodigo($codigo);
+    
+            // Verificar si la ficha ya existe
+            if ($this->numeroFichaModel->existeFicha()) {
+                echo "<script>alert('La ficha ya existe'); window.location.href='index.php?vista=instructor/ficha';</script>";
+                exit;
+            }
+            // Configurar el resto de los datos
             $this->numeroFichaModel->setjornada($jornada);
             $this->numeroFichaModel->setnombre($nombre);
             $this->numeroFichaModel->setdescripcion($descripcion);
             $this->numeroFichaModel->setid_programa($idPrograma);
-
+    
+            // Insertar la nueva ficha
             $this->numeroFichaModel->insertar();
+            echo "<script>alert(Ficha registrada);</script>";
+            echo "<script>alert('Ficha registrada exitosamente'); window.location.href='index.php?vista=instructor/ficha';</script>";
         } else {
             echo "Error: La solicitud no es de tipo POST.";
         }
+    
         include "./views/instructor/ficha.php";
     }
 

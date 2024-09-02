@@ -191,6 +191,22 @@ textarea{
     border-radius: 8px;
 }
 
+
+#volver{
+    padding: 0.3vw 1.5vw;
+    margin-top: 0.5vw;
+    margin-bottom: 1.75vw;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-size: 1.25vw;
+    font-weight: 730;
+    background-color: rgb(17, 81, 8);
+    color: #fff;
+    cursor: pointer;
+}#volver:hover{
+    background: rgb(1, 184, 20);
+}
+
 /* Celular */
 @media (max-width: 900px){
     body{

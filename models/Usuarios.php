@@ -127,6 +127,18 @@ class Usuarios
         $this->conectarse->consultaSinRetorno($cadenaSql);  
     }
 
+    public function contraseñaExiste($contrasena) {
+        $conexion = $this->conectarse->conexion;
+        $sql = "SELECT COUNT(*) FROM usuarios WHERE contrasena = ?";
+        $stmt = $conexion->prepare($sql);
+        $stmt->bind_param('s', $contrasena);
+        $stmt->execute();
+        $stmt->bind_result($count);
+        $stmt->fetch();
+        $stmt->close();
+        return $count > 0;
+    }
+
     public function actualizar()
     {
         $conexion = $this->conectarse->conexion;
@@ -344,7 +356,7 @@ public function gestionarEntradaSalida($idUsuario, $observacion = null) {
 
     public function obtenerPerfilUsuario($id) {
         $conexion = $this->conectarse->conexion;
-        $sql= "SELECT CONCAT(UPPER(SUBSTRING(p.perfil, 1, 1)), LOWER(SUBSTRING(p.perfil, 2))) as perfil
+        $sql= "SELECT p.id, CONCAT(UPPER(SUBSTRING(p.perfil, 1, 1)), LOWER(SUBSTRING(p.perfil, 2))) as perfil
             FROM perfil p
             INNER JOIN usuario_perfil up ON p.id = up.id_perfil
             WHERE up.id_usuario = ?";
@@ -355,6 +367,20 @@ public function gestionarEntradaSalida($idUsuario, $observacion = null) {
         $result = $stmt->get_result();
         return $result->fetch_assoc();
         
+    }
+
+    public function obtenerPerfil($id) {
+        $conexion = $this->conectarse->conexion;
+       $query = "SELECT up.id_perfil, p.perfil
+                  FROM usuario_perfil up
+                  JOIN perfil p ON up.id_perfil = p.id
+                  WHERE up.id_usuario = ?";
+        $stmt = $conexion->prepare($query);
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+       
     }
 
     public function search($searchTerm)
@@ -380,6 +406,60 @@ public function gestionarEntradaSalida($idUsuario, $observacion = null) {
         $stmt = $this->conectarse->conexion->prepare($sql);
         $stmt->bind_param('ssssssssssssi', $nombres, $apellidos, $tipo_documento, $numero_documento, $telefono, $email, $contrasena, $rh, $eps, $contacto_emergencia, $enfermedades, $alergias, $id);
         return $stmt->execute();
+    }
+
+    public function actualizarPerfilUsuario($id_usuario, $nuevo_perfil_id) {
+        $conexion = $this->conectarse->conexion;
+        $sql = "UPDATE usuario_perfil SET id_perfil = ? WHERE id_usuario = ?";
+        
+        $stmt = $conexion->prepare($sql);
+        $stmt->bind_param('ii', $nuevo_perfil_id, $id_usuario);
+        $stmt->execute();
+        
+        return $stmt->affected_rows > 0;
+    }
+
+    public function registrarAprendiz($idUsuario, $numeroFicha) {
+        $sql = "INSERT INTO aprendiz (id_usuario, codigo_numeroficha) VALUES (?, ?)";
+        $stmt = $this->conectarse->conexion->prepare($sql);
+        $stmt->bind_param('ii', $idUsuario, $numeroFicha);
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function usuarioTieneFicha($idUsuario) {
+        $sql = "SELECT COUNT(*) as count FROM aprendiz WHERE id_usuario = ?";
+        $stmt = $this->conectarse->conexion->prepare($sql);
+        $stmt->bind_param('i', $idUsuario);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
+        $row = $resultado->fetch_assoc();
+        return $row['count'] > 0;
+    }
+
+    // Método para verificar si el número de ficha existe
+    public function fichaExiste($numeroFicha) {
+        // Consulta actualizada para la tabla `numero_ficha` y campo `codigo`
+        $sql = "SELECT COUNT(*) as count FROM numero_ficha WHERE codigo = ?";
+        $stmt = $this->conectarse->conexion->prepare($sql);
+        
+        if ($stmt === false) {
+            die("Error en la preparación: " . $this->conectarse->conexion->error);
+        }
+        
+        $stmt->bind_param('i', $numeroFicha);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
+        
+        if ($resultado === false) {
+            die("Error en la ejecución: " . $stmt->error);
+        }
+        
+        $row = $resultado->fetch_assoc();
+        return $row['count'] > 0;
     }
 }
     

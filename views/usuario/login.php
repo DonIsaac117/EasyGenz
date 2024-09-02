@@ -66,7 +66,7 @@ include_once './controllers/usuariosController.php';
             window.location.href = "index.php";
         }
 
-       document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function() {
            var modal = document.getElementById('myModal');
 
            <?php

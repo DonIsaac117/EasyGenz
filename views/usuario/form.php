@@ -149,16 +149,20 @@ if (isset($_GET['error'])) {
             <input type="checkbox" id="condiciones" required>
         </div>
     </form>
+    <button id="volver" onclick="volverIndex()">Volver</button>
 
     <div id="myModal" class="modal" style="display: none;">
     <div class="modal-content">
         <span id="mensaje-modal"><?php echo $mensajeModal; ?></span><br>
-        <a href="index.php?vista=usuario/login">Ir al login</a>
+        <a href="./index.php">Ir al incio</a>
     </div>
 </div>
 
 
     <script>
+            function volverIndex() {
+            window.location.href = "index.php";
+        }
         // Obtener los elementos del DOM para alergias
         const radioAlergiasSi = document.querySelector('input[name="alergiasr"][value="si"]');
         const radioAlergiasNo = document.querySelector('input[name="alergiasr"][value="no"]');

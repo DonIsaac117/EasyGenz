@@ -54,7 +54,7 @@ label{
     font-size: 1.25vw;
 }
 
-input{
+input, button{
     padding: 0.3vw 1.5vw;
     margin-top: 0.5vw;
     margin-bottom: 1.75vw;
@@ -67,6 +67,6 @@ input{
     cursor: pointer;
 }
 
-input:hover{
+input:hover, button:hover{
     background-color: rgb(39, 172, 24);
 }

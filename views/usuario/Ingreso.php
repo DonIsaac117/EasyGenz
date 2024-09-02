@@ -29,8 +29,37 @@
         </div>
         
         <button type="submit">Enviar</button>
-        <button id="volver" onclick="volverIndex()">Volver</button>
     </form>
+
+    <button id="volver" onclick="volverIndex()">Volver</button>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <?php
+            if (isset($_GET['error'])) {
+                $error = $_GET['error'];
+                if ($error == 'sesion_funcionario_activa') {
+                    echo 'Éxito, funcionario Ingresado.';
+                } elseif ($error == 'sesion_instructor_activa') {
+                    echo 'Éxito, Instructor Ingresado.';
+                } elseif ($error == 'sesion_aprendiz_activa') {
+                    echo 'Éxito, Aprendiz Ingresado.';
+                }  elseif ($error == 'sesion_funcionario_cerrada') {
+                    echo 'Salida del funcionario exitosa.';
+                }  elseif ($error == 'sesion_instructor_cerrada') {
+                    echo 'Salida del instructor exitosa.';
+                }  elseif ($error == 'sesion_aprendiz_cerrada') {
+                    echo 'Salida del aprendiz exitosa';
+                }   elseif ($error == 'contrasena_incorrecta') {
+                    echo 'Contraseña incorrecta.';
+                } else {
+                    echo 'Error desconocido';
+                }
+            }
+            ?>
+            <span class="close">&times;</span>
+        </div>
+    </div>
 
     <script>
 
@@ -54,6 +83,27 @@
         textareaObservacion.disabled = true;
         radioObservacionSi.addEventListener('change', toggleObservacionTextarea);
         radioObservacionNo.addEventListener('change', toggleObservacionTextarea);
+
+        document.addEventListener('DOMContentLoaded', function() {
+           var modal = document.getElementById('myModal');
+
+           <?php
+           if (isset($_GET['error'])) {
+               echo "modal.style.display = 'block';";
+           }
+           ?>
+
+            var closeBtn = document.querySelector('.close');
+            closeBtn.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
     </script>
 </body>
 </html>

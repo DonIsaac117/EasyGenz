@@ -3,11 +3,10 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 $id_usuario = $_SESSION['id_usuario'];
-if (!isset($id_usuario)) {
-   
-    header("Location: ./index.php?vista=usuario/login");
+if (!isset($id_usuario)){
+    header("Location: index.php?vista=usuario/login"); 
     exit();
-}
+  }
 require_once './controllers/usuariosController.php';
 
 $usuarioController = new UsuarioController();
@@ -92,7 +91,7 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
                     <div class="perfilIcon">
                         <div>
                             <span class="material-icons-sharp">account_circle</span>
-                           
+                         
                         </div>
 
                         <div class="nameUser">
@@ -158,7 +157,7 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
                             </h5>
                         </div>
                         <div>
-                            <h4>Contacto de Emergencia</h4>
+                            <h4>Tel Emergencia</h4>
                             <h5>
                                 <?php echo isset($datosUsuario['contacto_emergencia']) ? $datosUsuario['contacto_emergencia'] : 'N/A'; ?>
                             </h5>
@@ -178,7 +177,8 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
                     </div>
 
                     <div class="userEnd">
-                    <a href="./events/cerrar_sesion.php"><button class="btnRed">Cerrar sesion</button></a> 
+                    <a href="./events/cerrar_sesion.php"><button class="btnRed">Cerrar sesion</button></a>
+
                     </div>
                 </div>
             </div>
@@ -206,9 +206,9 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
                 <div class="infoPdf">
                     <h3>Informacion</h3>
                     <div class="organized">
-                        <a href=https://drive.google.com/file/d/1JXsdG0gyxN0h_zRlVetGOpKzKyfymgAS/view style="color: black;"><h4><img src="./imagenes/funcionario/pdf.png" alt="pdf" title="Ver pdf">Preguntas
+                        <a href="https://drive.google.com/file/d/1JXsdG0gyxN0h_zRlVetGOpKzKyfymgAS/view" style="color: black;"><h4><img src="./imagenes/funcionario/pdf.png" alt="pdf" title="Ver pdf">Preguntas
                             frecuentes</h4></a>
-                       <a href="" style="color: black;"><h4><img src="./imagenes/funcionario/pdf.png" alt="pdf" title="Ver pdf">Manual de usuario
+                       <a href="https://drive.google.com/file/d/1pNX5ARQtF1H8oLLkdLsMTozRqb509j_O/view" style="color: black;"><h4><img src="./imagenes/funcionario/pdf.png" alt="pdf" title="Ver pdf">Manual de usuario
                         </h4></a> 
                         <a href="https://drive.google.com/file/d/1ueB-t2zp10jj9aEywd2Mlnq9IQdl8lLm/view?usp=drive_link" style="color: black;"><h4><img src="./imagenes/funcionario/pdf.png" alt="pdf" title="Ver pdf">Sobre nosotros
                         </h4></a>

@@ -58,4 +58,15 @@ class NumeroFicha
         '$this->id_programa')";
         $this->conectarse->consultaSinRetorno($cadenaSql);  
     }
+
+    public function existeFicha(){
+        $cadenaSql = "SELECT * FROM numero_ficha WHERE codigo = '$this->codigo'";
+        $resultado = $this->conectarse->consultaConRetorno($cadenaSql);
+    
+        if ($resultado->num_rows > 0) {
+            return $resultado->fetch_assoc();
+        } else {
+            return false;
+        }
+    } 
 }

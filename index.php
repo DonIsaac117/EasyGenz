@@ -29,6 +29,10 @@ if (isset($_GET["vista"])) {
 
             <label for="ingreso">Ingreso y Salida de Usuarios</label>
             <input type="button" id="ingreso" value="Ingreso y Salida" onclick="redireccionIngreso()">
+
+            <label for="ingreso">Registrese</label>
+            <a href="index.php?vista=usuario/registrar"><button type="button" id="ingreso" value="Ingreso y Salida">Registrese</button></a>
+
         </div>
     </main>
 

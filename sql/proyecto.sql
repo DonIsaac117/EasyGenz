@@ -721,8 +721,8 @@ CREATE TRIGGER after_insert_usuario
 AFTER INSERT ON usuarios
 FOR EACH ROW
 BEGIN
-    INSERT INTO usuarios_perfil (id_perfil, id_usuario)
-    VALUES (1, NEW.id);
+    INSERT INTO usuario_perfil (id_usuario, id_perfil)
+    VALUES (NEW.id,1);
 END
 $$
 DELIMITER ;

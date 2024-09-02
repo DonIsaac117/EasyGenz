@@ -1,11 +1,10 @@
 <?php
 session_start();
 $id_usuario = $_SESSION['id_usuario'];
-if (!isset($id_usuario)) {
-   
-    header("Location: ./index.php?vista=usuario/login");
+if (!isset($id_usuario)){
+    header("Location: index.php?vista=usuario/login"); 
     exit();
-}
+  }
 require_once './controllers/usuariosController.php';
 require_once './models/Usuarios.php';
 
@@ -32,6 +31,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
     exit();
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updatePerfil'])) {
+    $nuevo_perfil_id = $_POST['perfil'];
+    $id_usuario = $_POST['userId'];
+    
+    // Asegúrate de que el perfil es válido
+    if ($nuevo_perfil_id && $id_usuario) {
+        $usuarioController->actualizarPerfilUsuario($id_usuario, $nuevo_perfil_id);
+        
+        // Redirigir para evitar reenvío de formulario
+        header("Location: ?vista=funcionario/usuariosData");
+        exit();
+    }
+}
+
 $usuarios = [];
 
 if (isset($_GET['search'])) {
@@ -43,6 +56,9 @@ if (isset($_GET['search'])) {
 }
 ;
 $userId = $_POST['userId'] ?? null;
+
+
+
 
 if ($userId) {
     $usuario = $usuarioController->obtenerUsuarioPorId($userId);
@@ -133,7 +149,7 @@ if ($userId) {
                     <div class="perfilIcon">
                         <div>
                             <span class="material-icons-sharp">account_circle</span>
-                        
+
                         </div>
 
                         <div class="nameUser">
@@ -199,7 +215,7 @@ if ($userId) {
                             </h5>
                         </div>
                         <div>
-                            <h4>Contacto de Emergencia</h4>
+                            <h4>Tel Emergencia</h4>
                             <h5>
                                 <?php echo isset($datosUsuario['contacto_emergencia']) ? $datosUsuario['contacto_emergencia'] : 'N/A'; ?>
                             </h5>
@@ -219,7 +235,8 @@ if ($userId) {
                     </div>
 
                     <div class="userEnd">
-                    <a href="./events/cerrar_sesion.php"><button class="btnRed">Cerrar sesion</button></a> 
+                        <a href="./events/cerrar_sesion.php"><button class="btnRed">Cerrar sesion</button></a>
+
                     </div>
                 </div>
             </div>
@@ -280,6 +297,37 @@ if ($userId) {
                                         </button>
                                     </form>
 
+                                    <!-- Botón para desplegar el menú de perfil -->
+                                    <button class="profileBtn" onclick="toggleMenu(<?php echo $usuario['id']; ?>)" data-id="<?php echo $usuario['id']; ?>">
+                                        <span class="material-icons-sharp">account_circle</span>
+                                    </button>
+
+                                    <!-- Menú desplegable de perfil -->
+                                    <div id="profileMenu_<?php echo $usuario['id']; ?>" class="profile-menu"
+                                        style="display: none;"  >
+                                        <form method="post" action="">
+                                            <input type="hidden" name="userId" value="<?php echo $usuario['id']; ?>">
+                                            <?php  $perfil= $usuarioController->obtenerPerfil($usuario['id']); ?>
+                                           
+
+                                            <label>
+                                                <input type="radio" name="perfil" value="1" 
+                                                    <?php echo isset($perfil['id']) && $perfil['id'] == '1' ? 'checked' : ''; ?>>
+                                                Aprendiz
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="perfil" value="2"
+                                                    <?php echo isset($perfil['id']) && $perfil['id'] == '2' ? 'checked' : ''; ?>>
+                                                Instructor
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="perfil" value="3"
+                                                    <?php echo isset($perfil['id']) && $perfil['id'] == '3' ? 'checked' : ''; ?>>
+                                                Funcionario
+                                            </label>
+                                            <button type="submit" name="updatePerfil" value="Actualizar Perfil">Actualizar</button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                             <?php endforeach;?>

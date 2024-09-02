@@ -1,9 +1,8 @@
 <?php
 session_start();
 $id_usuario = $_SESSION['id_usuario'];
-if (!isset($id_usuario)) {
-   
-  header("Location: ./index.php?vista=usuario/login");
+if (!isset($id_usuario)){
+  header("Location: index.php?vista=usuario/login"); 
   exit();
 }
 require_once './controllers/usuariosController.php';
@@ -91,7 +90,6 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
     <div class="perfilIcon">
       <div>
         <span class="material-icons-sharp">account_circle</span>
-      
       </div>
 
       <div class="nameUser">
@@ -137,7 +135,7 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
         <h5><?php echo isset($datosUsuario['rh']) ? $datosUsuario['rh'] : 'N/A'; ?></h5>
       </div>
       <div>
-        <h4>Contacto de Emergencia</h4>
+        <h4>Tel Emergencia</h4>
         <h5><?php echo isset($datosUsuario['contacto_emergencia']) ? $datosUsuario['contacto_emergencia'] : 'N/A'; ?></h5>
       </div>
       <div>
@@ -151,7 +149,8 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
     </div>
 
     <div class="userEnd">
-    <a href="./events/cerrar_sesion.php"><button class="btnRed">Cerrar sesion</button></a> 
+    <a href="./events/cerrar_sesion.php"><button class="btnRed">Cerrar sesion</button></a>
+
     </div>
   </div>
 </div>

@@ -109,6 +109,15 @@ class Enrutador
                             include "./views/instructor/ficha.php";
                         }
                         break;
+                    case "aprendiz":
+                        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                            $usuarioController = new UsuarioController();
+                            $usuarioController->asignarFichaAprendiz();
+                        }else {
+                          include "./views/instructor/ficha.php";
+                        }
+                        break;
+                    
                 case "soporte":
                     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $usuarioController = new UsuarioController();
