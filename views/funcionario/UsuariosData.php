@@ -377,8 +377,11 @@ if ($userId) {
                             </div>
 
                             <div class="modalOrganized">
-                                <label for="contrasena">Contraseña:</label>
-                                <input type="password" name="contrasena" id="modalContrasena" required>
+                            <div class="password-container">
+                            <label for="contrasena">Contraseña:</label>
+                    <input type="password" name="contrasena" id="modalContrasena" required>
+                    <span class="toggle-password material-icons-sharp">visibility_off</span>
+                </div>
                             </div>
 
                             <div class="modalOrganized">

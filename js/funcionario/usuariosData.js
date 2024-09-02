@@ -142,6 +142,21 @@ window.addEventListener('click', function(event) {
   });
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+  const togglePassword = document.querySelector('.toggle-password');
+  const passwordField = document.querySelector('#modalContrasena');
+
+  togglePassword.addEventListener('click', function() {
+      // Alternar el tipo de input entre 'password' y 'text'
+      const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordField.setAttribute('type', type);
+
+      // Alternar el ícono
+      this.textContent = type === 'password' ? 'visibility_off' : 'visibility';
+  });
+});
+
+
 
 
 function confirmDelete(event, nombre, apellido) {

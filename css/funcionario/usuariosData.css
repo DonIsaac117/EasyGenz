@@ -446,12 +446,27 @@ label {
 
 }
 
+
 .modalOrganized label{
     padding: 0 0.4%;
     margin: 0 0.4%;
     font-size: clamp(10px, 1vw, 22px);
     font-weight: 600;
     
+}
+
+.password-container {
+    position: relative;
+}
+
+
+
+ .toggle-password {
+    position: absolute;
+    top: 66%;
+    right: 8%;
+    transform: translateY(-50%);
+    cursor: pointer;
 }
 
 .close{
