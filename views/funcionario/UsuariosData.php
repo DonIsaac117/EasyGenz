@@ -31,6 +31,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
     exit();
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updatePerfil'])) {
+    $nuevo_perfil_id = $_POST['perfil'];
+    $id_usuario = $_POST['userId'];
+    
+    // Asegúrate de que el perfil es válido
+    if ($nuevo_perfil_id && $id_usuario) {
+        $usuarioController->actualizarPerfilUsuario($id_usuario, $nuevo_perfil_id);
+        
+        // Redirigir para evitar reenvío de formulario
+        header("Location: ?vista=funcionario/usuariosData");
+        exit();
+    }
+}
+
 $usuarios = [];
 
 if (isset($_GET['search'])) {
@@ -42,6 +56,9 @@ if (isset($_GET['search'])) {
 }
 ;
 $userId = $_POST['userId'] ?? null;
+
+
+
 
 if ($userId) {
     $usuario = $usuarioController->obtenerUsuarioPorId($userId);
@@ -132,7 +149,7 @@ if ($userId) {
                     <div class="perfilIcon">
                         <div>
                             <span class="material-icons-sharp">account_circle</span>
-                          
+
                         </div>
 
                         <div class="nameUser">
@@ -218,7 +235,7 @@ if ($userId) {
                     </div>
 
                     <div class="userEnd">
-                    <a href="./events/cerrar_sesion.php"><button class="btnRed">Cerrar sesion</button></a>
+                        <a href="./events/cerrar_sesion.php"><button class="btnRed">Cerrar sesion</button></a>
 
                     </div>
                 </div>
@@ -230,6 +247,8 @@ if ($userId) {
                     <div class="search">
 
                         <input type="hidden" name="vista" value="funcionario/usuariosData">
+                        <input type="hidden" name="isFiltered" id="isFilteredInput" value="<?php echo isset($_GET['search']) && $_GET['search'] !== '' ? 'true' : 'false'; ?>">
+
                         <input type="text" id="searchInput" name="search"
                             placeholder="Buscar por nombre, apellido, documento, teléfono o email"
                             value="<?php echo htmlspecialchars($_GET['search'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
@@ -280,6 +299,40 @@ if ($userId) {
                                         </button>
                                     </form>
 
+                                 
+                                          <!-- Botón para desplegar el menú de perfil -->
+                                    <button class="profileBtn" onclick="toggleMenu(<?php echo $usuario['id']; ?>)" data-id="<?php echo $usuario['id']; ?>">
+                                        <span class="material-icons-sharp">account_circle</span>
+                                    </button>
+
+                                    <!-- Menú desplegable de perfil -->
+                                    <div id="profileMenu_<?php echo $usuario['id']; ?>" class="profile-menu"
+                                        style="display: none;"  >
+                                        <form method="post" action="">
+                                            <input type="hidden" name="userId" value="<?php echo $usuario['id']; ?>">
+                                            <?php  $perfil= $usuarioController->obtenerPerfil($usuario['id']); ?>
+                                           
+
+                                            <label>
+                                                <input type="radio" name="perfil" value="1" 
+                                                    <?php echo isset($perfil['id']) && $perfil['id'] == '1' ? 'checked' : ''; ?>>
+                                                Aprendiz
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="perfil" value="2"
+                                                    <?php echo isset($perfil['id']) && $perfil['id'] == '2' ? 'checked' : ''; ?>>
+                                                Instructor
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="perfil" value="3"
+                                                    <?php echo isset($perfil['id']) && $perfil['id'] == '3' ? 'checked' : ''; ?>>
+                                                Funcionario
+                                            </label>
+                                            <button type="submit" name="updatePerfil" value="Actualizar Perfil">Actualizar</button>
+                                        </form>
+                                  
+                                    </div>
+                                  
                                 </td>
                             </tr>
                             <?php endforeach;?>

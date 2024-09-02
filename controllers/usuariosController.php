@@ -25,7 +25,7 @@ class UsuarioController {
     
             // Verificar si la contraseña ya existe
             if ($this->usuarioModel->contraseñaExiste($contrasena)) {
-                echo '<script>alert("La contraseña ya está en uso. Por favor, elige otra."); window.location.href = "index.php?vista=usuario/registrar";</script>';
+                echo '<script>alert("Esta contraseña no es permitida. Por favor, elige otra."); window.location.href = "index.php?vista=usuario/registrar";</script>';
                 exit();
             }
     
@@ -313,6 +313,10 @@ class UsuarioController {
 public function obtenerPerfilUsuario($id) {
     return $this->usuarioModel->obtenerUsuarioPorId($id);
 }
+
+public function obtenerPerfil($id) {
+    return $this->usuarioModel->obtenerPerfilUsuario($id);
+}
 public function listAprendices($documento = null, $nombre = null, $apellido = null, $fechaDesde = null, $fechaHasta = null)
 {
     $registro = new Registro();
@@ -351,6 +355,11 @@ public function actualizarUsuario($id, $nombres, $apellidos, $tipo_documento, $n
 {
     return $this->usuarioModel->actualizarUsuario($id, $nombres, $apellidos, $tipo_documento, $numero_documento, $telefono, $email, $contrasena, $rh, $eps, $contacto_emergencia, $enfermedades, $alergias);
 }
+
+public function actualizarPerfilUsuario($id_usuario, $nuevo_perfil_id) {
+    $this->usuarioModel->actualizarPerfilUsuario($id_usuario, $nuevo_perfil_id);
+}
+
 public function asignarFichaAprendiz() {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $numeroFicha = $_POST['numeroFicha'] ?? null;

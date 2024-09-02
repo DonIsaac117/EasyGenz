@@ -63,6 +63,7 @@ a {
     opacity: 0;
     transform: translateX(-100%);
     transition: transform 0.8s ease, opacity 0.8s ease;
+    overflow-y: auto;
 }
 
 .main.show {
@@ -74,6 +75,7 @@ a {
     height: 100%;
     margin: 12px;
     flex: 6;
+  
 }
 
 .mainLayout h3{
@@ -457,4 +459,59 @@ label {
     font-size: 1.5vw;
     top: 2%;
     right: 2%;
+}
+.profileBtn {
+    cursor: pointer;
+    font-size: 24px;
+    background: none;
+    border: none;
+   
+    
+}
+
+.profile-menu {
+    position: absolute;
+    z-index: 1000;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-height: 200px; 
+    transition: all 0.3s ease;
+    display: none; /* Oculto por defecto */
+  }
+
+  .menu-fixed {
+    position: fixed;
+    /* Otros estilos necesarios para el menú fijo */
+}
+
+.menu-absolute {
+    position: absolute;
+    /* Otros estilos necesarios para el menú absoluto */
+}
+ 
+  
+
+.profile-menu label {
+    display: block;
+    padding: 5px 0;
+}
+.profile-menu form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+}
+
+.profile-menu button[type="submit"] {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.profile-menu button[type="submit"]:hover {
+    background-color: #45a049;
 }

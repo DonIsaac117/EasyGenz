@@ -260,16 +260,14 @@ a {
 
 #myForm {
     max-width: 100%;
-    max-height: 90%;
-    margin: 14% 0;
-    padding: 20px;
+    max-height: 95%;
+    margin:14% 0;
+    padding: 3% 7%;
     background: rgb(223, 223, 223);
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-left: 30px; /* Adjust this value as needed */
-    padding-top: 70px;
-    padding-left: 40px;
-    padding-right: 40px;
+    margin-left: 4%; /* Adjust this value as needed */
+    
     
     
 }

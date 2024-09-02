@@ -155,3 +155,66 @@ function confirmDelete(event, nombre, apellido) {
       return false;
   }
 }
+document.addEventListener('DOMContentLoaded', function() {
+    // Seleccionar todos los botones de perfil y menús correspondientes
+    const perfilBtns = document.querySelectorAll('.profileBtn');
+    const menus = document.querySelectorAll('.profile-menu');
+    
+    // Obtener el valor del campo oculto
+    const isFilteredInput = document.getElementById('isFilteredInput');
+    
+    // Función para actualizar la posición del menú
+    function updateMenuPosition() {
+        menus.forEach(menu => {
+            if (isFilteredInput.value === 'true') {
+                menu.classList.add('menu-fixed');
+                menu.classList.remove('menu-absolute');
+            } else {
+                menu.classList.add('menu-absolute');
+                menu.classList.remove('menu-fixed');
+            }
+        });
+    }
+    
+    // Actualizar la posición del menú al cargar la página
+    updateMenuPosition();
+    
+    // Event listener para el formulario de filtro
+    const filtroFormulario = document.querySelector('form');
+    filtroFormulario.addEventListener('submit', function() {
+        // Establecer el valor del campo oculto a 'true' al enviar el formulario
+        isFilteredInput.value = 'true';
+    });
+});
+
+
+function toggleMenu(userId) {
+  const menu = document.getElementById(`profileMenu_${userId}`);
+  
+  // Verifica si el menú está visible
+  const isVisible = menu.style.display === 'block';
+  
+  // Cierra todos los menús abiertos
+  closeAllMenus();
+
+  if (!isVisible) {
+      // Si el menú no está visible, lo mostramos
+      menu.style.display = 'block';
+  } 
+}
+
+function closeAllMenus() {
+  // Cierra todos los menús abiertos
+  const menus = document.querySelectorAll('.profile-menu');
+  menus.forEach(menu => {
+      menu.style.display = 'none';
+  });
+}
+
+window.addEventListener('click', function(event) {
+  // Cierra el menú si se hace clic fuera de él
+  const target = event.target;
+  if (!target.closest('.profileBtn') && !target.closest('.profile-menu')) {
+      closeAllMenus();
+  }
+});
