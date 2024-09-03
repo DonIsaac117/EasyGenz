@@ -463,7 +463,7 @@ label {
 
  .toggle-password {
     position: absolute;
-    top: 66%;
+    top: 65%;
     right: 8%;
     transform: translateY(-50%);
     cursor: pointer;
@@ -494,14 +494,12 @@ label {
     display: none; /* Oculto por defecto */
   }
 
-  .menu-fixed {
+.menu-fixed {
     position: fixed;
-    /* Otros estilos necesarios para el menú fijo */
 }
 
 .menu-absolute {
     position: absolute;
-    /* Otros estilos necesarios para el menú absoluto */
 }
  
   

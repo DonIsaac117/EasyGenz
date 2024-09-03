@@ -247,7 +247,8 @@ if ($userId) {
                     <div class="search">
 
                         <input type="hidden" name="vista" value="funcionario/usuariosData">
-                        <input type="hidden" name="isFiltered" id="isFilteredInput" value="<?php echo isset($_GET['search']) && $_GET['search'] !== '' ? 'true' : 'false'; ?>">
+                        <input type="hidden" name="isFiltered" id="isFilteredInput"
+                            value="<?php echo isset($_GET['search']) && $_GET['search'] !== '' ? 'true' : 'false'; ?>">
 
                         <input type="text" id="searchInput" name="search"
                             placeholder="Buscar por nombre, apellido, documento, teléfono o email"
@@ -299,22 +300,23 @@ if ($userId) {
                                         </button>
                                     </form>
 
-                                 
-                                          <!-- Botón para desplegar el menú de perfil -->
-                                    <button class="profileBtn" onclick="toggleMenu(<?php echo $usuario['id']; ?>)" data-id="<?php echo $usuario['id']; ?>">
+
+                                    <!-- Botón para desplegar el menú de perfil -->
+                                    <button class="profileBtn" onclick="toggleMenu(<?php echo $usuario['id']; ?>)"
+                                        data-id="<?php echo $usuario['id']; ?>">
                                         <span class="material-icons-sharp">account_circle</span>
                                     </button>
 
                                     <!-- Menú desplegable de perfil -->
                                     <div id="profileMenu_<?php echo $usuario['id']; ?>" class="profile-menu"
-                                        style="display: none;"  >
+                                        style="display: none;">
                                         <form method="post" action="">
                                             <input type="hidden" name="userId" value="<?php echo $usuario['id']; ?>">
                                             <?php  $perfil= $usuarioController->obtenerPerfil($usuario['id']); ?>
-                                           
+
 
                                             <label>
-                                                <input type="radio" name="perfil" value="1" 
+                                                <input type="radio" name="perfil" value="1"
                                                     <?php echo isset($perfil['id']) && $perfil['id'] == '1' ? 'checked' : ''; ?>>
                                                 Aprendiz
                                             </label>
@@ -328,11 +330,12 @@ if ($userId) {
                                                     <?php echo isset($perfil['id']) && $perfil['id'] == '3' ? 'checked' : ''; ?>>
                                                 Funcionario
                                             </label>
-                                            <button type="submit" name="updatePerfil" value="Actualizar Perfil">Actualizar</button>
+                                            <button type="submit" name="updatePerfil"
+                                                value="Actualizar Perfil">Actualizar</button>
                                         </form>
-                                  
+
                                     </div>
-                                  
+
                                 </td>
                             </tr>
                             <?php endforeach;?>
@@ -376,12 +379,13 @@ if ($userId) {
                                 <input type="email" name="email" id="modalEmail">
                             </div>
 
+                         
                             <div class="modalOrganized">
-                            <div class="password-container">
-                            <label for="contrasena">Contraseña:</label>
-                    <input type="password" name="contrasena" id="modalContrasena" required>
-                    <span class="toggle-password material-icons-sharp">visibility_off</span>
-                </div>
+                                <div class="password-container">
+                                    <label for="contrasena">Contraseña:</label>
+                                    <input type="password" name="contrasena" id="modalContrasena" required>
+                                    <span class="toggle-password material-icons-sharp">visibility_off</span>
+                                </div>
                             </div>
 
                             <div class="modalOrganized">
