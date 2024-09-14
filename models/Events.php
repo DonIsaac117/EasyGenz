@@ -41,7 +41,12 @@ class Event
 
 
     public function getByUserId($id_usuario) {
-        $cadenaSql = "SELECT fecha, hora_entrada, hora_salida, observacion FROM controlfuncionarios WHERE id_usuario = ?";
+        $cadenaSql = "SELECT IFNULL(cf.observacion, isa.observacion) as observacion, IFNULL(cf.hora_entrada, isa.hora_entrada) as hora_entrada,
+                   IFNULL(cf.hora_salida, isa.hora_salida) as hora_salida,
+                   IFNULL(cf.fecha, isa.fecha) as fecha
+            FROM usuarios u
+            LEFT JOIN controlfuncionarios cf ON u.id = cf.id_usuario
+            LEFT JOIN ingresosalida_ficha isa ON u.id = isa.id_usuario WHERE u.id = ?";
         $stmt = $this->conectarse->conexion->prepare($cadenaSql);
         if ($stmt === false) {
             die("Error en la preparación: " . $this->conectarse->conexion->error);
@@ -53,7 +58,12 @@ class Event
     }
 
     public function getInstructor($id_usuario) {
-        $cadenaSql = "SELECT fecha, hora_entrada, hora_salida, observacion FROM ingresosalida_ficha WHERE id_usuario = ?";
+        $cadenaSql = "SELECT IFNULL(cf.observacion, isa.observacion) as observacion, IFNULL(cf.hora_entrada, isa.hora_entrada) as hora_entrada,
+                   IFNULL(cf.hora_salida, isa.hora_salida) as hora_salida,
+                   IFNULL(cf.fecha, isa.fecha) as fecha
+            FROM usuarios u
+            LEFT JOIN controlfuncionarios cf ON u.id = cf.id_usuario
+            LEFT JOIN ingresosalida_ficha isa ON u.id = isa.id_usuario WHERE u.id = ?";
         $stmt = $this->conectarse->conexion->prepare($cadenaSql);
         if ($stmt === false) {
             die("Error en la preparación: " . $this->conectarse->conexion->error);

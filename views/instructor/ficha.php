@@ -165,14 +165,14 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
           <label for="tipo">Tipo del programa</label>
           <select required name="tipo" id="tipo">
             <option value="seleccione">Seleccione..</option>
-            <option value="2">Técnico</option>
-            <option value="1">Tecnólogo</option>
+            <option value="2">Tecnico</option>
+            <option value="1">Tecnologo</option>
             <option value="3">Curso corto</option>
             <option value="9">Virtual</option>
           </select>
         </div>
         <div class="observacion">
-          <label for="observacion">Descripción</label>
+          <label for="observacion">Descripcion</label>
           <textarea name="observacion" id="observacion" cols="30" rows="10"></textarea>
         </div>
         <div class="btn">
@@ -188,7 +188,7 @@ $segundoApellido = isset($apellidos[1]) ? $apellidos[1] : 'N/A';
         <form id="filterForm" method="get" action="">
           <input type="hidden" name="vista" value="instructor/ficha">
          <div class="divInput">
-          <label for="numero_documento">N° documento:</label>
+          <label for="numero_documento">N°Documento:</label>
           <input type="text" id="numero_documento" class="filter-input" name="numero_documento"
             value="<?= htmlspecialchars($_GET['numero_documento'] ?? '') ?>">
             <button type="submit">Filtrar</button>
